@@ -86,7 +86,7 @@ function HeaderRightContent() {
     
     // Dispatch logout action and redirect
     dispatch(logoutUser()).then(() => {
-      navigate("/auth/login");
+      navigate("/api/auth/login");
     });
   }
 

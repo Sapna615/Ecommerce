@@ -215,7 +215,7 @@ function ProductDetailsDialog({ open, setOpen, productDetails, isAdmin = false }
         description: "Please login to add items to your cart.",
         variant: "destructive",
       });
-      window.location.href = "/auth/login";
+      window.location.href = "/api/auth/login";
       return;
     }
     
@@ -364,7 +364,7 @@ function ProductDetailsDialog({ open, setOpen, productDetails, isAdmin = false }
         description: "Please login to use wishlist.",
         variant: "destructive",
       });
-      window.location.href = "/auth/login";
+      window.location.href = "/api/auth/login";
       return;
     }
 

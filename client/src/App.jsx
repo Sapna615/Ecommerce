@@ -3,12 +3,12 @@ import {
   Route, 
   Routes 
 } from "react-router-dom";
-import AuthLayout from "./components/auth/layout";
-import AuthLogin from "./pages/auth/login";
-import AuthRegister from "./pages/auth/register";
-import AuthForgotPassword from "./pages/auth/forgot-password";
-import AuthResetPassword from "./pages/auth/reset-password";
-import AuthVerifyEmail from "./pages/auth/verify-email";
+import AuthLayout from "./components/api/auth/layout";
+import AuthLogin from "./pages/api/auth/login";
+import AuthRegister from "./pages/api/auth/register";
+import AuthForgotPassword from "./pages/api/auth/forgot-password";
+import AuthResetPassword from "./pages/api/auth/reset-password";
+import AuthVerifyEmail from "./pages/api/auth/verify-email";
 import AdminLayout from "./components/admin-view/layout";
 import AdminDashboard from "./pages/admin-view/dashboard";
 import AdminProducts from "./pages/admin-view/products";

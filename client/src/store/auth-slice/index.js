@@ -8,11 +8,11 @@ const initialState = {
 };
 
 export const registerUser = createAsyncThunk(
-  "/auth/register",
+  "/api/auth/register",
 
   async (formData) => {
     const response = await api.post(
-      "/auth/register",
+      "/api/auth/register",
       formData
     );
 
@@ -21,11 +21,11 @@ export const registerUser = createAsyncThunk(
 );
 
 export const loginUser = createAsyncThunk(
-  "/auth/login",
+  "/api/auth/login",
 
   async (formData) => {
     const response = await api.post(
-      "/auth/login",
+      "/api/auth/login",
       formData
     );
 
@@ -34,11 +34,11 @@ export const loginUser = createAsyncThunk(
 );
 
 export const logoutUser = createAsyncThunk(
-  "/auth/logout",
+  "/api/auth/logout",
 
   async () => {
     const response = await api.post(
-      "/auth/logout",
+      "/api/auth/logout",
       {}
     );
 
@@ -47,11 +47,11 @@ export const logoutUser = createAsyncThunk(
 );
 
 export const forgotPassword = createAsyncThunk(
-  "/auth/forgot-password",
+  "/api/auth/forgot-password",
 
   async (formData) => {
     const response = await api.post(
-      "/auth/forgot-password",
+      "/api/auth/forgot-password",
       formData
     );
 
@@ -60,11 +60,11 @@ export const forgotPassword = createAsyncThunk(
 );
 
 export const resetPassword = createAsyncThunk(
-  "/auth/reset-password",
+  "/api/auth/reset-password",
 
   async (data) => {
     const response = await api.post(
-      "/auth/reset-password",
+      "/api/auth/reset-password",
       data
     );
 
@@ -73,11 +73,11 @@ export const resetPassword = createAsyncThunk(
 );
 
 export const verifyEmail = createAsyncThunk(
-  "/auth/verify-email",
+  "/api/auth/verify-email",
 
   async (token) => {
     const response = await api.get(
-      `/auth/verify-email?token=${token}`
+      `/api/auth/verify-email?token=${token}`
     );
 
     return response.data;
@@ -85,11 +85,11 @@ export const verifyEmail = createAsyncThunk(
 );
 
 export const checkAuth = createAsyncThunk(
-  "/auth/checkauth",
+  "/api/auth/checkauth",
 
   async () => {
     const response = await api.get(
-      "/auth/check-auth",
+      "/api/auth/check-auth",
       {
         headers: {
           "Cache-Control":

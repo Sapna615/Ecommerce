@@ -31,7 +31,7 @@ function AuthResetPassword() {
         description: "This password reset link is invalid or has expired.",
         variant: "destructive",
       });
-      navigate("/auth/forgot-password");
+      navigate("/api/auth/forgot-password");
       return;
     }
     setToken(resetToken);
@@ -68,7 +68,7 @@ function AuthResetPassword() {
           title: "Password Reset Successful",
           description: "Your password has been reset successfully. Please login with your new password.",
         });
-        navigate("/auth/login");
+        navigate("/api/auth/login");
       } else {
         toast({
           title: "Failed to Reset Password",
@@ -107,7 +107,7 @@ function AuthResetPassword() {
             </CardDescription>
           </CardHeader>
           <CardFooter className="flex justify-center">
-            <Button onClick={() => navigate("/auth/forgot-password")}>
+            <Button onClick={() => navigate("/api/auth/forgot-password")}>
               Request New Reset Link
             </Button>
           </CardFooter>
@@ -159,7 +159,7 @@ function AuthResetPassword() {
           </form>
         </CardContent>
         <CardFooter className="flex justify-center">
-          <Link to="/auth/login" className="text-sm text-blue-600 hover:underline">
+          <Link to="/api/auth/login" className="text-sm text-blue-600 hover:underline">
             Back to Login
           </Link>
         </CardFooter>

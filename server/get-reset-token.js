@@ -21,7 +21,7 @@ async function getPasswordResetToken(email) {
       process.exit(1);
     }
     
-    const resetUrl = `http://192.168.1.45:5174/auth/reset-password?token=${user.passwordResetToken}`;
+    const resetUrl = `http://192.168.1.45:5174/api/auth/reset-password?token=${user.passwordResetToken}`;
     
     console.log(`🔗 Password Reset URL for ${email}:`);
     console.log(resetUrl);

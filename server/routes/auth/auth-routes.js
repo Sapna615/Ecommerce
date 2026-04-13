@@ -11,7 +11,7 @@ const {
   verifyPhone,
   forgotPassword,
   resetPassword,
-} = require("../../controllers/auth/auth-controller");
+} = require("../../controllers/api/auth/auth-controller");
 
 const router = express.Router();
 
