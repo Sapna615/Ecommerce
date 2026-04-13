@@ -61,8 +61,7 @@ const PORT = process.env.PORT || 5002;
 
 app.use(
   cors({
-    // origin: ["http://localhost:5173", "http://localhost:5174", "http://localhost:5175", "http://localhost:5176", "http://192.168.1.45:5173", "http://192.168.1.45:5174", "http://192.168.1.45:5175", "http://192.168.1.45:5176"],
-    origin:"ecommerce-j7w2.vercel.app",
+    origin: ["http://localhost:5173", "http://localhost:5174", "http://localhost:5175", "http://localhost:5176", "http://192.168.1.45:5173", "http://192.168.1.45:5174", "http://192.168.1.45:5175", "http://192.168.1.45:5176", "https://ecommerce-j7w2.vercel.app"],
     methods: ["GET", "POST", "DELETE", "PUT"],
     allowedHeaders: [
       "Content-Type",
