@@ -336,18 +336,27 @@ const resetPassword = async (req, res) => {
 
 //auth middleware
 const authMiddleware = async (req, res, next) => {
+  console.log('Auth middleware called');
+  console.log('Cookies:', req.cookies);
+  
   const token = req.cookies.token;
-  if (!token)
+  console.log('Token found:', !!token);
+  
+  if (!token) {
+    console.log('No token found, returning 401');
     return res.status(401).json({
       success: false,
       message: "Unauthorised user!",
     });
+  }
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET || "CLIENT_SECRET_KEY");
+    console.log('Token decoded successfully:', decoded);
     req.user = decoded;
     next();
   } catch (error) {
+    console.log('Token verification failed:', error.message);
     res.status(401).json({
       success: false,
       message: "Unauthorised user!",

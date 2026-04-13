@@ -105,7 +105,7 @@ function UserCartWrapper({ cartItems, setOpenCartSheet }) {
               <div className="space-y-2">
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-600">Subtotal ({totalItems} items)</span>
-                  <span>${totalOriginalAmount.toFixed(2)}</span>
+                  <span>Rs. {totalOriginalAmount.toFixed(2)}</span>
                 </div>
                 
                 {totalSavings > 0 && (
@@ -114,7 +114,7 @@ function UserCartWrapper({ cartItems, setOpenCartSheet }) {
                       <Percent className="w-4 h-4" />
                       <span>Discount</span>
                     </div>
-                    <span className="text-green-600">-${totalSavings.toFixed(2)}</span>
+                    <span className="text-green-600">-Rs. {totalSavings.toFixed(2)}</span>
                   </div>
                 )}
                 
@@ -125,7 +125,7 @@ function UserCartWrapper({ cartItems, setOpenCartSheet }) {
                 
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-600">Tax</span>
-                  <span>${(totalCartAmount * 0.08).toFixed(2)}</span>
+                  <span>Rs. {(totalCartAmount * 0.08).toFixed(2)}</span>
                 </div>
               </div>
 
@@ -139,10 +139,10 @@ function UserCartWrapper({ cartItems, setOpenCartSheet }) {
                 </div>
                 <div className="text-right">
                   <span className="text-2xl font-bold text-gray-900">
-                    ${(totalCartAmount + totalCartAmount * 0.08).toFixed(2)}
+                    Rs. {(totalCartAmount + totalCartAmount * 0.08).toFixed(2)}
                   </span>
                   {totalSavings > 0 && (
-                    <p className="text-xs text-green-600">You saved ${totalSavings.toFixed(2)}</p>
+                    <p className="text-xs text-green-600">You saved Rs. {totalSavings.toFixed(2)}</p>
                   )}
                 </div>
               </div>

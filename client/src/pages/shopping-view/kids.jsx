@@ -12,47 +12,31 @@ import ShoppingProductTile from "@/components/shopping-view/product-tile";
 import { addToCart, fetchCartItems } from "@/store/shop/cart-slice";
 import { useToast } from "@/components/ui/use-toast";
 import ProductDetailsDialog from "@/components/shopping-view/product-details";
+import PriceDisplay from "@/components/ui/price-display";
 
 const kidsCategories = [
-  { id: "tops", label: "Tops" },
-  { id: "dresses", label: "Dresses" },
-  { id: "sports", label: "Sports" },
-  { id: "accessories", label: "Accessories" },
-  { id: "bottoms", label: "Bottoms" },
-  { id: "footwear", label: "Footwear" },
-  { id: "formal", label: "Formal" },
-  { id: "swim", label: "Swimwear" },
-  { id: "outerwear", label: "Outerwear" },
-  { id: "sleepwear", label: "Sleepwear" }
+  { id: "Basic", label: "Basic" },
+  { id: "Printed", label: "Printed" },
+  { id: "Casual", label: "Casual" },
+  { id: "Sports", label: "Sports" },
+  { id: "Premium", label: "Premium" }
 ];
 
 const brands = [
   { id: "Fun", label: "Fun" },
   { id: "Joy", label: "Joy" },
   { id: "Active", label: "Active" },
-  { id: "Study", label: "Study" },
-  { id: "Denim", label: "Denim" },
   { id: "Play", label: "Play" },
-  { id: "Beach", label: "Beach" },
   { id: "Summer", label: "Summer" },
   { id: "Winter", label: "Winter" },
-  { id: "Sleep", label: "Sleep" },
-  { id: "Sun", label: "Sun" },
-  { id: "Rainbow", label: "Rainbow" },
   { id: "Cute", label: "Cute" },
-  { id: "Run", label: "Run" },
   { id: "Cozy", label: "Cozy" },
-  { id: "Formal", label: "Formal" },
-  { id: "Party", label: "Party" },
-  { id: "Time", label: "Time" },
   { id: "Team", label: "Team" },
-  { id: "Utility", label: "Utility" },
-  { id: "Rain", label: "Rain" },
   { id: "Special", label: "Special" }
 ];
 
-const sizes = ["2T", "3T", "4T", "5T", "6T", "7T", "8T", "XS", "S", "M", "L", "XL"];
-const colors = ["red", "blue", "green", "yellow", "pink", "purple", "white", "black", "gray"];
+// const sizes = ["2T", "3T", "4T", "5T", "6T", "7T", "8T"];
+// const colors = ["red", "blue", "green", "yellow", "pink", "purple", "white", "black", "gray"];
 
 function KidsShopping() {
   const [filters, setFilters] = useState({
@@ -60,7 +44,7 @@ function KidsShopping() {
     sizes: [],
     colors: [],
     categories: [],
-    priceRange: [0, 5000]  // Increased to cover all product prices
+    priceRange: [0, 2000]  // Increased to cover all product prices
   });
   const [sortBy, setSortBy] = useState("price-lowtohigh");
   const [showFilters, setShowFilters] = useState(false);
@@ -81,8 +65,8 @@ function KidsShopping() {
           category: ["kids"],
           ...(filters.brands.length > 0 && { brand: filters.brands }),
           ...(filters.categories.length > 0 && { subcategory: filters.categories }),
-          ...(filters.sizes.length > 0 && { sizes: filters.sizes }),
-          ...(filters.colors.length > 0 && { colors: filters.colors }),
+          ...(filters.sizes && filters.sizes.length > 0 && { sizes: filters.sizes }),
+          ...(filters.colors && filters.colors.length > 0 && { colors: filters.colors }),
           ...(filters.priceRange && { minPrice: filters.priceRange[0], maxPrice: filters.priceRange[1] })
         },
         sortParams: sortBy,
@@ -116,7 +100,7 @@ function KidsShopping() {
 
   // Also set filtered products when productList changes but filters are empty
   useEffect(() => {
-    if (productList && productList.length > 0 && filters.brands.length === 0 && filters.categories.length === 0 && filters.sizes.length === 0 && filters.colors.length === 0) {
+    if (productList && productList.length > 0 && filters.brands.length === 0 && filters.categories.length === 0 && (!filters.sizes || filters.sizes.length === 0) && (!filters.colors || filters.colors.length === 0)) {
       setFilteredProducts(productList);
     }
   }, [productList]);
@@ -161,7 +145,7 @@ function KidsShopping() {
       sizes: [],
       colors: [],
       categories: [],
-      priceRange: [0, 5000]  // Updated to match initial state
+      priceRange: [0, 2000]  // Updated to match initial state
     });
   }
 
@@ -255,42 +239,6 @@ function KidsShopping() {
                   className="w-20"
                   min="0"
                 />
-              </div>
-            </div>
-
-            {/* Sizes */}
-            <div className="space-y-3 mt-6">
-              <h4 className="font-medium">Size</h4>
-              <div className="grid grid-cols-3 gap-2">
-                {sizes.map((size) => (
-                  <Button
-                    key={size}
-                    variant={filters.sizes.includes(size) ? "default" : "outline"}
-                    size="sm"
-                    onClick={() => handleFilterChange('sizes', size)}
-                    className="text-xs"
-                  >
-                    {size}
-                  </Button>
-                ))}
-              </div>
-            </div>
-
-            {/* Colors */}
-            <div className="space-y-3 mt-6">
-              <h4 className="font-medium">Color</h4>
-              <div className="grid grid-cols-3 gap-2">
-                {colors.map((color) => (
-                  <Button
-                    key={color}
-                    variant={filters.colors.includes(color) ? "default" : "outline"}
-                    size="sm"
-                    onClick={() => handleFilterChange('colors', color)}
-                    className="text-xs capitalize"
-                  >
-                    {color}
-                  </Button>
-                ))}
               </div>
             </div>
           </CardContent>
@@ -407,12 +355,11 @@ function KidsShopping() {
                     
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <span className="font-bold text-lg">${product.salePrice || product.price}</span>
-                        {product.salePrice && (
-                          <span className="text-sm text-gray-500 line-through">
-                            ${product.price}
-                          </span>
-                        )}
+                        <PriceDisplay 
+                          price={product.price} 
+                          salePrice={product.salePrice}
+                          className="font-bold text-lg"
+                        />
                       </div>
                     </div>
                     

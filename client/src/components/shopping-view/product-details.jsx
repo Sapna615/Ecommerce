@@ -4,6 +4,7 @@ import { Button } from "../ui/button";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "../ui/dialog";
 import { Separator } from "../ui/separator";
 import { Input } from "../ui/input";
+import { Badge } from "../ui/badge";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, fetchCartItems } from "@/store/shop/cart-slice";
 import { addToWishlist, fetchWishlistItems, removeFromWishlist } from "@/store/shop/wishlist-slice";
@@ -14,7 +15,8 @@ import StarRatingComponent from "../common/star-rating";
 import { useEffect, useState } from "react";
 import { addReview, getReviews } from "@/store/shop/review-slice";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
-import { Heart, ShoppingCart } from "lucide-react";
+import { Heart, ShoppingCart, ThumbsUp, Eye } from "lucide-react";
+import PriceDisplay from "../ui/price-display";
 
 function ProductDetailsDialog({ open, setOpen, productDetails, isAdmin = false }) {
   const [reviewMsg, setReviewMsg] = useState("");
@@ -282,7 +284,15 @@ function ProductDetailsDialog({ open, setOpen, productDetails, isAdmin = false }
   }
 
   function handleAddReview() {
+    console.log('handleAddReview called', {
+      user: user?.id,
+      rating,
+      reviewMsg,
+      productDetails: productDetails?._id
+    });
+
     if (!user?.id) {
+      console.log('No user found');
       toast({
         title: "Login Required",
         description: "Please login to submit a review.",
@@ -292,6 +302,7 @@ function ProductDetailsDialog({ open, setOpen, productDetails, isAdmin = false }
     }
 
     if (!reviewMsg.trim() || rating === 0) {
+      console.log('Missing review data', { reviewMsg: reviewMsg.trim(), rating });
       toast({
         title: "Missing Information",
         description: "Please provide both rating and review message.",
@@ -309,8 +320,12 @@ function ProductDetailsDialog({ open, setOpen, productDetails, isAdmin = false }
       reviewValue: rating,
     };
 
+    console.log('Submitting review data:', reviewData);
+
     dispatch(addReview(reviewData)).then((data) => {
+      console.log('Review submission response:', data);
       if (data?.payload?.success) {
+        console.log('Review added successfully');
         dispatch(getReviews(productDetails?._id));
         toast({
           title: "Review added successfully!",
@@ -318,11 +333,19 @@ function ProductDetailsDialog({ open, setOpen, productDetails, isAdmin = false }
         setRating(0);
         setReviewMsg("");
       } else {
+        console.log('Review submission failed:', data?.payload);
         toast({
           title: data?.payload?.message || "Failed to add review",
           variant: "destructive",
         });
       }
+    }).catch((error) => {
+      console.error('Review submission error:', error);
+      toast({
+        title: "Failed to add review",
+        description: "Network error. Please try again.",
+        variant: "destructive",
+      });
     });
   }
 
@@ -440,6 +463,7 @@ function ProductDetailsDialog({ open, setOpen, productDetails, isAdmin = false }
     'L': 1.05,
     'XL': 1.1,
     'XXL': 1.15,
+    'XXXL':1.2,
     '2T': 0.8,
     '3T': 0.85,
     '4T': 0.9,
@@ -502,14 +526,7 @@ function ProductDetailsDialog({ open, setOpen, productDetails, isAdmin = false }
   ];
 
   const displayReviews = reviews && reviews.length > 0 ? reviews : [];
-  const displayAverageReview =
-    displayReviews.length > 0
-      ? displayReviews.reduce(
-          (sum, reviewItem) =>
-            sum + (reviewItem.reviewValue || reviewItem.rating || 0),
-          0
-        ) / displayReviews.length
-      : 0;
+  const displayAverageReview = productDetails?.averageReview || 0;
 
   return (
     <Dialog open={open} onOpenChange={handleDialogClose}>
@@ -566,18 +583,11 @@ function ProductDetailsDialog({ open, setOpen, productDetails, isAdmin = false }
               {/* Price and Stock */}
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                 <div>
-                  <p
-                    className={`text-2xl lg:text-3xl font-bold text-primary ${
-                      adjustedSalePrice > 0 ? "line-through text-gray-400" : ""
-                    }`}
-                  >
-                    ${adjustedPrice.toFixed(2)}
-                  </p>
-                  {adjustedSalePrice > 0 ? (
-                    <p className="text-xl lg:text-2xl font-bold text-red-600">
-                      ${adjustedSalePrice.toFixed(2)}
-                    </p>
-                  ) : null}
+                  <PriceDisplay
+                    price={adjustedPrice}
+                    salePrice={adjustedSalePrice}
+                    className="text-2xl lg:text-3xl font-bold text-primary"
+                  />
                   {selectedSize && (
                     <p className="text-xs lg:text-sm text-gray-500 mt-1">
                       Size {selectedSize} pricing
@@ -803,56 +813,144 @@ function ProductDetailsDialog({ open, setOpen, productDetails, isAdmin = false }
               </div>
 
               {/* Reviews Section */}
-              <div className="max-h-[300px] overflow-auto">
-                <h2 className="text-lg lg:text-xl font-bold mb-4">Reviews</h2>
-                <div className="grid gap-4">
+              <div className="space-y-6">
+                <div className="flex justify-between items-center">
+                  <h2 className="text-lg lg:text-xl font-bold">Customer Reviews</h2>
+                  <div className="text-sm text-gray-600">
+                    {displayReviews?.length || 0} Reviews
+                  </div>
+                </div>
+
+                {/* Review Summary */}
+                {displayReviews && displayReviews.length > 0 && (
+                  <div className="bg-gray-50 p-4 rounded-lg">
+                    <div className="flex items-center gap-4">
+                      <div className="text-center">
+                        <div className="text-3xl font-bold">
+                          {displayAverageReview.toFixed(1)}
+                        </div>
+                        <div className="flex items-center gap-0.5">
+                          <StarRatingComponent rating={Math.round(displayAverageReview)} />
+                        </div>
+                        <div className="text-sm text-gray-600">
+                          Average Rating
+                        </div>
+                      </div>
+                      <div className="flex-1">
+                        {[5, 4, 3, 2, 1].map((rating) => {
+                          const count = displayReviews.filter(r => 
+                            (r.reviewValue || r.rating || 0) === rating
+                          ).length;
+                          const percentage = displayReviews.length > 0 ? (count / displayReviews.length) * 100 : 0;
+                          return (
+                            <div key={rating} className="flex items-center gap-2 mb-1">
+                              <span className="text-sm w-3">{rating}</span>
+                              <StarIcon className="w-4 h-4 text-yellow-400 fill-current" />
+                              <div className="flex-1 bg-gray-200 rounded-full h-2">
+                                <div 
+                                  className="bg-yellow-400 h-2 rounded-full" 
+                                  style={{ width: `${percentage}%` }}
+                                />
+                              </div>
+                              <span className="text-sm w-8 text-right">{count}</span>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Reviews List */}
+                <div className="space-y-4 max-h-[400px] overflow-y-auto pr-2">
                   {displayReviews && displayReviews.length > 0 ? (
                     displayReviews.map((reviewItem) => (
-                      <div key={reviewItem._id} className="flex gap-4">
-                        <Avatar className="w-10 h-10 border">
-                          <AvatarFallback>
-                            {reviewItem?.userName[0].toUpperCase()}
-                          </AvatarFallback>
-                        </Avatar>
-                        <div className="grid gap-1">
-                          <div className="flex items-center gap-2">
-                            <h3 className="font-bold">{reviewItem?.userName}</h3>
+                      <div key={reviewItem._id} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
+                        <div className="flex justify-between items-start mb-3">
+                          <div className="flex items-center gap-3">
+                            <Avatar className="w-10 h-10 border">
+                              <AvatarFallback className="bg-purple-100 text-purple-600 font-semibold">
+                                {reviewItem?.userName?.[0]?.toUpperCase() || 'U'}
+                              </AvatarFallback>
+                            </Avatar>
+                            <div>
+                              <div className="flex items-center gap-2">
+                                <h3 className="font-semibold">{reviewItem?.userName}</h3>
+                                <Badge variant="outline" className="text-xs">
+                                  Verified Purchase
+                                </Badge>
+                              </div>
+                              <div className="text-sm text-gray-500">
+                                {new Date(reviewItem.createdAt || reviewItem.date).toLocaleDateString('en-US', {
+                                  year: 'numeric',
+                                  month: 'short',
+                                  day: 'numeric'
+                                })}
+                              </div>
+                            </div>
                           </div>
                           <div className="flex items-center gap-0.5">
                             <StarRatingComponent rating={reviewItem?.reviewValue || reviewItem?.rating || 0} />
+                            <span className="text-sm text-gray-600 ml-1">
+                              ({reviewItem?.reviewValue || reviewItem?.rating || 0}.0)
+                            </span>
                           </div>
-                          <p className="text-muted-foreground">
-                            {reviewItem.reviewMessage}
-                          </p>
+                        </div>
+                        
+                        <p className="text-gray-700 mb-3 leading-relaxed">
+                          {reviewItem.reviewMessage}
+                        </p>
+                        
+                        <div className="flex items-center justify-between pt-3 border-t">
+                          <div className="flex items-center gap-4">
+                            <button className="flex items-center gap-1 text-sm text-gray-600 hover:text-blue-600 transition-colors">
+                              <ThumbsUp className="w-4 h-4" />
+                              <span>Helpful ({reviewItem.helpfulVotes || 0})</span>
+                            </button>
+                            <button className="flex items-center gap-1 text-sm text-gray-600 hover:text-red-600 transition-colors">
+                              <ThumbsUp className="w-4 h-4 rotate-180" />
+                              <span>Not Helpful ({reviewItem.notHelpfulVotes || 0})</span>
+                            </button>
+                          </div>
+                          <div className="flex items-center gap-2 text-xs text-gray-500">
+                            <Eye className="w-3 h-3" />
+                            <span>{reviewItem.viewCount || 0} views</span>
+                          </div>
                         </div>
                       </div>
                     ))
                   ) : (
-                    <h1>No Reviews</h1>
+                    <div className="text-center py-8 text-gray-500">
+                      <StarIcon className="w-12 h-12 mx-auto mb-4 text-gray-300" />
+                      <p className="text-lg font-medium mb-2">No Reviews Yet</p>
+                      <p className="text-sm">Be the first to review this product!</p>
+                    </div>
                   )}
                 </div>
-                <div className="mt-6 flex-col flex gap-2">
-                  <Label>Write a review</Label>
-                  <div className="flex gap-1">
-                    <StarRatingComponent
-                      rating={rating}
-                      handleRatingChange={handleRatingChange}
-                    />
-                  </div>
-                  <Input
-                    name="reviewMsg"
-                    value={reviewMsg}
-                    onChange={(event) => setReviewMsg(event.target.value)}
-                    placeholder="Write a review..."
+              </div>
+
+              {/* Review Form */}
+              <div className="mt-6 flex-col flex gap-2">
+                <Label>Write a review</Label>
+                <div className="flex gap-1">
+                  <StarRatingComponent
+                    rating={rating}
+                    handleRatingChange={handleRatingChange}
                   />
-                  <Button
-                    onClick={() => handleAddReview()}
-                    disabled={!reviewMsg || rating === 0}
-                    className="mt-2"
-                  >
-                    Submit
-                  </Button>
                 </div>
+                <Input
+                  name="reviewMsg"
+                  value={reviewMsg}
+                  onChange={(event) => setReviewMsg(event.target.value)}
+                  placeholder="Write a review..."
+                />
+                <Button
+                  onClick={() => handleAddReview()}
+                  disabled={!reviewMsg || rating === 0}
+                  className="mt-2"
+                >
+                  Submit
+                </Button>
               </div>
             </div>
           </div>

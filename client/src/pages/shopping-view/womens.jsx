@@ -12,50 +12,37 @@ import ShoppingProductTile from "@/components/shopping-view/product-tile";
 import { addToCart, fetchCartItems } from "@/store/shop/cart-slice";
 import { useToast } from "@/components/ui/use-toast";
 import ProductDetailsDialog from "@/components/shopping-view/product-details";
+import PriceDisplay from "@/components/ui/price-display";
 
 const womensCategories = [
-  { id: "dresses", label: "Dresses" },
-  { id: "tops", label: "Tops" },
-  { id: "bottoms", label: "Bottoms" },
-  { id: "formal", label: "Formal" },
-  { id: "outerwear", label: "Outerwear" },
-  { id: "sports", label: "Sports" },
-  { id: "footwear", label: "Footwear" },
-  { id: "accessories", label: "Accessories" },
-  { id: "casual", label: "Casual" },
-  { id: "swim", label: "Swimwear" }
+  { id: "Basic", label: "Basic" },
+  { id: "Printed", label: "Printed" },
+  { id: "Oversized", label: "Oversized" },
+  { id: "Casual", label: "Casual" },
+  { id: "Polo", label: "Polo" },
+  { id: "Premium", label: "Premium" }
 ];
 
 const brands = [
-  { id: "Elegant", label: "Elegant" },
-  { id: "Casual", label: "Casual" },
-  { id: "Office", label: "Office" },
-  { id: "Luxury", label: "Luxury" },
-  { id: "Summer", label: "Summer" },
-  { id: "Cozy", label: "Cozy" },
-  { id: "Business", label: "Business" },
-  { id: "Beach", label: "Beach" },
-  { id: "Professional", label: "Professional" },
-  { id: "Basic", label: "Basic" },
-  { id: "Yoga", label: "Yoga" },
-  { id: "Tropical", label: "Tropical" },
-  { id: "Denim", label: "Denim" },
-  { id: "Winter", label: "Winter" },
-  { id: "Trendy", label: "Trendy" },
-  { id: "Formal", label: "Formal" },
-  { id: "Cute", label: "Cute" },
-  { id: "Spring", label: "Spring" },
-  { id: "Fashion", label: "Fashion" },
-  { id: "Modern", label: "Modern" },
-  { id: "Athletic", label: "Athletic" },
-  { id: "Classic", label: "Classic" },
-  { id: "Comfort", label: "Comfort" },
-  { id: "Accessory", label: "Accessory" },
-  { id: "Outdoor", label: "Outdoor" }
+  { id: "UrbanChic", label: "UrbanChic" },
+  { id: "StyleHub Women", label: "StyleHub Women" },
+  { id: "TrendyGirl", label: "TrendyGirl" },
+  { id: "FashionLine", label: "FashionLine" },
+  { id: "ClassicFit Women", label: "ClassicFit Women" },
+  { id: "FitZone Women", label: "FitZone Women" },
+  { id: "ElegantWear", label: "ElegantWear" },
+  { id: "ModernMuse", label: "ModernMuse" },
+  { id: "SoftStyle", label: "SoftStyle" },
+  { id: "DailyWear Co", label: "DailyWear Co" },
+  { id: "ChicTrend", label: "ChicTrend" },
+  { id: "ActiveFit Women", label: "ActiveFit Women" },
+  { id: "PremiumAura", label: "PremiumAura" },
+  { id: "StreetStyle Women", label: "StreetStyle Women" },
+  { id: "ComfortWear", label: "ComfortWear" }
 ];
 
-const sizes = ["XS", "S", "M", "L", "XL", "XXL"];
-const colors = ["black", "white", "pink", "blue", "red", "yellow", "gray", "navy", "purple", "brown"];
+// const sizes = ["XS", "S", "M", "L", "XL", "XXL"];
+// const colors = ["black", "white", "pink", "blue", "red", "yellow", "gray", "navy", "purple", "brown"];
 
 function WomensShopping() {
   const [filters, setFilters] = useState({
@@ -63,7 +50,7 @@ function WomensShopping() {
     sizes: [],
     colors: [],
     categories: [],
-    priceRange: [0, 5000]  // Increased to cover all product prices
+    priceRange: [0, 2000]  // Increased to cover all product prices
   });
   const [sortBy, setSortBy] = useState("price-lowtohigh");
   const [showFilters, setShowFilters] = useState(false);
@@ -84,8 +71,8 @@ function WomensShopping() {
           category: ["womens"],
           ...(filters.brands.length > 0 && { brand: filters.brands }),
           ...(filters.categories.length > 0 && { subcategory: filters.categories }),
-          ...(filters.sizes.length > 0 && { sizes: filters.sizes }),
-          ...(filters.colors.length > 0 && { colors: filters.colors }),
+          ...(filters.sizes && filters.sizes.length > 0 && { sizes: filters.sizes }),
+          ...(filters.colors && filters.colors.length > 0 && { colors: filters.colors }),
           ...(filters.priceRange && { minPrice: filters.priceRange[0], maxPrice: filters.priceRange[1] })
         },
         sortParams: sortBy,
@@ -119,7 +106,7 @@ function WomensShopping() {
 
   // Also set filtered products when productList changes but filters are empty
   useEffect(() => {
-    if (productList && productList.length > 0 && filters.brands.length === 0 && filters.categories.length === 0 && filters.sizes.length === 0 && filters.colors.length === 0) {
+    if (productList && productList.length > 0 && filters.brands.length === 0 && filters.categories.length === 0 && (!filters.sizes || filters.sizes.length === 0) && (!filters.colors || filters.colors.length === 0)) {
       setFilteredProducts(productList);
     }
   }, [productList]);
@@ -164,7 +151,7 @@ function WomensShopping() {
       sizes: [],
       colors: [],
       categories: [],
-      priceRange: [0, 5000]  // Updated to match initial state
+      priceRange: [0, 2000]  // Updated to match initial state
     });
   }
 
@@ -258,42 +245,6 @@ function WomensShopping() {
                   className="w-20"
                   min="0"
                 />
-              </div>
-            </div>
-
-            {/* Sizes */}
-            <div className="space-y-3 mt-6">
-              <h4 className="font-medium">Size</h4>
-              <div className="grid grid-cols-3 gap-2">
-                {sizes.map((size) => (
-                  <Button
-                    key={size}
-                    variant={filters.sizes.includes(size) ? "default" : "outline"}
-                    size="sm"
-                    onClick={() => handleFilterChange('sizes', size)}
-                    className="text-xs"
-                  >
-                    {size}
-                  </Button>
-                ))}
-              </div>
-            </div>
-
-            {/* Colors */}
-            <div className="space-y-3 mt-6">
-              <h4 className="font-medium">Color</h4>
-              <div className="grid grid-cols-4 gap-2">
-                {colors.map((color) => (
-                  <Button
-                    key={color}
-                    variant={filters.colors.includes(color) ? "default" : "outline"}
-                    size="sm"
-                    onClick={() => handleFilterChange('colors', color)}
-                    className="text-xs capitalize"
-                  >
-                    {color}
-                  </Button>
-                ))}
               </div>
             </div>
           </CardContent>
@@ -410,12 +361,11 @@ function WomensShopping() {
                     
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <span className="font-bold text-lg">${product.salePrice || product.price}</span>
-                        {product.salePrice && (
-                          <span className="text-sm text-gray-500 line-through">
-                            ${product.price}
-                          </span>
-                        )}
+                        <PriceDisplay 
+                          price={product.price} 
+                          salePrice={product.salePrice}
+                          className="font-bold text-lg"
+                        />
                       </div>
                     </div>
                     

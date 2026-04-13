@@ -275,11 +275,11 @@ function UserCartItemsContent({ cartItem }) {
               <div className="flex items-center gap-2">
                 {cartItem?.salePrice > 0 ? (
                   <>
-                    <span className="text-lg font-bold text-red-600">${cartItem.salePrice.toFixed(2)}</span>
-                    <span className="text-sm text-gray-400 line-through">${cartItem.price.toFixed(2)}</span>
+                    <span className="text-lg font-bold text-red-600">Rs. {cartItem.salePrice.toFixed(2)}</span>
+                    <span className="text-sm text-gray-400 line-through">Rs. {cartItem.price.toFixed(2)}</span>
                   </>
                 ) : (
-                  <span className="text-lg font-bold text-gray-900">${cartItem.price.toFixed(2)}</span>
+                  <span className="text-lg font-bold text-gray-900">Rs. {cartItem.price.toFixed(2)}</span>
                 )}
                 <span className="text-xs text-gray-500">× {cartItem?.quantity}</span>
               </div>
@@ -312,7 +312,7 @@ function UserCartItemsContent({ cartItem }) {
             {/* Total Price */}
             <div className="flex justify-between items-center mt-3 pt-3 border-t">
               <span className="text-sm text-gray-600">Item Total</span>
-              <span className="font-bold text-lg">${totalPrice.toFixed(2)}</span>
+              <span className="font-bold text-lg">Rs. {totalPrice.toFixed(2)}</span>
             </div>
           </div>
         </div>

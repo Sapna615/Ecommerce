@@ -61,13 +61,25 @@ function ShoppingWishlist() {
         <Heart className="w-8 h-8" />
         <h1 className="text-3xl font-bold">My Wishlist</h1>
         <span className="bg-gray-100 px-3 py-1 rounded-full text-sm">
-          {wishlistItems?.length || 0} items
+          {wishlistItems?.filter(item => {
+            const price = item.productId?.salePrice > 0 
+              ? item.productId.salePrice 
+              : item.productId?.price || 0;
+            return price > 0;
+          })?.length || 0} items
         </span>
       </div>
 
       {wishlistItems && wishlistItems.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {wishlistItems.map((wishlistItem) => (
+          {wishlistItems
+            .filter((wishlistItem) => {
+              const price = wishlistItem.productId?.salePrice > 0 
+                ? wishlistItem.productId.salePrice 
+                : wishlistItem.productId?.price || 0;
+              return price > 0;
+            })
+            .map((wishlistItem) => (
             <div key={wishlistItem._id} className="border rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
               <div className="relative">
                 <img
@@ -98,15 +110,15 @@ function ShoppingWishlist() {
                   {wishlistItem.productId?.salePrice > 0 ? (
                     <>
                       <span className="text-lg font-bold text-red-600">
-                        ${wishlistItem.productId.salePrice}
+                        Rs. {wishlistItem.productId.salePrice.toFixed(2)}
                       </span>
                       <span className="text-sm text-gray-500 line-through">
-                        ${wishlistItem.productId.price}
+                        Rs. {wishlistItem.productId.price.toFixed(2)}
                       </span>
                     </>
                   ) : (
                     <span className="text-lg font-bold">
-                      ${wishlistItem.productId?.price || '0'}
+                      Rs. {(wishlistItem.productId?.price || 0).toFixed(2)}
                     </span>
                   )}
                 </div>

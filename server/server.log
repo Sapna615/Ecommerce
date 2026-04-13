@@ -1,5 +1,4 @@
-
-> server@1.0.0 start
-> server.js
-
-sh: server.js: command not found
+Server is now running on port 5002
+Mongoose connected to MongoDB
+MongoDB connected to: mongodb+srv://sapnarai23_db_user:gC3QZMdhEHCzhe2a@ecommerce.w76kwuu.mongodb.net/?appName=ecommerce
+Database connection established successfully

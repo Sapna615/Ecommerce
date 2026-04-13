@@ -18,7 +18,7 @@ import {
   resetOrderDetails,
 } from "@/store/admin/order-slice";
 import { Badge } from "../ui/badge";
-import { User, Calendar, DollarSign, Package } from "lucide-react";
+import { User, Calendar, IndianRupee, Package } from "lucide-react";
 
 function AdminOrdersView() {
   const [openDetailsDialog, setOpenDetailsDialog] = useState(false);
@@ -107,8 +107,8 @@ function AdminOrdersView() {
                     </TableCell>
                     <TableCell>
                       <div className="flex items-center gap-2">
-                        <DollarSign className="w-4 h-4 text-green-600" />
-                        <span className="font-semibold">${orderItem?.totalAmount}</span>
+                        <IndianRupee className="w-4 h-4 text-green-600" />
+                        <span className="font-semibold">{parseFloat(orderItem?.totalAmount || 0).toFixed(2)}</span>
                       </div>
                     </TableCell>
                     <TableCell>

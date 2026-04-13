@@ -12,54 +12,65 @@ import ShoppingProductTile from "@/components/shopping-view/product-tile";
 import { addToCart, fetchCartItems } from "@/store/shop/cart-slice";
 import { useToast } from "@/components/ui/use-toast";
 import ProductDetailsDialog from "@/components/shopping-view/product-details";
+import PriceDisplay from "@/components/ui/price-display";
 
 const mensCategories = [
-  { id: "tops", label: "Tops" },
-  { id: "bottoms", label: "Bottoms" },
-  { id: "sports", label: "Sports" },
-  { id: "outerwear", label: "Outerwear" },
-  { id: "formal", label: "Formal" },
-  { id: "casual", label: "Casual" },
-  { id: "footwear", label: "Footwear" },
-  { id: "accessories", label: "Accessories" },
-  { id: "swim", label: "Swimwear" }
+  { id: "Premium", label: "Premium" },
+  { id: "Polo", label: "Polo" },
+  { id: "Oversized", label: "Oversized" },
+  { id: "Printed", label: "Printed" },
+  { id: "Sports", label: "Sports" },
+  { id: "Casual", label: "Casual" },
+  // { id: "footwear", label: "Footwear" },
+  // { id: "accessories", label: "Accessories" },
+  // { id: "swim", label: "Swimwear" }
 ];
 
 const brands = [
-  { id: "Essential", label: "Essential" },
-  { id: "Premium", label: "Premium" },
-  { id: "Urban", label: "Urban" },
-  { id: "Comfort", label: "Comfort" },
-  { id: "Athletic", label: "Athletic" },
-  { id: "Classic", label: "Classic" },
-  { id: "Executive", label: "Executive" },
-  { id: "Tactical", label: "Tactical" },
-  { id: "Street", label: "Street" },
-  { id: "Golf", label: "Golf" },
-  { id: "Retro", label: "Retro" },
-  { id: "Sport", label: "Sport" },
-  { id: "Business", label: "Business" },
-  { id: "Basic", label: "Basic" },
-  { id: "Summer", label: "Summer" },
-  { id: "Casual", label: "Casual" },
-  { id: "Outdoor", label: "Outdoor" },
-  { id: "Sports", label: "Sports" },
-  { id: "Accessory", label: "Accessory" },
-  { id: "Beach", label: "Beach" },
-  { id: "Winter", label: "Winter" },
-  { id: "Formal", label: "Formal" }
+  // { id: "Essential", label: "Essential" },
+  // { id: "Premium", label: "Premium" },
+  // { id: "Urban", label: "Urban" },
+  // { id: "Comfort", label: "Comfort" },
+  // { id: "Athletic", label: "Athletic" },
+  // { id: "Classic", label: "Classic" },
+  // { id: "Executive", label: "Executive" },
+  // { id: "Tactical", label: "Tactical" },
+  // { id: "Street", label: "Street" },
+  // { id: "Golf", label: "Golf" },
+  // { id: "Retro", label: "Retro" },
+  // { id: "Sport", label: "Sport" },
+  // { id: "Business", label: "Business" },
+  // { id: "Basic", label: "Basic" },
+  // { id: "Summer", label: "Summer" },
+  // { id: "Casual", label: "Casual" },
+  // { id: "Outdoor", label: "Outdoor" },
+  // { id: "Sports", label: "Sports" },
+  // { id: "Accessory", label: "Accessory" },
+  // { id: "Beach", label: "Beach" },
+  // { id: "Winter", label: "Winter" },
+  // { id: "Formal", label: "Formal" }
+  { id: "UrbanWear", label: "UrbanWear" },
+  { id: "StyleHub", label: "StyleHub" },
+  { id: "StreetX", label: "StreetX" },
+  { id: "ClassicFit", label: "ClassicFit" },
+  { id: "FitZone", label: "FitZone" },
+  { id: "ActivePro", label: "ActivePro" },
+  { id: "DenimCo", label: "DenimCo" },
+  { id: "FlexWear", label: "FlexWear" },
+  { id: "TrendyMen", label: "TrendyMen" },
+  { id: "EliteForm", label: "EliteForm" }
 ];
 
-const sizes = ["S", "M", "L", "XL", "XXL"];
-const colors = ["white", "black", "gray", "navy", "red", "blue", "green", "brown", "olive"];
+// const sizes = ["XS","S", "M", "L", "XL", "XXL","XXXL"];
+// const colors = ["white", "black", "gray", "navy", "red", "blue", "green", "brown", "olive"];
 
 function MensShopping() {
   const [filters, setFilters] = useState({
     brands: [],
-    sizes: [],
-    colors: [],
+    // sizes: [],
+    // colors: [],
     categories: [],
-    priceRange: [0, 5000]  // Increased to cover all product prices
+    priceRange: [0, 3000]  // Increased to cover all product prices
   });
   const [sortBy, setSortBy] = useState("price-lowtohigh");
   const [showFilters, setShowFilters] = useState(false);
@@ -78,8 +89,8 @@ function MensShopping() {
       category: ["mens"],
       ...(filters.brands.length > 0 && { brand: filters.brands }),
       ...(filters.categories.length > 0 && { subcategory: filters.categories }),
-      ...(filters.sizes.length > 0 && { sizes: filters.sizes }),
-      ...(filters.colors.length > 0 && { colors: filters.colors }),
+      ...(filters.sizes && filters.sizes.length > 0 && { sizes: filters.sizes }),
+      ...(filters.colors && filters.colors.length > 0 && { colors: filters.colors }),
       ...(filters.priceRange && { minPrice: filters.priceRange[0], maxPrice: filters.priceRange[1] })
     };
     
@@ -110,13 +121,13 @@ function MensShopping() {
         filtered = filtered.filter(product => filters.categories.includes(product.subcategory));
       }
       
-      if (filters.sizes.length > 0) {
+      if (filters.sizes && filters.sizes.length > 0) {
         filtered = filtered.filter(product => 
           product.sizes && product.sizes.some(size => filters.sizes.includes(size))
         );
       }
       
-      if (filters.colors.length > 0) {
+      if (filters.colors && filters.colors.length > 0) {
         filtered = filtered.filter(product => 
           product.colors && product.colors.some(color => filters.colors.includes(color))
         );
@@ -138,7 +149,7 @@ function MensShopping() {
 
   // Also set filtered products when productList changes but filters are empty
   useEffect(() => {
-    if (productList && productList.length > 0 && filters.brands.length === 0 && filters.categories.length === 0 && filters.sizes.length === 0 && filters.colors.length === 0) {
+    if (productList && productList.length > 0 && filters.brands.length === 0 && filters.categories.length === 0 && (!filters.sizes || filters.sizes.length === 0) && (!filters.colors || filters.colors.length === 0)) {
       console.log("Men's section - setting filtered products to productList");
       setFilteredProducts(productList);
     }
@@ -185,7 +196,7 @@ function MensShopping() {
       sizes: [],
       colors: [],
       categories: [],
-      priceRange: [0, 5000]  // Updated to match initial state
+      priceRange: [0, 3000]  // Updated to match initial state
     });
   }
 
@@ -279,42 +290,6 @@ function MensShopping() {
                   className="w-20"
                   min="0"
                 />
-              </div>
-            </div>
-
-            {/* Sizes */}
-            <div className="space-y-3 mt-6">
-              <h4 className="font-medium">Size</h4>
-              <div className="grid grid-cols-3 gap-2">
-                {sizes.map((size) => (
-                  <Button
-                    key={size}
-                    variant={filters.sizes.includes(size) ? "default" : "outline"}
-                    size="sm"
-                    onClick={() => handleFilterChange('sizes', size)}
-                    className="text-xs"
-                  >
-                    {size}
-                  </Button>
-                ))}
-              </div>
-            </div>
-
-            {/* Colors */}
-            <div className="space-y-3 mt-6">
-              <h4 className="font-medium">Color</h4>
-              <div className="grid grid-cols-4 gap-2">
-                {colors.map((color) => (
-                  <Button
-                    key={color}
-                    variant={filters.colors.includes(color) ? "default" : "outline"}
-                    size="sm"
-                    onClick={() => handleFilterChange('colors', color)}
-                    className="text-xs capitalize"
-                  >
-                    {color}
-                  </Button>
-                ))}
               </div>
             </div>
           </CardContent>
@@ -431,12 +406,11 @@ function MensShopping() {
                     
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <span className="font-bold text-lg">${product.salePrice || product.price}</span>
-                        {product.salePrice && (
-                          <span className="text-sm text-gray-500 line-through">
-                            ${product.price}
-                          </span>
-                        )}
+                        <PriceDisplay 
+                          price={product.price} 
+                          salePrice={product.salePrice}
+                          className="font-bold text-lg"
+                        />
                       </div>
                     </div>
                     

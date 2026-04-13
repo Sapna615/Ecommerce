@@ -12,14 +12,14 @@ import { getSearchResults, resetSearchResults } from "@/store/shop/search-slice"
 
 // Enhanced trending searches with actual product categories
 const trendingSearches = [
-  { name: "Summer Collection 2024", category: "seasonal", keywords: ["summer", "dress", "shorts", "tank", "beach"] },
-  { name: "Premium Cotton T-Shirts", category: "clothing", keywords: ["t-shirt", "cotton", "premium", "shirt"] },
-  { name: "Running Shoes", category: "footwear", keywords: ["running", "shoes", "sneakers", "athletic"] },
-  { name: "Leather Bags", category: "accessories", keywords: ["leather", "bag", "handbag", "purse"] },
-  { name: "Kids School Uniform", category: "kids", keywords: ["kids", "school", "uniform", "children"] },
-  { name: "Formal Office Wear", category: "clothing", keywords: ["formal", "office", "suit", "business"] },
-  { name: "Sports Accessories", category: "accessories", keywords: ["sports", "accessories", "fitness", "gym"] },
-  { name: "Winter Jackets", category: "clothing", keywords: ["winter", "jacket", "coat", "warm"] }
+  { name: "Classic Plain Cotton Tee", category: "clothing", keywords: ["t-shirt", "cotton", "premium", "shirt"] },
+  { name: "Slim Fit Crew Neck Tee", category: "clothing", keywords: ["men", "casual", "tee", "t-shirt"] },
+  { name: "Classic Polo Fit Tee", category: "clothing", keywords: ["women", "polo", "t-shirt", "collar"] },
+  { name: "Basic Cotton Kids Tee", category: "kids", keywords: ["kids", "basic", "tee", "t-shirt"] },
+  { name: "Basic Slim Fit Tee", category: "clothing", keywords: ["basic", "cotton", "tee", "t-shirt"] },
+  { name: "Graphic Street Printed Tee", category: "clothing", keywords: ["graphic", "print", "tee", "t-shirt"] },
+  { name: "Oversized Drop Shoulder Tee", category: "clothing", keywords: ["oversized", "tee", "t-shirt", "loose"] },
+  { name: "Polo Collar Solid Tee", category: "clothing", keywords: ["polo", "collar", "tee", "t-shirt"] }
 ];
 
 // Enhanced recent searches with better fallback
@@ -27,7 +27,7 @@ const getRecentSearches = () => {
   try {
     return JSON.parse(localStorage.getItem('recentSearches') || '[]');
   } catch {
-    return ["Men's Blue Jeans", "Women's Handbag", "Kids Sneakers", "Formal Shirt", "Sports Watch"];
+    return ["Classic Plain Cotton Tee", "Slim Fit Crew Neck Tee", "Basic Cotton Kids Tee", "Basic Slim Fit Tee", "Graphic Street Printed Tee"];
   }
 };
 
@@ -104,8 +104,8 @@ function SearchComponent() {
   };
 
   const handleTrendingClick = (trending) => {
-    // Use the main keywords for better search results
-    const searchKeyword = trending.keywords[0]; // Use first keyword for best results
+    // Use the actual name for search instead of just first keyword
+    const searchKeyword = trending.name;
     setSearchQuery(searchKeyword);
     handleSearch(searchKeyword);
   };
@@ -125,12 +125,9 @@ function SearchComponent() {
 
   const handleCategorySearch = (category) => {
     const categoryKeywords = {
-      seasonal: "summer beach vacation",
-      clothing: "shirt tshirt dress",
-      footwear: "shoes sneakers boots",
-      accessories: "bag wallet belt",
-      kids: "children kids school",
-      sports: "fitness gym athletic"
+      clothing: "t-shirt tee cotton polo",
+      kids: "kids tee t-shirt printed",
+      casual: "casual tee t-shirt basic"
     };
     
     const keywords = categoryKeywords[category] || category;

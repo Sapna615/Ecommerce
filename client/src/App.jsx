@@ -1,4 +1,8 @@
-import { Route, Routes } from "react-router-dom";
+import { 
+  Navigate, 
+  Route, 
+  Routes 
+} from "react-router-dom";
 import AuthLayout from "./components/auth/layout";
 import AuthLogin from "./pages/auth/login";
 import AuthRegister from "./pages/auth/register";
@@ -22,8 +26,6 @@ import ShoppingWishlist from "./pages/shopping-view/wishlist";
 import MensShopping from "./pages/shopping-view/mens";
 import WomensShopping from "./pages/shopping-view/womens";
 import KidsShopping from "./pages/shopping-view/kids";
-import FootwearShopping from "./pages/shopping-view/footwear";
-import AccessoriesShopping from "./pages/shopping-view/accessories";
 import CheckAuth from "./components/common/check-auth";
 import UnauthPage from "./pages/unauth-page";
 import { useDispatch, useSelector } from "react-redux";
@@ -34,6 +36,13 @@ import PaypalReturnPage from "./pages/shopping-view/paypal-return";
 import PaymentSuccessPage from "./pages/shopping-view/payment-success";
 import SearchProducts from "./pages/shopping-view/search";
 import ContactUs from "./pages/shopping-view/contact-us";
+import AboutUs from "./pages/shopping-view/about";
+import ShoppingBlog from "./pages/shopping-view/blog";
+import BlogDetail from "./pages/shopping-view/blog-detail";
+import WriteBlog from "./pages/shopping-view/write-blog";
+import FAQ from "./pages/shopping-view/faq";
+import ReturnPolicy from "./pages/shopping-view/returns";
+import ShippingInfo from "./pages/shopping-view/shipping";
 
 function App() {
   const { user, isAuthenticated, isLoading } = useSelector(
@@ -58,20 +67,11 @@ function App() {
       <Routes>
         <Route
           path="/"
-          element={
-            <CheckAuth
-              isAuthenticated={isAuthenticated}
-              user={user}
-            ></CheckAuth>
-          }
+          element={<Navigate to="/shop/home" replace />}
         />
         <Route
           path="/auth"
-          element={
-            <CheckAuth isAuthenticated={isAuthenticated} user={user}>
-              <AuthLayout />
-            </CheckAuth>
-          }
+          element={<AuthLayout />}
         >
           <Route path="login" element={<AuthLogin />} />
           <Route path="register" element={<AuthRegister />} />
@@ -81,11 +81,7 @@ function App() {
         </Route>
         <Route
           path="/admin"
-          element={
-            <CheckAuth isAuthenticated={isAuthenticated} user={user}>
-              <AdminLayout />
-            </CheckAuth>
-          }
+          element={<AdminLayout />}
         >
           <Route path="dashboard" element={<AdminDashboard />} />
           <Route path="products" element={<AdminProducts />} />
@@ -107,8 +103,6 @@ function App() {
           <Route path="mens" element={<MensShopping />} />
           <Route path="womens" element={<WomensShopping />} />
           <Route path="kids" element={<KidsShopping />} />
-          <Route path="footwear" element={<FootwearShopping />} />
-          <Route path="accessories" element={<AccessoriesShopping />} />
           <Route path="checkout" element={<ShoppingCheckout />} />
           <Route path="account" element={<ShoppingAccount />} />
           <Route path="wishlist" element={<ShoppingWishlist />} />
@@ -116,6 +110,13 @@ function App() {
           <Route path="payment-success" element={<PaymentSuccessPage />} />
           <Route path="search" element={<SearchProducts />} />
           <Route path="contact" element={<ContactUs />} />
+          <Route path="about" element={<AboutUs />} />
+          <Route path="blog" element={<ShoppingBlog />} />
+          <Route path="blog/:id" element={<BlogDetail />} />
+          <Route path="write-blog" element={<WriteBlog />} />
+          <Route path="faq" element={<FAQ />} />
+          <Route path="returns" element={<ReturnPolicy />} />
+          <Route path="shipping" element={<ShippingInfo />} />
         </Route>
         <Route path="/unauth-page" element={<UnauthPage />} />
         <Route path="*" element={<NotFound />} />

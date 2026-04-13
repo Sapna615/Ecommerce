@@ -11,7 +11,7 @@ import {
   updateOrderStatus,
 } from "@/store/admin/order-slice";
 import { useToast } from "../ui/use-toast";
-import { User, Phone, MapPin, Package, Calendar, DollarSign } from "lucide-react";
+import { User, Phone, MapPin, Package, Calendar, IndianRupee } from "lucide-react";
 
 const initialFormData = {
   status: "",
@@ -66,9 +66,9 @@ function AdminOrderDetailsView({ orderDetails }) {
               <span>{orderDetails?.orderDate?.split("T")[0]}</span>
             </div>
             <div className="flex items-center gap-2">
-              <DollarSign className="w-4 h-4 text-green-600" />
+              <IndianRupee className="w-4 h-4 text-green-600" />
               <Label className="font-medium">Total:</Label>
-              <span className="font-semibold">${orderDetails?.totalAmount}</span>
+              <span className="font-semibold">{parseFloat(orderDetails?.totalAmount || 0).toFixed(2)}</span>
             </div>
             <div className="flex items-center gap-2">
               <Label className="font-medium">Payment:</Label>
@@ -171,13 +171,13 @@ function AdminOrderDetailsView({ orderDetails }) {
                       <div>
                         <p className="font-medium">{item?.productId?.title || item?.title}</p>
                         <p className="text-sm text-gray-600">
-                          ${item?.productId?.price || item?.price} × {item?.quantity}
+                          Rs. {parseFloat(item?.productId?.price || item?.price || 0).toFixed(2)} × {item?.quantity}
                         </p>
                       </div>
                     </div>
                     <div className="text-right">
                       <p className="font-semibold">
-                        ${(item?.productId?.price || item?.price) * item?.quantity}
+                        Rs. {((parseFloat(item?.productId?.price || item?.price || 0) * item?.quantity).toFixed(2))}
                       </p>
                       {item?.color && (
                         <p className="text-xs text-gray-500">Color: {item.color}</p>

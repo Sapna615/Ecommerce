@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addToWishlist, fetchWishlistItems, removeFromWishlist } from "@/store/shop/wishlist-slice";
 import { useToast } from "../ui/use-toast";
 import { useEffect, useState } from "react";
+import PriceDisplay from "../ui/price-display";
 
 function ShoppingProductTile({
   product,
@@ -105,18 +106,11 @@ function ShoppingProductTile({
             </span>
           </div>
           <div className="flex justify-between items-center mb-2">
-            <span
-              className={`${
-                product?.salePrice > 0 ? "line-through" : ""
-              } text-lg font-semibold text-primary`}
-            >
-              ${product?.price}
-            </span>
-            {product?.salePrice > 0 ? (
-              <span className="text-lg font-semibold text-primary">
-                ${product?.salePrice}
-              </span>
-            ) : null}
+            <PriceDisplay 
+              price={product?.price} 
+              salePrice={product?.salePrice}
+              className="text-lg font-semibold text-primary"
+            />
           </div>
           
           {/* Rating */}

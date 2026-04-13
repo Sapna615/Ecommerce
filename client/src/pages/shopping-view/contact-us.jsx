@@ -283,7 +283,7 @@ function ContactUs() {
       </div>
 
       {/* FAQ Section */}
-      <Card>
+      {/* <Card>
         <CardHeader>
           <CardTitle>Frequently Asked Questions</CardTitle>
         </CardHeader>
@@ -297,7 +297,7 @@ function ContactUs() {
             ))}
           </div>
         </CardContent>
-      </Card>
+      </Card> */}
 
       {/* Response Time Info */}
       <div className="mt-8 text-center">

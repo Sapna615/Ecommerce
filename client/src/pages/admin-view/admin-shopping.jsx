@@ -10,7 +10,7 @@ import { useToast } from "@/components/ui/use-toast";
 import ProductDetailsDialog from "@/components/shopping-view/product-details";
 import { addToCart, fetchCartItems } from "@/store/shop/cart-slice";
 import ShoppingHeader from "@/components/shopping-view/header";
-import ShoppingFooter from "@/components/shopping-view/footer";
+import AdminFooter from "@/components/admin-view/footer";
 import bannerOne from "../../assets/banner-1.webp";
 import bannerTwo from "../../assets/banner-2.webp";
 import bannerThree from "../../assets/banner-3.webp";
@@ -74,12 +74,12 @@ function AdminShoppingView() {
   ];
 
   const brandsWithIcon = [
-    { id: "nike", label: "Nike", icon: Shirt },
-    { id: "adidas", label: "Adidas", icon: WashingMachine },
-    { id: "puma", label: "Puma", icon: ShoppingBasket },
-    { id: "levi", label: "Levi's", icon: Airplay },
-    { id: "zara", label: "Zara", icon: Images },
-    { id: "h&m", label: "H&M", icon: Heater },
+    { id: "stylehub", label: "StyleHub", icon: Shirt },
+    { id: "urbanwear", label: "UrbanWear", icon: WashingMachine },
+    { id: "fashionline", label: "FashionLine", icon: ShoppingBasket },
+    { id: "cozy", label: "Cozy", icon: Airplay },
+    { id: "trendygirl", label: "TrendyGirl", icon: Images },
+    { id: "joy", label: "Joy", icon: Heater },
   ];
 
   // Get current category from URL
@@ -159,6 +159,13 @@ function AdminShoppingView() {
 
   function handleCategoryClick(categoryId) {
     navigate(`/admin/shopping/${categoryId}`);
+  }
+
+  function handleBrandClick(brandId) {
+    setFilters(prev => ({
+      ...prev,
+      brands: [brandId]
+    }));
   }
 
   function handleAddProductForCategory(categoryId) {
@@ -524,7 +531,7 @@ function AdminShoppingView() {
                     <Card 
                       key={brand.id} 
                       className="cursor-pointer hover:shadow-lg transition-shadow duration-300 group"
-                      onClick={() => navigate(`/admin/shopping/listing?brand=${brand.id}`)}
+                      onClick={() => handleBrandClick(brand.id)}
                     >
                       <CardContent className="flex flex-col items-center justify-center p-6 text-center">
                         <brand.icon className="w-12 h-12 mb-4 text-gray-600 group-hover:text-blue-600 transition-colors duration-200" />
@@ -545,8 +552,8 @@ function AdminShoppingView() {
         )}
       </main>
 
-      {/* Normal Shopping Footer */}
-      <ShoppingFooter />
+      {/* Admin Footer - No footer for admin section */}
+      <AdminFooter />
 
       {/* Product Details Dialog */}
       <ProductDetailsDialog

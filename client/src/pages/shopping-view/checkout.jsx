@@ -9,7 +9,7 @@ import { Navigate } from "react-router-dom";
 import { useToast } from "@/components/ui/use-toast";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { CreditCard, Smartphone, Truck, DollarSign } from "lucide-react";
+import { CreditCard, Smartphone, Truck, IndianRupee } from "lucide-react";
 
 function ShoppingCheckout() {
   const { cartItems } = useSelector((state) => state.shopCart);
@@ -290,7 +290,7 @@ function ShoppingCheckout() {
                     className="w-4 h-4 text-blue-600"
                   />
                   <Label htmlFor="cod" className="flex items-center gap-2 cursor-pointer">
-                    <DollarSign className="w-4 h-4" />
+                    <IndianRupee className="w-4 h-4" />
                     Cash on Delivery (COD)
                   </Label>
                 </div>
@@ -460,7 +460,7 @@ function ShoppingCheckout() {
           <div className="mt-8 space-y-4">
             <div className="flex justify-between">
               <span className="font-bold">Total</span>
-              <span className="font-bold">${totalCartAmount.toFixed(2)}</span>
+              <span className="font-bold">Rs. {totalCartAmount.toFixed(2)}</span>
             </div>
           </div>
           <div className="mt-4 w-full">

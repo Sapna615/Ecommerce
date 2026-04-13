@@ -26,18 +26,18 @@ function CheckAuth({ isAuthenticated, user, children }) {
     return <Navigate to="/auth/login" />;
   }
 
-  // Handle root path
-  if (location.pathname === "/") {
-    if (!isAuthenticated) {
-      return <Navigate to="/auth/login" />;
-    } else {
-      if (user?.role === "admin") {
-        return <Navigate to="/admin/dashboard" />;
-      } else {
-        return <Navigate to="/shop/home" />;
-      }
-    }
-  }
+  // Handle root path - now handled in App.jsx to prevent redirect loops
+  // if (location.pathname === "/") {
+  //   if (!isAuthenticated) {
+  //     return <Navigate to="/auth/login" />;
+  //   } else {
+  //     if (user?.role === "admin") {
+  //       return <Navigate to="/admin/dashboard" />;
+  //     } else {
+  //       return <Navigate to="/shop/home" />;
+  //     }
+  //   }
+  // }
 
   // If authenticated user is on login page, redirect to appropriate dashboard
   if (
