@@ -1,11 +1,14 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Calendar, Clock, User, Tag, ArrowLeft, Share2, Heart } from "lucide-react";
+import { Calendar, Clock, User, Tag, ArrowLeft, Share2, Heart, BookOpen, TrendingUp, Sparkles, Palette, Shirt, Leaf, MonitorPlay, Recycle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 function BlogDetail() {
   const navigate = useNavigate();
+  const [liked, setLiked] = useState(false);
+  const [likeCount, setLikeCount] = useState(128);
   
   // Sample blog detail data - in real app this would come from API based on URL params
   const blogDetail = {
@@ -138,12 +141,12 @@ Remember, the best t-shirt is one that makes you feel confident and comfortable.
   };
 
   const handleLike = () => {
-    // Implement like functionality
-    alert('Liked!');
+    setLiked(!liked);
+    setLikeCount(liked ? likeCount - 1 : likeCount + 1);
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50">
       {/* Hero Image */}
       <div className="relative h-96 overflow-hidden">
         <img
@@ -151,16 +154,16 @@ Remember, the best t-shirt is one that makes you feel confident and comfortable.
           alt={blogDetail.title}
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-black/40" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/40 to-transparent" />
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="text-center text-white px-4">
-            <Badge className="mb-4 bg-white/20 text-white">
+            <Badge className="mb-4 bg-white/20 backdrop-blur-sm text-white border border-white/30">
               {blogDetail.category}
             </Badge>
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">
+            <h1 className="text-4xl md:text-5xl font-bold mb-4 drop-shadow-lg">
               {blogDetail.title}
             </h1>
-            <p className="text-xl max-w-3xl mx-auto">
+            <p className="text-xl max-w-3xl mx-auto text-white/95 drop-shadow">
               {blogDetail.description}
             </p>
           </div>
@@ -171,90 +174,120 @@ Remember, the best t-shirt is one that makes you feel confident and comfortable.
       <div className="container mx-auto px-4 py-12">
         <div className="max-w-4xl mx-auto">
           {/* Article Meta */}
-          <div className="flex flex-wrap items-center gap-4 mb-8 pb-8 border-b">
-            <div className="flex items-center gap-2 text-gray-600">
-              <User className="w-5 h-5" />
-              <span>{blogDetail.author}</span>
+          <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 mb-8 shadow-xl border border-purple-100">
+            <div className="flex flex-wrap items-center gap-6 mb-6 pb-6 border-b border-purple-100">
+              <div className="flex items-center gap-2 text-purple-700">
+                <User className="w-5 h-5" />
+                <span className="font-medium">{blogDetail.author}</span>
+              </div>
+              <div className="flex items-center gap-2 text-purple-700">
+                <Calendar className="w-5 h-5" />
+                <span className="font-medium">{blogDetail.date}</span>
+              </div>
+              <div className="flex items-center gap-2 text-purple-700">
+                <Clock className="w-5 h-5" />
+                <span className="font-medium">{blogDetail.readTime}</span>
+              </div>
+              <div className="flex items-center gap-2 ml-auto">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleShare}
+                  className="flex items-center gap-2 border-purple-200 text-purple-700 hover:bg-purple-50"
+                >
+                  <Share2 className="w-4 h-4" />
+                  Share
+                </Button>
+                <Button
+                  variant={liked ? "default" : "outline"}
+                  size="sm"
+                  onClick={handleLike}
+                  className={`flex items-center gap-2 ${liked ? 'bg-red-500 text-white hover:bg-red-600' : 'border-purple-200 text-purple-700 hover:bg-purple-50'}`}
+                >
+                  <Heart className={`w-4 h-4 ${liked ? 'fill-current' : ''}`} />
+                  {liked ? 'Liked' : 'Like'} ({likeCount})
+                </Button>
+              </div>
             </div>
-            <div className="flex items-center gap-2 text-gray-600">
-              <Calendar className="w-5 h-5" />
-              <span>{blogDetail.date}</span>
-            </div>
-            <div className="flex items-center gap-2 text-gray-600">
-              <Clock className="w-5 h-5" />
-              <span>{blogDetail.readTime}</span>
-            </div>
-            <div className="flex items-center gap-2 ml-auto">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={handleShare}
-                className="flex items-center gap-2"
-              >
-                <Share2 className="w-4 h-4" />
-                Share
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={handleLike}
-                className="flex items-center gap-2"
-              >
-                <Heart className="w-4 h-4" />
-                Like
-              </Button>
-            </div>
-          </div>
 
-          {/* Tags */}
-          <div className="flex flex-wrap gap-2 mb-8">
-            {blogDetail.tags.map((tag, index) => (
-              <Badge key={index} variant="secondary" className="text-sm">
-                <Tag className="w-3 h-3 mr-1" />
-                {tag}
-              </Badge>
-            ))}
+            {/* Tags */}
+            <div className="flex flex-wrap gap-2">
+              {blogDetail.tags.map((tag, index) => (
+                <Badge key={index} variant="secondary" className="text-sm bg-purple-100 text-purple-800 hover:bg-purple-200 transition-colors">
+                  <Tag className="w-3 h-3 mr-1" />
+                  {tag}
+                </Badge>
+              ))}
+            </div>
           </div>
 
           {/* Article Body */}
-          <div className="prose prose-lg max-w-none">
+          <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-8 mb-8 shadow-xl border border-purple-100 prose prose-lg max-w-none">
             <div dangerouslySetInnerHTML={{ __html: blogDetail.content.replace(/\n/g, '<br>') }} />
           </div>
 
           {/* Related Articles */}
-          <div className="mt-16 pt-8 border-t">
-            <h2 className="text-2xl font-bold mb-6">Related Articles</h2>
+          <div className="mt-16 pt-8 border-t border-purple-200">
+            <h2 className="text-3xl font-bold mb-8 text-purple-900 flex items-center gap-2">
+              <BookOpen className="w-8 h-8 text-purple-600" />
+              Related Articles
+            </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <Card className="hover:shadow-lg transition-shadow cursor-pointer">
-                <CardContent className="p-6">
-                  <h3 className="font-semibold mb-2">How to Style Oversized T-Shirts</h3>
+              <Card className="hover:shadow-xl transition-all duration-300 cursor-pointer group border border-purple-100 overflow-hidden">
+                <div className="relative h-40 overflow-hidden">
+                  <img
+                    src="https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=400&h=200&fit=crop"
+                    alt="Oversized T-Shirts"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-purple-900/60 to-transparent" />
+                </div>
+                <CardContent className="p-6 pt-2">
+                  <h3 className="font-semibold mb-2 text-purple-900">How to Style Oversized T-Shirts</h3>
                   <p className="text-sm text-gray-600 mb-3">Master the art of wearing oversized t-shirts...</p>
-                  <Button variant="outline" size="sm">Read More</Button>
+                  <Button variant="outline" size="sm" className="border-purple-200 text-purple-700 hover:bg-purple-50">Read More</Button>
                 </CardContent>
               </Card>
-              <Card className="hover:shadow-lg transition-shadow cursor-pointer">
-                <CardContent className="p-6">
-                  <h3 className="font-semibold mb-2">Best Hoodies for Winter</h3>
-                  <p className="text-sm text-gray-600 mb-3">Stay warm and stylish this winter...</p>
-                  <Button variant="outline" size="sm">Read More</Button>
+              <Card className="hover:shadow-xl transition-all duration-300 cursor-pointer group border border-purple-100 overflow-hidden">
+                <div className="relative h-40 overflow-hidden">
+                  <img
+                    src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=200&fit=crop"
+                    alt="Summer T-Shirts"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-purple-900/60 to-transparent" />
+                </div>
+                <CardContent className="p-6 pt-2">
+                  <h3 className="font-semibold mb-2 text-purple-900">Best T-Shirts for Summer</h3>
+                  <p className="text-sm text-gray-600 mb-3">Stay cool and stylish this summer with our curated selection of the best t-shirts...</p>
+                  <Button variant="outline" size="sm" className="border-purple-200 text-purple-700 hover:bg-purple-50">Read More</Button>
                 </CardContent>
               </Card>
-              <Card className="hover:shadow-lg transition-shadow cursor-pointer">
-                <CardContent className="p-6">
-                  <h3 className="font-semibold mb-2">Casual Outfit Ideas</h3>
+              <Card className="hover:shadow-xl transition-all duration-300 cursor-pointer group border border-purple-100 overflow-hidden">
+                <div className="relative h-40 overflow-hidden">
+                  <img
+                    src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=400&h=200&fit=crop"
+                    alt="Casual Outfit Ideas"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-purple-900/60 to-transparent" />
+                </div>
+                <CardContent className="p-6 pt-2">
+                  <h3 className="font-semibold mb-2 text-purple-900">Casual Outfit Ideas</h3>
                   <p className="text-sm text-gray-600 mb-3">Transform your everyday look with simple ideas...</p>
-                  <Button variant="outline" size="sm">Read More</Button>
+                  <Button variant="outline" size="sm" className="border-purple-200 text-purple-700 hover:bg-purple-50">Read More</Button>
                 </CardContent>
               </Card>
             </div>
           </div>
 
           {/* Back Button */}
-          <div className="mt-8">
+          <div className="mt-12 text-center">
             <Button
               onClick={() => navigate('/shop/blog')}
               variant="outline"
-              className="flex items-center gap-2"
+              size="lg"
+              className="flex items-center gap-2 border-purple-200 text-purple-700 hover:bg-purple-50 px-8"
             >
               <ArrowLeft className="w-4 h-4" />
               Back to Blog

@@ -59,7 +59,7 @@ function AuthRegister() {
         }
         
         console.log("Registration successful, navigating to login");
-        navigate("/api/auth/login");
+        navigate("/auth/login");
       } else {
         toast({
           title: "Registration failed",
@@ -89,7 +89,7 @@ function AuthRegister() {
           Already have an account
           <Link
             className="font-medium ml-2 text-primary hover:underline"
-            to="/api/auth/login"
+            to="/auth/login"
           >
             Login
           </Link>

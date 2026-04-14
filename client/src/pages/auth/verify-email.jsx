@@ -104,7 +104,7 @@ function AuthVerifyEmail() {
         <CardFooter className="flex justify-center">
           {!isVerifying && (
             <Button 
-              onClick={() => navigate("/api/auth/login")}
+              onClick={() => navigate("/auth/login")}
               className="w-full"
             >
               {isSuccess ? "Go to Login" : "Back to Login"}

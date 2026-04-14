@@ -23,13 +23,13 @@ function CheckAuth({ isAuthenticated, user, children }) {
     )
   ) {
     console.log("User not authenticated, redirecting to login");
-    return <Navigate to="/api/auth/login" />;
+    return <Navigate to="/auth/login" />;
   }
 
   // Handle root path - now handled in App.jsx to prevent redirect loops
   // if (location.pathname === "/") {
   //   if (!isAuthenticated) {
-  //     return <Navigate to="/api/auth/login" />;
+  //     return <Navigate to="/auth/login" />;
   //   } else {
   //     if (user?.role === "admin") {
   //       return <Navigate to="/admin/dashboard" />;

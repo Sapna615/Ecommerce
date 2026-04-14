@@ -451,7 +451,7 @@ function ShoppingHome() {
                   ))}
                 </div>
                 <h3 className="text-lg font-semibold mb-2">Priya Sharma</h3>
-                <p className="text-gray-600">"Amazing collection of hoodies! Love the designs and the quality is top-notch. Fast delivery too!"</p>
+                <p className="text-gray-600">"Amazing collection of t-shirts! Love the designs and the quality is top-notch. Fast delivery too!"</p>
                 <p className="text-sm text-gray-500 mt-2">Verified Buyer</p>
               </CardContent>
             </Card>

@@ -106,7 +106,7 @@ function AuthForgotPassword() {
             </p>
           </CardContent>
           <CardFooter className="flex justify-center">
-            <Link to="/api/auth/login">
+            <Link to="/auth/login">
               <Button variant="outline">Back to Login</Button>
             </Link>
           </CardFooter>
@@ -150,7 +150,7 @@ function AuthForgotPassword() {
           </form>
         </CardContent>
         <CardFooter className="flex justify-center">
-          <Link to="/api/auth/login" className="text-sm text-blue-600 hover:underline">
+          <Link to="/auth/login" className="text-sm text-blue-600 hover:underline">
             Back to Login
           </Link>
         </CardFooter>
