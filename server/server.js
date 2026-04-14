@@ -26,6 +26,7 @@ const commonFeatureRouter = require("./routes/common/feature-routes");
 //create a database connection -> u can also
 //create a separate file for this and then import/use that file here
 
+// Note: Uncomment and update MONGODB_URL in .env file for production
 const MONGODB_URL =
   process.env.MONGODB_URL || "mongodb://localhost:27017/ecommerce";
 
@@ -44,24 +45,46 @@ mongoose
   });
 
 // Handle connection events
-mongoose.connection.on('connected', () => {
+mongoose.connection.on("connected", () => {
   console.log('Mongoose connected to MongoDB');
 });
 
-mongoose.connection.on('error', (err) => {
-  console.error('Mongoose connection error:', err);
+mongoose.connection.on("error", (err) => {
+  console.error("Mongoose connection error:", err);
 });
 
-mongoose.connection.on('disconnected', () => {
-  console.log('Mongoose disconnected from MongoDB');
+mongoose.connection.on("disconnected", () => {
+  console.log("Mongoose disconnected from MongoDB");
 });
 
 const app = express();
 const PORT = process.env.PORT || 5002;
 
+// CORS configuration
+const allowedOrigins = [
+  "http://localhost:5173",
+  "http://localhost:5174", 
+  "http://localhost:5175",
+  "http://localhost:5176",
+  "http://192.168.1.45:5173",
+  "http://192.168.1.45:5174",
+  "http://192.168.1.45:5175",
+  "http://192.168.1.45:5176"
+];
+
+// Add production client URL from environment variable
+if (process.env.CLIENT_URL) {
+  allowedOrigins.push(process.env.CLIENT_URL);
+}
+
+// Add Vercel preview URLs pattern
+if (process.env.VERCEL_URL) {
+  allowedOrigins.push(`https://${process.env.VERCEL_URL}`);
+}
+
 app.use(
   cors({
-    origin: ["http://localhost:5173", "http://localhost:5174", "http://localhost:5175", "http://localhost:5176", "http://192.168.1.45:5173", "http://192.168.1.45:5174", "http://192.168.1.45:5175", "http://192.168.1.45:5176", "https://ecommerce-j7w2.vercel.app", "https://ecommerce-j7w2-git-main-sapna615s-projects.vercel.app"],
+    origin: allowedOrigins,
     methods: ["GET", "POST", "DELETE", "PUT"],
     allowedHeaders: [
       "Content-Type",
