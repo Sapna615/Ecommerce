@@ -113,6 +113,9 @@ const loginUser = async (req, res) => {
     }
 
     // Check if email is verified
+    // TEMPORARILY DISABLED: Since no SMTP server is configured in production yet,
+    // users cannot receive the verification email. Bypassing this check so users can log in.
+    /*
     if (!checkUser.isEmailVerified) {
       return res.json({
         success: false,
@@ -120,6 +123,7 @@ const loginUser = async (req, res) => {
         requiresEmailVerification: true,
       });
     }
+    */
 
     const token = jwt.sign(
       {
