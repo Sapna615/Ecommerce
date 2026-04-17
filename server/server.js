@@ -4,7 +4,7 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 require("dotenv").config();
-const getResetPasswordToken = require("./controllers/auth/auth-controller");
+const authRouter = require("./routes/auth/auth-routes");
 const adminProductsRouter = require("./routes/admin/products-routes");
 const adminOrderRouter = require("./routes/admin/order-routes");
 const adminDashboardRouter = require("./routes/admin/dashboard-routes");
