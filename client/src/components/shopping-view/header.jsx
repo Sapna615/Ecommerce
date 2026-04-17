@@ -5,7 +5,7 @@ import {
   useNavigate,
   useSearchParams,
 } from "react-router-dom";
-import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
+import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle, SheetDescription } from "../ui/sheet";
 import { Button } from "../ui/button";
 import { useDispatch, useSelector } from "react-redux";
 import { shoppingViewHeaderMenuItems } from "@/config";
@@ -54,13 +54,13 @@ function MenuItems() {
   return (
     <nav className="flex flex-col w-full mb-3 lg:mb-0 lg:items-center gap-6 lg:flex-row">
       {shoppingViewHeaderMenuItems.map((menuItem) => (
-        <Label
+        <span
           onClick={() => handleNavigate(menuItem)}
           className="text-base font-semibold cursor-pointer text-foreground hover:text-primary transition-colors block w-full lg:w-auto"
           key={menuItem.id}
         >
           {menuItem.label}
-        </Label>
+        </span>
       ))}
     </nav>
   );
@@ -211,6 +211,10 @@ function ShoppingHeader() {
               </Button>
             </SheetTrigger>
             <SheetContent side="left" className="w-full max-w-xs overflow-y-auto">
+              <SheetHeader className="sr-only">
+                <SheetTitle>Menu</SheetTitle>
+                <SheetDescription>Mobile navigation menu</SheetDescription>
+              </SheetHeader>
               <div className="mb-6 mt-4">
                 <SearchComponent />
               </div>
