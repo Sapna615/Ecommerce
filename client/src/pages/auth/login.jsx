@@ -78,7 +78,7 @@ function AuthLogin() {
           Don't have an account
           <Link
             className="font-medium ml-2 text-primary hover:underline"
-            to="/api/auth/register"
+            to="/auth/register"
           >
             Register
           </Link>
@@ -94,7 +94,7 @@ function AuthLogin() {
       <div className="text-center">
         <Link
           className="text-sm text-primary hover:underline"
-          to="/api/auth/forgot-password"
+          to="/auth/forgot-password"
         >
           Forgot your password?
         </Link>
