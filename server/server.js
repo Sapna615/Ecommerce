@@ -70,7 +70,7 @@ const allowedOrigins = [
   "http://192.168.1.45:5174",
   "http://192.168.1.45:5175",
   "http://192.168.1.45:5176",
-  "https://ecommerce-gilt-eight.vercel.app/auth/login"
+  "https://ecommerce-gilt-eight.vercel.app"
 ];
 
 // Add production client URL from environment variable
