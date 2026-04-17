@@ -1,5 +1,5 @@
 const express = require("express");
-const { authMiddleware } = require("../../controllers/api/auth/auth-controller");
+const { authMiddleware } = require("../../controllers/auth/auth-controller");
 
 const {
   addProductReview,

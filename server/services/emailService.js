@@ -39,7 +39,7 @@ const sendVerificationEmail = async (userEmail, verificationToken) => {
       process.env.API_BASE_URL ||
       `http://localhost:${process.env.PORT || 5002}/api`;
 
-    const verificationUrl = `${apiBaseUrl}/api/auth/verify-email?token=${verificationToken}&redirect=true`;
+    const verificationUrl = `${apiBaseUrl}/auth/verify-email?token=${verificationToken}&redirect=true`;
     
     console.log('📧 Verification URL:', verificationUrl);
     
@@ -110,7 +110,7 @@ const sendPasswordResetEmail = async (userEmail, resetToken) => {
       'http://192.168.1.45:5174'
     ].filter(Boolean);
     
-    const resetUrl = `${possibleUrls[0]}/api/auth/reset-password?token=${resetToken}`;
+    const resetUrl = `${possibleUrls[0]}/auth/reset-password?token=${resetToken}`;
     
     console.log('📧 Password Reset URL:', resetUrl);
     

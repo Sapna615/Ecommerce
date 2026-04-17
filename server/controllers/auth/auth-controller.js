@@ -175,7 +175,7 @@ const verifyEmail = async (req, res) => {
         const frontendBase =
           process.env.FRONTEND_URL || "http://localhost:5173";
         return res.redirect(
-          `${frontendBase}/api/auth/login?verified=0&reason=invalid_token`
+          `${frontendBase}/auth/login?verified=0&reason=invalid_token`
         );
       }
 
@@ -195,7 +195,7 @@ const verifyEmail = async (req, res) => {
     if (wantsRedirect) {
       const frontendBase =
         process.env.FRONTEND_URL || "http://localhost:5173";
-      return res.redirect(`${frontendBase}/api/auth/login?verified=1`);
+      return res.redirect(`${frontendBase}/auth/login?verified=1`);
     }
 
     res.status(200).json({
@@ -211,7 +211,7 @@ const verifyEmail = async (req, res) => {
     if (wantsRedirect) {
       const frontendBase = process.env.FRONTEND_URL || "http://localhost:5173";
       return res.redirect(
-        `${frontendBase}/api/auth/login?verified=0&reason=server_error`
+        `${frontendBase}/auth/login?verified=0&reason=server_error`
       );
     }
 

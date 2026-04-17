@@ -9,7 +9,7 @@ const {
   deleteUser,
   createAdminUser,
 } = require("../../controllers/admin/dashboard-controller");
-const { adminMiddleware } = require("../../controllers/api/auth/auth-controller");
+const { adminMiddleware } = require("../../controllers/auth/auth-controller");
 
 const router = express.Router();
 
