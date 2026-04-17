@@ -52,11 +52,11 @@ function MenuItems() {
   }
 
   return (
-    <nav className="flex flex-col mb-3 lg:mb-0 lg:items-center gap-6 lg:flex-row">
+    <nav className="flex flex-col w-full mb-3 lg:mb-0 lg:items-center gap-6 lg:flex-row">
       {shoppingViewHeaderMenuItems.map((menuItem) => (
         <Label
           onClick={() => handleNavigate(menuItem)}
-          className="text-sm font-medium cursor-pointer"
+          className="text-base font-semibold cursor-pointer text-foreground hover:text-primary transition-colors block w-full lg:w-auto"
           key={menuItem.id}
         >
           {menuItem.label}
@@ -111,7 +111,7 @@ function HeaderRightContent() {
   console.log('Total cart quantity:', totalQuantity);
 
   return (
-    <div className="flex lg:items-center lg:flex-row flex-col gap-4">
+    <div className="flex items-center flex-row gap-2 lg:gap-4">
       {/* Wishlist Button */}
       <Button
         onClick={() => navigate("/shop/wishlist")}
@@ -202,37 +202,40 @@ function ShoppingHeader() {
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background">
       <div className="flex h-16 items-center justify-between px-4 md:px-6">
-        <Link to="/shop/home" className="flex items-center gap-2">
-          <HousePlug className="h-6 w-6" />
-          <span className="font-bold">Ecommerce</span>
-        </Link>
+        <div className="flex items-center gap-4">
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button variant="outline" size="icon" className="lg:hidden">
+                <Menu className="h-6 w-6" />
+                <span className="sr-only">Toggle header menu</span>
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="left" className="w-full max-w-xs overflow-y-auto">
+              <div className="mb-6 mt-4">
+                <SearchComponent />
+              </div>
+              <div className="mt-6 flex flex-col w-full text-left">
+                <MenuItems />
+              </div>
+            </SheetContent>
+          </Sheet>
+
+          <Link to="/shop/home" className="flex items-center gap-2">
+            <HousePlug className="h-6 w-6" />
+            <span className="font-bold hidden md:inline-block">Ecommerce</span>
+          </Link>
+        </div>
         
         {/* Search Component - Desktop Only */}
         <div className="hidden lg:block flex-1 max-w-md mx-8">
           <SearchComponent />
         </div>
 
-        <Sheet>
-          <SheetTrigger asChild>
-            <Button variant="outline" size="icon" className="lg:hidden">
-              <Menu className="h-6 w-6" />
-              <span className="sr-only">Toggle header menu</span>
-            </Button>
-          </SheetTrigger>
-          <SheetContent side="left" className="w-full max-w-xs">
-            <div className="mb-4">
-              <SearchComponent />
-            </div>
-            <MenuItems />
-            <HeaderRightContent />
-          </SheetContent>
-        </Sheet>
-        
         <div className="hidden lg:block">
           <MenuItems />
         </div>
 
-        <div className="hidden lg:block">
+        <div>
           <HeaderRightContent />
         </div>
       </div>
