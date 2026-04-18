@@ -5,7 +5,7 @@ import UserCartItemsContent from "@/components/shopping-view/cart-items-content"
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { createNewOrder } from "@/store/shop/order-slice";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { useToast } from "@/components/ui/use-toast";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
@@ -15,6 +15,7 @@ function ShoppingCheckout() {
   const { cartItems } = useSelector((state) => state.shopCart);
   const { user } = useSelector((state) => state.auth);
   const { approvalURL } = useSelector((state) => state.shopOrder);
+  const navigate = useNavigate();
   const [currentSelectedAddress, setCurrentSelectedAddress] = useState(null);
   const [isPaymentStart, setIsPaymemntStart] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState("cod");
@@ -160,7 +161,7 @@ function ShoppingCheckout() {
           sessionStorage.setItem('paymentSuccess', 'true');
           sessionStorage.setItem('orderId', orderId);
           
-          window.location.href = `/shop/payment-success?orderId=${orderId}`;
+          navigate(`/shop/payment-success?orderId=${orderId}`);
           return;
         }
         
@@ -199,7 +200,7 @@ function ShoppingCheckout() {
                   // Payment successful, redirect to success page
                   sessionStorage.setItem('paymentSuccess', 'true');
                   sessionStorage.setItem('orderId', orderId);
-                  window.location.href = `/shop/payment-success?orderId=${orderId}`;
+                  navigate(`/shop/payment-success?orderId=${orderId}`);
                 }
               } else {
                 throw new Error(paymentResponse.message || 'Payment failed');
