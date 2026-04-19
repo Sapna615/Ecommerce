@@ -87,7 +87,7 @@ function ShoppingHome() {
 
   function handleNavigateToListingPage(getCurrentItem, section) {
     sessionStorage.removeItem("filters");
-    
+
     // Special handling for category navigation - go to specific sections
     if (getCurrentItem.id === "men") {
       navigate("/shop/mens");
@@ -101,14 +101,14 @@ function ShoppingHome() {
       navigate("/shop/kids");
       return;
     }
-    
+
     // For brands - go to brand-specific page
     if (section === "brand") {
       console.log("Navigating to brand page:", getCurrentItem.id);
       navigate(`/shop/brand?brand=${getCurrentItem.id}`);
       return;
     }
-    
+
     // Default fallback - go to listing with category filter
     const currentFilter = {
       [section]: [getCurrentItem.id],
@@ -175,76 +175,76 @@ function ShoppingHome() {
     <div className="flex flex-col min-h-screen">
       <div className="relative w-full h-[600px] overflow-hidden bg-gray-200">
         {[
-            bannerOne,
-            bannerTwo,
-            bannerThree
-          ].map((slide, index) => (
-              <div
-                key={`banner-${index}`}
-                style={{
-                  opacity: index === currentSlide ? 1 : 0,
-                  zIndex: index === currentSlide ? 10 : 1,
-                  transition: 'opacity 1s ease-in-out'
-                }}
-                className="absolute top-0 left-0 w-full h-full"
-              >
-                <img
-                  src={slide}
-                  alt={`Banner Slide ${index + 1}`}
-                  className="w-full h-full object-cover"
-                  onError={(e) => {
-                    console.log("Banner image failed to load:", slide);
-                  }}
-                  onLoad={(e) => {
-                    console.log("Banner image loaded successfully:", slide, "index:", index, "currentSlide:", currentSlide);
-                  }}
-                />
-                {/* Text Overlay */}
-                <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-                  <div className="text-center text-white px-4">
-                    {index === 0 && (
-                      <>
-                        <h2 className="text-4xl font-bold mb-4">Men's T-Shirts</h2>
-                        <p className="text-xl mb-6">Comfort meets style in our latest collection</p>
-                        <Button 
-                          size="lg" 
-                          className="bg-white text-black hover:bg-gray-100"
-                          onClick={() => handleNavigateToListingPage({ id: "men" }, "category")}
-                        >
-                          Shop Now
-                        </Button>
-                      </>
-                    )}
-                    {index === 1 && (
-                      <>
-                        <h2 className="text-4xl font-bold mb-4">Summer Collection</h2>
-                        <p className="text-xl mb-6">Stay cool with our breathable cotton tees</p>
-                        <Button 
-                          size="lg" 
-                          className="bg-white text-black hover:bg-gray-100"
-                          onClick={() => handleNavigateToListingPage({ id: "women" }, "category")}
-                        >
-                          Explore Women
-                        </Button>
-                      </>
-                    )}
-                    {index === 2 && (
-                      <>
-                        <h2 className="text-4xl font-bold mb-4">Kids' Favorites</h2>
-                        <p className="text-xl mb-6">Fun designs for the little ones</p>
-                        <Button 
-                          size="lg" 
-                          className="bg-white text-black hover:bg-gray-100"
-                          onClick={() => handleNavigateToListingPage({ id: "kids" }, "category")}
-                        >
-                          Shop Kids
-                        </Button>
-                      </>
-                    )}
-                  </div>
-                </div>
+          bannerOne,
+          bannerTwo,
+          bannerThree
+        ].map((slide, index) => (
+          <div
+            key={`banner-${index}`}
+            style={{
+              opacity: index === currentSlide ? 1 : 0,
+              zIndex: index === currentSlide ? 10 : 1,
+              transition: 'opacity 1s ease-in-out'
+            }}
+            className="absolute top-0 left-0 w-full h-full"
+          >
+            <img
+              src={slide}
+              alt={`Banner Slide ${index + 1}`}
+              className="w-full h-full object-cover"
+              onError={(e) => {
+                console.log("Banner image failed to load:", slide);
+              }}
+              onLoad={(e) => {
+                console.log("Banner image loaded successfully:", slide, "index:", index, "currentSlide:", currentSlide);
+              }}
+            />
+            {/* Text Overlay */}
+            <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+              <div className="text-center text-white px-4">
+                {index === 0 && (
+                  <>
+                    <h2 className="text-4xl font-bold mb-4">Men's T-Shirts</h2>
+                    <p className="text-xl mb-6">Comfort meets style in our latest collection</p>
+                    <Button
+                      size="lg"
+                      className="bg-white text-black hover:bg-gray-100"
+                      onClick={() => handleNavigateToListingPage({ id: "men" }, "category")}
+                    >
+                      Shop Now
+                    </Button>
+                  </>
+                )}
+                {index === 1 && (
+                  <>
+                    <h2 className="text-4xl font-bold mb-4">Summer Collection</h2>
+                    <p className="text-xl mb-6">Stay cool with our breathable cotton tees</p>
+                    <Button
+                      size="lg"
+                      className="bg-white text-black hover:bg-gray-100"
+                      onClick={() => handleNavigateToListingPage({ id: "women" }, "category")}
+                    >
+                      Explore Women
+                    </Button>
+                  </>
+                )}
+                {index === 2 && (
+                  <>
+                    <h2 className="text-4xl font-bold mb-4">Kids' Favorites</h2>
+                    <p className="text-xl mb-6">Fun designs for the little ones</p>
+                    <Button
+                      size="lg"
+                      className="bg-white text-black hover:bg-gray-100"
+                      onClick={() => handleNavigateToListingPage({ id: "kids" }, "category")}
+                    >
+                      Shop Kids
+                    </Button>
+                  </>
+                )}
               </div>
-            ))}
+            </div>
+          </div>
+        ))}
         <Button
           variant="outline"
           size="icon"
@@ -302,10 +302,10 @@ function ShoppingHome() {
                 // onClick={() => handleNavigateToListingPage(styleItem, "subcategory")}
                 className="cursor-pointer hover:shadow-lg transition-shadow"
               >
-              <CardContent className="flex flex-col items-center justify-center p-6">
-              <styleItem.icon className="w-12 h-12 mb-4 text-primary" />
-              <span className="font-bold">{styleItem.label}</span>
-              </CardContent>
+                <CardContent className="flex flex-col items-center justify-center p-6">
+                  <styleItem.icon className="w-12 h-12 mb-4 text-primary" />
+                  <span className="font-bold">{styleItem.label}</span>
+                </CardContent>
               </Card>
             ))}
           </div>
@@ -322,7 +322,7 @@ function ShoppingHome() {
               Handpicked favorites from our latest collection
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {productList && productList.slice(0, 8).map((productItem) => (
               <div key={productItem._id} className="group">
@@ -346,7 +346,7 @@ function ShoppingHome() {
               Most popular products this week
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {productList && productList.slice(4, 12).map((productItem) => (
               <div key={productItem._id} className="group">
@@ -412,7 +412,7 @@ function ShoppingHome() {
             <Button 
               size="lg" 
               className="bg-white text-red-600 hover:bg-gray-100 px-8 py-4 text-lg font-semibold"
-              onClick={() => handleNavigateToListingPage({ id: "mens" }, "category")}
+              // onClick={() => handleNavigateToListingPage({ id: "mens" }, "category")}
             >
               Grab Now
             </Button>
@@ -429,7 +429,7 @@ function ShoppingHome() {
               Real reviews from happy customers
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <Card className="p-6">
               <CardContent className="text-center">
