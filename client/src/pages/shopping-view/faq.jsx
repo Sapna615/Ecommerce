@@ -107,7 +107,7 @@ function FAQ() {
               Contact Support
             </a>
             <a
-              href="mailto:support@yourstore.com"
+              href="mailto:support@styleteehub.com"
               className="inline-flex items-center px-6 py-3 bg-gray-800 text-white font-semibold rounded-lg hover:bg-gray-900 transition-colors"
             >
               Email Us

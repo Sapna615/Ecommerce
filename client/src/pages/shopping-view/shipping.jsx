@@ -238,11 +238,18 @@ function ShippingInfo() {
             Our shipping team is here to help with any questions about your order delivery.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button className="flex items-center gap-2">
+            <Button
+              className="flex items-center gap-2"
+              onClick={() => window.location.href = 'tel:+910000000000'}
+            >
               <Phone className="w-4 h-4" />
               Call Support
             </Button>
-            <Button variant="outline" className="flex items-center gap-2">
+            <Button
+              variant="outline" 
+              className="flex items-center gap-2"
+              onClick={() => window.location.href = 'mailto:support@styleteehub.com'}
+            >
               <Mail className="w-4 h-4" />
               Email Support
             </Button>

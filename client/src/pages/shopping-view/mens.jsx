@@ -13,6 +13,7 @@ import { addToCart, fetchCartItems } from "@/store/shop/cart-slice";
 import { useToast } from "@/components/ui/use-toast";
 import ProductDetailsDialog from "@/components/shopping-view/product-details";
 import PriceDisplay from "@/components/ui/price-display";
+import { Helmet } from "react-helmet-async";
 
 const mensCategories = [
   { id: "Premium", label: "Premium" },
@@ -213,6 +214,10 @@ function MensShopping() {
 
   return (
     <div className="flex flex-col lg:flex-row gap-6 p-4 lg:p-6">
+      <Helmet>
+        <title>Men's Fashion | Premium T-Shirts & Apparel | StyleTee Hub</title>
+        <meta name="description" content="Shop the latest trends in men's fashion at StyleTee Hub. Discover premium quality t-shirts, polos, oversized tees, and more. Upgrade your wardrobe today!" />
+      </Helmet>
       {/* Filters Sidebar */}
       <div className={`${showFilters ? 'block' : 'hidden'} lg:block w-full lg:w-64 space-y-6`}>
         <Card>
@@ -344,7 +349,8 @@ function MensShopping() {
                   <div className="aspect-square mb-4 overflow-hidden rounded-lg bg-gray-100">
                     <img
                       src={product.image}
-                      alt={product.title}
+                      alt={`StyleTee Hub Men's ${product.subcategory} - ${product.title}`}
+                      title={`${product.title} | StyleTee Hub`}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
                   </div>

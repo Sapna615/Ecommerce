@@ -225,8 +225,12 @@ function ShoppingHeader() {
           </Sheet>
 
           <Link to="/shop/home" className="flex items-center gap-2">
-            <HousePlug className="h-6 w-6" />
-            <span className="font-bold hidden md:inline-block">Ecommerce</span>
+            <div className="bg-primary p-1.5 rounded-lg text-white">
+              <span className="text-sm font-bold">👕</span>
+            </div>
+            <span className="font-bold hidden md:inline-block text-xl tracking-tighter">
+              StyleTee <span className="text-primary">Hub</span>
+            </span>
           </Link>
         </div>
         

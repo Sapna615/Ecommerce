@@ -33,7 +33,7 @@ function AboutUs() {
         <div className="relative container mx-auto px-4 text-center">
           <div className="max-w-4xl mx-auto">
             <h1 className="text-6xl font-black mb-6 bg-gradient-to-r from-white to-purple-100 bg-clip-text text-transparent drop-shadow-lg">
-              About Our Brand
+              About StyleTee Hub
             </h1>
             <p className="text-2xl max-w-3xl mx-auto text-white/95 leading-relaxed">
               Style, Comfort, and Confidence in Every Outfit
@@ -61,10 +61,10 @@ function AboutUs() {
               <h2 className="text-5xl font-bold text-center mb-8 bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">Our Story</h2>
               <div className="text-center space-y-6">
                 <p className="text-xl text-gray-700 leading-relaxed">
-                  What started as a small idea in a college dorm room has grown into one of the most trusted online clothing stores for fashion-forward individuals. Our journey began when we noticed a gap in the market for high-quality, trendy clothing that doesn't break the bank.
+                  What started as a small idea has grown into <strong>StyleTee Hub</strong>, one of the most trusted online clothing stores for fashion-forward individuals. Our journey began when we noticed a gap in the market for high-quality, trendy clothing that doesn't break the bank.
                 </p>
                 <p className="text-xl text-gray-700 leading-relaxed">
-                  From humble beginnings with just a handful of T-shirt designs, we've expanded to offer a comprehensive collection of premium T-shirts for Men, Women, and Kids. Our commitment to trendy designs and affordable fashion has helped us grow from a small startup to a beloved brand with thousands of happy customers across the country.
+                  From humble beginnings with just a handful of T-shirt designs, StyleTee Hub has expanded to offer a comprehensive collection of premium T-shirts for Men, Women, and Kids. Our commitment to trendy designs and affordable fashion has helped us grow into a beloved brand with thousands of happy customers.
                 </p>
               </div>
             </div>
@@ -84,7 +84,7 @@ function AboutUs() {
               </div>
               <h2 className="text-5xl font-bold mb-8 text-gray-900">Our Mission</h2>
               <p className="text-xl text-gray-700 leading-relaxed">
-                To provide high-quality, stylish, and affordable clothing for everyone, 
+                To provide high-quality, stylish, and affordable clothing for everyone,
                 ensuring that fashion is accessible to all without compromising on quality or style.
               </p>
             </div>
@@ -104,8 +104,8 @@ function AboutUs() {
               </div>
               <h2 className="text-5xl font-bold mb-8 text-gray-900">Our Vision</h2>
               <p className="text-xl text-gray-700 leading-relaxed">
-                To become a leading online fashion brand known for quality and innovation, 
-                setting new standards in e-commerce clothing industry while maintaining 
+                To become a leading online fashion brand known for quality and innovation,
+                setting new standards in e-commerce clothing industry while maintaining
                 our commitment to sustainability and customer satisfaction.
               </p>
             </div>
@@ -175,8 +175,8 @@ function AboutUs() {
                 </div>
                 <div className="p-6">
                   <p className="text-gray-700">
-                    Our collection of T-shirts features everything from classic plain tees to trendy graphic designs. 
-                    Available in various fits, colors, and sizes for Men, Women, and Kids. Perfect for everyday wear 
+                    Our collection of T-shirts features everything from classic plain tees to trendy graphic designs.
+                    Available in various fits, colors, and sizes for Men, Women, and Kids. Perfect for everyday wear
                     and special occasions alike.
                   </p>
                 </div>
@@ -190,8 +190,8 @@ function AboutUs() {
                 </div>
                 <div className="p-6">
                   <p className="text-gray-700">
-                    Discover our exclusive premium T-shirt collection crafted with high-quality fabrics. 
-                    From casual everyday wear to special occasions, our premium range offers superior comfort 
+                    Discover our exclusive premium T-shirt collection crafted with high-quality fabrics.
+                    From casual everyday wear to special occasions, our premium range offers superior comfort
                     and style that stands out from the crowd.
                   </p>
                 </div>
@@ -252,14 +252,14 @@ function AboutUs() {
                 Thank You For Choosing Us!
               </h2>
               <p className="text-xl mb-10 text-white/95 leading-relaxed max-w-3xl mx-auto">
-                We're grateful for your trust and support. Every purchase helps us continue our mission 
-                of bringing quality, affordable fashion to everyone. Together, we're building a community 
+                We're grateful for your trust and support. Every purchase helps us continue our mission
+                of bringing quality, affordable fashion to everyone. Together, we're building a community
                 of style-conscious individuals who value comfort, quality, and confidence.
               </p>
-              <Button 
-                size="lg" 
+              <Button
+                size="lg"
                 className="bg-white text-purple-600 hover:bg-gray-100 px-12 py-4 text-lg font-semibold shadow-xl hover:shadow-2xl transition-all duration-300"
-                onClick={() => window.location.href = '/shop'}
+                onClick={() => window.location.href = '/shop/kids'}
               >
                 Start Shopping
               </Button>

@@ -17,6 +17,7 @@ import { addReview, getReviews } from "@/store/shop/review-slice";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { Heart, ShoppingCart, ThumbsUp, Eye } from "lucide-react";
 import PriceDisplay from "../ui/price-display";
+import { useNavigate } from "react-router-dom";
 
 function ProductDetailsDialog({ open, setOpen, productDetails, isAdmin = false }) {
   const [reviewMsg, setReviewMsg] = useState("");
@@ -27,12 +28,13 @@ function ProductDetailsDialog({ open, setOpen, productDetails, isAdmin = false }
   const [isInWishlist, setIsInWishlist] = useState(false);
   const [isAddingToCart, setIsAddingToCart] = useState(false);
   const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.auth);
+   const { user } = useSelector((state) => state.auth);
   const { cartItems } = useSelector((state) => state.shopCart);
   const { reviews } = useSelector((state) => state.shopReview);
   const { wishlistItems } = useSelector((state) => state.wishlist);
 
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   // Set initial color and size when product changes
   useEffect(() => {
@@ -215,7 +217,7 @@ function ProductDetailsDialog({ open, setOpen, productDetails, isAdmin = false }
         description: "Please login to add items to your cart.",
         variant: "destructive",
       });
-      window.location.href = "/auth/login";
+      navigate("/auth/login");
       return;
     }
     
@@ -364,7 +366,7 @@ function ProductDetailsDialog({ open, setOpen, productDetails, isAdmin = false }
         description: "Please login to use wishlist.",
         variant: "destructive",
       });
-      window.location.href = "/auth/login";
+      navigate("/auth/login");
       return;
     }
 

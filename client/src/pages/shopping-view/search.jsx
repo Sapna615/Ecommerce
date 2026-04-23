@@ -16,6 +16,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { Search, Filter, Grid, List, TrendingUp, Star, Heart, ShoppingCart } from "lucide-react";
+import { Helmet } from "react-helmet-async";
 
 // Sample enhanced data for better search experience
 const featuredCategories = [
@@ -157,6 +158,10 @@ function SearchProducts() {
 
   return (
     <div className="container mx-auto md:px-6 px-4 py-8">
+      <Helmet>
+        <title>Search Results | StyleTee Hub | Premium Fashion</title>
+        <meta name="description" content="Search for your favorite premium fashion and T-shirts at StyleTee Hub. Find exactly what you need from our extensive collection of men's, women's, and kids' wear." />
+      </Helmet>
       {/* Search Header */}
       <div className="mb-8">
         <div className="text-center mb-6">

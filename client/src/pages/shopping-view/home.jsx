@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 const bannerOne = "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=1280&h=600&fit=crop&crop=center&q=80";
 const bannerTwo = "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=1280&h=600&fit=crop&crop=center&q=80";
 const bannerThree = "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1280&h=600&fit=crop&crop=center&q=80";
+import { Helmet } from "react-helmet-async";
 import {
   Airplay,
   BabyIcon,
@@ -123,6 +124,16 @@ function ShoppingHome() {
   }
 
   function handleAddtoCart(getCurrentProductId) {
+    if (!user) {
+      toast({
+        title: "Login Required",
+        description: "Please login to add items to your cart",
+        variant: "destructive",
+      });
+      navigate("/auth/login");
+      return;
+    }
+
     dispatch(
       addToCart({
         userId: user?.id,
@@ -173,6 +184,10 @@ function ShoppingHome() {
 
   return (
     <div className="flex flex-col min-h-screen">
+      <Helmet>
+        <title>StyleTee Hub | #1 Online Store for Premium Fashion & T-Shirts</title>
+        <meta name="description" content="Welcome to StyleTee Hub - Your ultimate destination for premium quality T-shirts and trendy fashion. Shop men's, women's, and kids' collections today!" />
+      </Helmet>
       <div className="relative w-full h-[600px] overflow-hidden bg-gray-200">
         {[
           bannerOne,
@@ -190,7 +205,8 @@ function ShoppingHome() {
           >
             <img
               src={slide}
-              alt={`Banner Slide ${index + 1}`}
+              alt={`StyleTee Hub Fashion Banner - ${index === 0 ? "Men's Collection" : index === 1 ? "Summer Trends" : "Kids Favorites"}`}
+              title={`StyleTee Hub - Premium Fashion Apparel`}
               className="w-full h-full object-cover"
               onError={(e) => {
                 console.log("Banner image failed to load:", slide);

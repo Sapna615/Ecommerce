@@ -177,7 +177,7 @@ function ReturnPolicy() {
             </Button>
             <Button
               variant="outline"
-              onClick={() => window.location.href = 'mailto:support@yourstore.com'}
+              onClick={() => window.location.href = 'mailto:support@styleteehub.com'}
               className="flex items-center gap-2"
             >
               <Clock className="w-4 h-4" />

@@ -6,13 +6,17 @@ import { Provider } from "react-redux";
 import store from "./store/store.js";
 import { Toaster } from "./components/ui/toaster.jsx";
 
+import { HelmetProvider } from "react-helmet-async";
+
 console.log("Main app starting...");
 
 createRoot(document.getElementById("root")).render(
   <BrowserRouter>
     <Provider store={store}>
-      <App />
-      <Toaster />
+      <HelmetProvider>
+        <App />
+        <Toaster />
+      </HelmetProvider>
     </Provider>
   </BrowserRouter>
 );

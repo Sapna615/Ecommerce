@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addToWishlist, fetchWishlistItems, removeFromWishlist } from "@/store/shop/wishlist-slice";
 import { useToast } from "../ui/use-toast";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import PriceDisplay from "../ui/price-display";
 
 function ShoppingProductTile({
@@ -14,6 +15,7 @@ function ShoppingProductTile({
   handleGetProductDetails,
   handleAddtoCart,
 }) {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { toast } = useToast();
   const { user } = useSelector((state) => state.auth);
@@ -37,6 +39,7 @@ function ShoppingProductTile({
         description: "Please login to add items to wishlist",
         variant: "destructive"
       });
+      navigate("/auth/login");
       return;
     }
 
@@ -65,7 +68,8 @@ function ShoppingProductTile({
         <div className="relative">
           <img
             src={product?.image}
-            alt={product?.title}
+            alt={`StyleTee Hub ${categoryOptionsMap[product?.category]} - ${product?.title}`}
+            title={`${product?.title} | StyleTee Hub`}
             className="w-full h-[300px] object-cover rounded-t-lg"
           />
           {product?.totalStock === 0 ? (

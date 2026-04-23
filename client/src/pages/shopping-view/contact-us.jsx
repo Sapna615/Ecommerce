@@ -71,14 +71,14 @@ function ContactUs() {
     {
       icon: <Mail className="w-5 h-5" />,
       label: "Email",
-      value: "support@ecommerce.com",
-      action: "mailto:support@ecommerce.com"
+      value: "support@styleteehub.com",
+      action: "mailto:support@styleteehub.com"
     },
     {
       icon: <Phone className="w-5 h-5" />,
       label: "Phone",
-      value: "+1 (555) 123-4567",
-      action: "tel:+15551234567"
+      value: "+91 98765 43210",
+      action: "tel:+919876543210"
     },
     {
       icon: <MapPin className="w-5 h-5" />,

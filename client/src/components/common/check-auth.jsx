@@ -11,7 +11,26 @@ function CheckAuth({ isAuthenticated, user, children }) {
     return <>{children}</>;
   }
 
-  // If user is not authenticated, redirect to login (except for auth pages)
+  // Public routes that don't require authentication
+  const publicShopRoutes = [
+    "/shop/home",
+    "/shop/listing",
+    "/shop/mens",
+    "/shop/womens",
+    "/shop/kids",
+    "/shop/search",
+    "/shop/about",
+    "/shop/contact",
+    "/shop/blog",
+    "/shop/blog/",
+    "/shop/faq",
+    "/shop/returns",
+    "/shop/shipping"
+  ];
+
+  const isPublicRoute = publicShopRoutes.some(route => location.pathname.includes(route));
+
+  // If user is not authenticated, redirect to login (except for auth pages and public shop routes)
   if (
     !isAuthenticated &&
     !(
@@ -19,7 +38,8 @@ function CheckAuth({ isAuthenticated, user, children }) {
       location.pathname.includes("/register") ||
       location.pathname.includes("/forgot-password") ||
       location.pathname.includes("/reset-password") ||
-      location.pathname.includes("/verify-email")
+      location.pathname.includes("/verify-email") ||
+      isPublicRoute
     )
   ) {
     console.log("User not authenticated, redirecting to login");

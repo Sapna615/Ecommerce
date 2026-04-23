@@ -19,7 +19,7 @@ import {
 import { ArrowUpDownIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useNavigate } from "react-router-dom";
 
 function createSearchParamsHelper(filterParams) {
   const queryParams = [];
@@ -50,6 +50,7 @@ function ShoppingListing() {
   const [filters, setFilters] = useState({});
   const [sort, setSort] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
   const { toast } = useToast();
 
   console.log("ShoppingListing - Current state:", { 
@@ -93,6 +94,16 @@ function ShoppingListing() {
   }
 
   function handleAddtoCart(getCurrentProductId, getTotalStock) {
+    if (!user) {
+      toast({
+        title: "Login Required",
+        description: "Please login to add items to your cart",
+        variant: "destructive",
+      });
+      navigate("/auth/login");
+      return;
+    }
+
     console.log(cartItems);
     let getCartItems = cartItems.items || [];
 

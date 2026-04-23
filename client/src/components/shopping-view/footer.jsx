@@ -81,10 +81,27 @@ function ShoppingFooter() {
             </ul>
           </div>
 
-          {/* Column 4: Follow Us */}
+          {/* Column 4: Newsletter */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">Follow Us</h3>
-            <div className="flex space-x-4 mb-4">
+            <h3 className="text-lg font-semibold mb-4">Newsletter</h3>
+            <p className="text-gray-400 text-sm mb-4">
+              Subscribe to get special offers, free giveaways, and once-in-a-lifetime deals.
+            </p>
+            <form className="space-y-2">
+              <input 
+                type="email" 
+                placeholder="Enter your email" 
+                className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded text-white focus:outline-none focus:border-purple-500 transition-colors"
+                required
+              />
+              <button 
+                type="submit" 
+                className="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded transition-colors"
+              >
+                Subscribe
+              </button>
+            </form>
+            <div className="flex space-x-4 mt-6">
               <Facebook className="w-5 h-5 text-gray-400 hover:text-white cursor-pointer transition-colors" />
               <Instagram className="w-5 h-5 text-gray-400 hover:text-white cursor-pointer transition-colors" />
               <Twitter className="w-5 h-5 text-gray-400 hover:text-white cursor-pointer transition-colors" />

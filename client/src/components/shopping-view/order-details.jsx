@@ -307,7 +307,7 @@ function ShoppingOrderDetailsView({ orderDetails }) {
           <Button 
             variant="link" 
             className="p-0 h-auto text-blue-600"
-            onClick={() => window.location.href = 'mailto:support@ecommerce.com'}
+            onClick={() => window.location.href = 'mailto:support@styleteehub.com'}
           >
             Contact Support
           </Button>
