@@ -1,4 +1,6 @@
 import { Button } from "@/components/ui/button";
+import { motion } from "framer-motion";
+
 // Static t-shirt related banner images
 const bannerOne = "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=1280&h=600&fit=crop&crop=center&q=80";
 const bannerTwo = "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=1280&h=600&fit=crop&crop=center&q=80";
@@ -60,7 +62,44 @@ const stylesWithIcon = [
 const brandsWithIcon = [
   // Brands section removed to fix blank homepage issue
 ];
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { y: 20, opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      type: "spring",
+      stiffness: 100,
+    },
+  },
+};
+
+const cardHoverVariants = {
+  hover: {
+    scale: 1.05,
+    y: -10,
+    boxShadow: "0px 10px 30px rgba(0,0,0,0.1)",
+    transition: {
+      type: "spring",
+      stiffness: 400,
+      damping: 10,
+    },
+  },
+};
+
 function ShoppingHome() {
+
   const [currentSlide, setCurrentSlide] = useState(0);
   const { productList, productDetails } = useSelector(
     (state) => state.shopProducts
@@ -183,7 +222,8 @@ function ShoppingHome() {
   }, [dispatch]);
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-slate-50/30">
+
       <Helmet>
         <title>StyleTee Hub | #1 Online Store for Premium Fashion & T-Shirts</title>
         <meta name="description" content="Welcome to StyleTee Hub - Your ultimate destination for premium quality T-shirts and trendy fashion. Shop men's, women's, and kids' collections today!" />
@@ -217,14 +257,19 @@ function ShoppingHome() {
             />
             {/* Text Overlay */}
             <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-              <div className="text-center text-white px-4">
+              <motion.div 
+                initial={{ opacity: 0, y: 30 }}
+                animate={index === currentSlide ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+                className="text-center text-white px-4"
+              >
                 {index === 0 && (
                   <>
-                    <h2 className="text-4xl font-bold mb-4">Men's T-Shirts</h2>
-                    <p className="text-xl mb-6">Comfort meets style in our latest collection</p>
+                    <h2 className="text-5xl font-extrabold mb-4 tracking-tight">Men's T-Shirts</h2>
+                    <p className="text-xl mb-8 opacity-90">Comfort meets style in our latest collection</p>
                     <Button
                       size="lg"
-                      className="bg-white text-black hover:bg-gray-100"
+                      className="bg-white text-black hover:bg-gray-100 px-8 py-6 text-lg font-bold rounded-full transition-all duration-300 transform hover:scale-110 shadow-xl"
                       onClick={() => handleNavigateToListingPage({ id: "men" }, "category")}
                     >
                       Shop Now
@@ -233,11 +278,11 @@ function ShoppingHome() {
                 )}
                 {index === 1 && (
                   <>
-                    <h2 className="text-4xl font-bold mb-4">Summer Collection</h2>
-                    <p className="text-xl mb-6">Stay cool with our breathable cotton tees</p>
+                    <h2 className="text-5xl font-extrabold mb-4 tracking-tight">Summer Collection</h2>
+                    <p className="text-xl mb-8 opacity-90">Stay cool with our breathable cotton tees</p>
                     <Button
                       size="lg"
-                      className="bg-white text-black hover:bg-gray-100"
+                      className="bg-white text-black hover:bg-gray-100 px-8 py-6 text-lg font-bold rounded-full transition-all duration-300 transform hover:scale-110 shadow-xl"
                       onClick={() => handleNavigateToListingPage({ id: "women" }, "category")}
                     >
                       Explore Women
@@ -246,19 +291,20 @@ function ShoppingHome() {
                 )}
                 {index === 2 && (
                   <>
-                    <h2 className="text-4xl font-bold mb-4">Kids' Favorites</h2>
-                    <p className="text-xl mb-6">Fun designs for the little ones</p>
+                    <h2 className="text-5xl font-extrabold mb-4 tracking-tight">Kids' Favorites</h2>
+                    <p className="text-xl mb-8 opacity-90">Fun designs for the little ones</p>
                     <Button
                       size="lg"
-                      className="bg-white text-black hover:bg-gray-100"
+                      className="bg-white text-black hover:bg-gray-100 px-8 py-6 text-lg font-bold rounded-full transition-all duration-300 transform hover:scale-110 shadow-xl"
                       onClick={() => handleNavigateToListingPage({ id: "kids" }, "category")}
                     >
                       Shop Kids
                     </Button>
                   </>
                 )}
-              </div>
+              </motion.div>
             </div>
+
           </div>
         ))}
         <Button
@@ -286,206 +332,330 @@ function ShoppingHome() {
           <ChevronRightIcon className="w-4 h-4" />
         </Button>
       </div>
-      <section className="py-12 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-8">
-            Shop by category
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <section className="py-24 bg-gray-50 overflow-hidden relative">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-blue-100/50 rounded-full blur-3xl -mr-48 -mt-48" />
+        <div className="container mx-auto px-4 relative z-10">
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-4xl font-extrabold text-center mb-12 tracking-tight text-gray-900"
+          >
+            Shop by <span className="text-blue-600">Category</span>
+          </motion.h2>
+
+          <motion.div 
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          >
             {categoriesWithIcon.map((categoryItem) => (
-              <Card
-                onClick={() =>
-                  handleNavigateToListingPage(categoryItem, "category")
-                }
-                className="cursor-pointer hover:shadow-lg transition-shadow"
+              <motion.div
+                key={categoryItem.id}
+                variants={itemVariants}
+                whileHover="hover"
               >
-                <CardContent className="flex flex-col items-center justify-center p-6">
-                  <categoryItem.icon className="w-12 h-12 mb-4 text-primary" />
-                  <span className="font-bold">{categoryItem.label}</span>
-                </CardContent>
-              </Card>
+                <Card
+                  onClick={() =>
+                    handleNavigateToListingPage(categoryItem, "category")
+                  }
+                  className="cursor-pointer border-none shadow-md overflow-hidden relative group h-48 flex items-center justify-center bg-white"
+                >
+                  <motion.div 
+                    variants={cardHoverVariants}
+                    className="absolute inset-0 bg-gradient-to-br from-blue-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"
+                  />
+                  <CardContent className="flex flex-col items-center justify-center p-6 relative z-10">
+                    <motion.div
+                      whileHover={{ rotate: 5, scale: 1.1 }}
+                      className="p-4 rounded-2xl bg-blue-50 mb-4 group-hover:bg-blue-100 transition-colors"
+                    >
+                      <categoryItem.icon className="w-12 h-12 text-blue-600" />
+                    </motion.div>
+                    <span className="text-xl font-bold text-gray-800">{categoryItem.label}</span>
+                  </CardContent>
+                </Card>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
+
       {/* Shop by Style Section */}
-      <section className="py-12 bg-white">
+      <section className="py-20 bg-gradient-to-b from-gray-50 to-white overflow-hidden">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-8">Shop by Style</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
+
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-4xl font-extrabold text-center mb-12 tracking-tight text-gray-900"
+          >
+            Shop by <span className="text-blue-600">Style</span>
+          </motion.h2>
+          <motion.div 
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6"
+          >
             {stylesWithIcon.map((styleItem) => (
-              <Card
-                // onClick={() => handleNavigateToListingPage(styleItem, "subcategory")}
-                className="cursor-pointer hover:shadow-lg transition-shadow"
+              <motion.div
+                key={styleItem.id}
+                variants={itemVariants}
+                whileHover="hover"
               >
-                <CardContent className="flex flex-col items-center justify-center p-6">
-                  <styleItem.icon className="w-12 h-12 mb-4 text-primary" />
-                  <span className="font-bold">{styleItem.label}</span>
-                </CardContent>
-              </Card>
+                <Card
+                  // onClick={() => handleNavigateToListingPage(styleItem, "subcategory")}
+                  className="cursor-pointer border-none shadow-sm hover:shadow-md transition-all h-40 flex items-center justify-center bg-gray-50/50"
+                >
+                  <CardContent className="flex flex-col items-center justify-center p-6">
+                    <motion.div
+                      whileHover={{ scale: 1.2, rotate: -5 }}
+                      className="mb-3 text-blue-600"
+                    >
+                      <styleItem.icon className="w-10 h-10" />
+                    </motion.div>
+                    <span className="font-bold text-gray-700">{styleItem.label}</span>
+                  </CardContent>
+                </Card>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
+
 
 
       {/* Featured Products Section */}
-      <section className="py-12 bg-white">
+      <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Featured Products</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
+
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-12"
+          >
+            <h2 className="text-4xl font-extrabold text-gray-900 mb-4 tracking-tight">Featured <span className="text-blue-600">Products</span></h2>
+            <p className="text-gray-600 max-w-2xl mx-auto text-lg">
               Handpicked favorites from our latest collection
             </p>
-          </div>
+          </motion.div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <motion.div 
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"
+          >
             {productList && productList.slice(0, 8).map((productItem) => (
-              <div key={productItem._id} className="group">
+              <motion.div 
+                key={productItem._id} 
+                variants={itemVariants}
+                className="group"
+              >
                 <ShoppingProductTile
                   product={productItem}
                   handleGetProductDetails={handleGetProductDetails}
                   handleAddtoCart={handleAddtoCart}
                 />
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
+
 
       {/* Trending / Best Sellers Section */}
-      <section className="py-12 bg-gray-50">
+      <section className="py-20 bg-gray-50">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Trending Now</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            className="text-center mb-12"
+          >
+            <h2 className="text-4xl font-extrabold text-gray-900 mb-4 tracking-tight">Trending <span className="text-blue-600">Now</span></h2>
+            <p className="text-gray-600 max-w-2xl mx-auto text-lg">
               Most popular products this week
             </p>
-          </div>
+          </motion.div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <motion.div 
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"
+          >
             {productList && productList.slice(4, 12).map((productItem) => (
-              <div key={productItem._id} className="group">
+              <motion.div 
+                key={productItem._id} 
+                variants={itemVariants}
+                className="group"
+              >
                 <ShoppingProductTile
                   product={productItem}
                   handleGetProductDetails={handleGetProductDetails}
                   handleAddtoCart={handleAddtoCart}
                 />
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
+
 
       {/* Why Shop With Us Section */}
-      <section className="py-12 bg-gray-50">
+      <section className="py-24 bg-gradient-to-b from-white to-gray-50">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Why Shop With Us</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              We offer the best shopping experience
+
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl font-extrabold text-gray-900 mb-4 tracking-tight">Why Shop With Us</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto text-lg">
+              We offer the best shopping experience for our customers
             </p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <Card className="text-center p-6 hover:shadow-lg transition-shadow duration-300">
-              <CardContent className="pt-6">
-                <Truck className="w-12 h-12 mx-auto mb-4 text-blue-600" />
-                <h3 className="text-xl font-semibold mb-2">Free Shipping</h3>
-                <p className="text-gray-600">On all orders above ₹499</p>
-              </CardContent>
-            </Card>
-            <Card className="text-center p-6 hover:shadow-lg transition-shadow duration-300">
-              <CardContent className="pt-6">
-                <Shield className="w-12 h-12 mx-auto mb-4 text-blue-600" />
-                <h3 className="text-xl font-semibold mb-2">Secure Payment</h3>
-                <p className="text-gray-600">100% secure transactions</p>
-              </CardContent>
-            </Card>
-            <Card className="text-center p-6 hover:shadow-lg transition-shadow duration-300">
-              <CardContent className="pt-6">
-                <RefreshCw className="w-12 h-12 mx-auto mb-4 text-blue-600" />
-                <h3 className="text-xl font-semibold mb-2">Easy Returns</h3>
-                <p className="text-gray-600">6-day return policy</p>
-              </CardContent>
-            </Card>
-            <Card className="text-center p-6 hover:shadow-lg transition-shadow duration-300">
-              <CardContent className="pt-6">
-                <HeadphonesIcon className="w-12 h-12 mx-auto mb-4 text-blue-600" />
-                <h3 className="text-xl font-semibold mb-2">24/7 Support</h3>
-                <p className="text-gray-600">Always here to help</p>
-              </CardContent>
-            </Card>
-          </div>
+          </motion.div>
+          <motion.div 
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            className="grid grid-cols-1 md:grid-cols-4 gap-8"
+          >
+            {[
+              { icon: Truck, title: "Free Shipping", desc: "On all orders above ₹499", color: "text-blue-600", bg: "bg-blue-50" },
+              { icon: Shield, title: "Secure Payment", desc: "100% secure transactions", color: "text-green-600", bg: "bg-green-50" },
+              { icon: RefreshCw, title: "Easy Returns", desc: "6-day return policy", color: "text-purple-600", bg: "bg-purple-50" },
+              { icon: HeadphonesIcon, title: "24/7 Support", desc: "Always here to help", color: "text-orange-600", bg: "bg-orange-50" },
+            ].map((feature, idx) => (
+              <motion.div key={idx} variants={itemVariants} whileHover={{ y: -5 }}>
+                <Card className="text-center p-8 border-none shadow-lg hover:shadow-xl transition-all duration-300 bg-white group">
+                  <CardContent className="pt-6">
+                    <div className={`w-16 h-16 ${feature.bg} rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform`}>
+                      <feature.icon className={`w-8 h-8 ${feature.color}`} />
+                    </div>
+                    <h3 className="text-xl font-bold mb-2 text-gray-800">{feature.title}</h3>
+                    <p className="text-gray-600">{feature.desc}</p>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
+          </motion.div>
         </div>
       </section>
+
 
       {/* Offer Banner Section */}
-      <section className="py-16 bg-gradient-to-r from-red-600 to-pink-600 text-white">
-        <div className="container mx-auto px-4 text-center">
+      <section className="py-20 bg-gradient-to-r from-red-600 via-pink-600 to-red-600 text-white overflow-hidden relative">
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.8 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          className="container mx-auto px-4 text-center relative z-10"
+        >
           <div className="max-w-3xl mx-auto">
-            <h2 className="text-4xl font-bold mb-4">Flat 25% OFF on T-Shirts</h2>
-            <p className="text-xl mb-8">Limited time offer - Don't miss out!</p>
-            <Button 
-              size="lg" 
-              className="bg-white text-red-600 hover:bg-gray-100 px-8 py-4 text-lg font-semibold"
-              // onClick={() => handleNavigateToListingPage({ id: "mens" }, "category")}
+            <h2 className="text-5xl font-extrabold mb-6 tracking-tight">Flat 25% OFF on T-Shirts</h2>
+            <p className="text-2xl mb-10 opacity-90">Limited time offer - Don't miss out on our premium collection!</p>
+            <motion.div
+              animate={{ scale: [1, 1.05, 1] }}
+              transition={{ repeat: Infinity, duration: 2 }}
             >
-              Grab Now
-            </Button>
+              <Button 
+                size="lg" 
+                className="bg-white text-red-600 hover:bg-gray-100 px-10 py-7 text-xl font-bold rounded-full shadow-2xl transition-all"
+                // onClick={() => handleNavigateToListingPage({ id: "mens" }, "category")}
+              >
+                Grab Now
+              </Button>
+            </motion.div>
           </div>
+        </motion.div>
+        {/* Animated background elements */}
+        <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none opacity-20">
+          <motion.div 
+            animate={{ 
+              x: [0, 100, 0],
+              y: [0, 50, 0],
+              rotate: [0, 180, 360]
+            }}
+            transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+            className="absolute -top-24 -left-24 w-64 h-64 bg-white rounded-full blur-3xl"
+          />
+          <motion.div 
+            animate={{ 
+              x: [0, -100, 0],
+              y: [0, -50, 0],
+              rotate: [360, 180, 0]
+            }}
+            transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+            className="absolute -bottom-24 -right-24 w-64 h-64 bg-white rounded-full blur-3xl"
+          />
         </div>
       </section>
+
 
       {/* Testimonials Section */}
-      <section className="py-12 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">What Our Customers Say</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              Real reviews from happy customers
+      <section className="py-28 bg-white relative overflow-hidden">
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-blue-100 to-transparent" />
+        <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-blue-50 rounded-full blur-3xl opacity-50" />
+        <div className="container mx-auto px-4 relative z-10">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl font-extrabold text-gray-900 mb-4 tracking-tight">What Our <span className="text-blue-600">Customers</span> Say</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto text-lg">
+              Real reviews from happy customers who love StyleTee Hub
             </p>
-          </div>
+          </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <Card className="p-6">
-              <CardContent className="text-center">
-                <div className="flex justify-center mb-4">
-                  {[1, 2, 3, 4, 5].map((star) => (
-                    <Star key={star} className="w-5 h-5 text-yellow-400 fill-current" />
-                  ))}
-                </div>
-                <h3 className="text-lg font-semibold mb-2">Rahul Kumar</h3>
-                <p className="text-gray-600">"Great quality T-shirts! The fabric is amazing and the fit is perfect. Will definitely order again."</p>
-                <p className="text-sm text-gray-500 mt-2">Verified Buyer</p>
-              </CardContent>
-            </Card>
-            <Card className="p-6">
-              <CardContent className="text-center">
-                <div className="flex justify-center mb-4">
-                  {[1, 2, 3, 4, 5].map((star) => (
-                    <Star key={star} className="w-5 h-5 text-yellow-400 fill-current" />
-                  ))}
-                </div>
-                <h3 className="text-lg font-semibold mb-2">Priya Sharma</h3>
-                <p className="text-gray-600">"Amazing collection of t-shirts! Love the designs and the quality is top-notch. Fast delivery too!"</p>
-                <p className="text-sm text-gray-500 mt-2">Verified Buyer</p>
-              </CardContent>
-            </Card>
-            <Card className="p-6">
-              <CardContent className="text-center">
-                <div className="flex justify-center mb-4">
-                  {[1, 2, 3, 4].map((star) => (
-                    <Star key={star} className="w-5 h-5 text-yellow-400 fill-current" />
-                  ))}
-                </div>
-                <h3 className="text-lg font-semibold mb-2">Amit Patel</h3>
-                <p className="text-gray-600">"Perfect fit and great prices! Found exactly what I was looking for. Highly recommend!"</p>
-                <p className="text-sm text-gray-500 mt-2">Verified Buyer</p>
-              </CardContent>
-            </Card>
-          </div>
+
+          <motion.div 
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            className="grid grid-cols-1 md:grid-cols-3 gap-8"
+          >
+            {[
+              { name: "Rahul Kumar", text: "Great quality T-shirts! The fabric is amazing and the fit is perfect. Will definitely order again.", stars: 5 },
+              { name: "Priya Sharma", text: "Amazing collection of t-shirts! Love the designs and the quality is top-notch. Fast delivery too!", stars: 5 },
+              { name: "Amit Patel", text: "Perfect fit and great prices! Found exactly what I was looking for. Highly recommend!", stars: 4 },
+            ].map((testimonial, idx) => (
+              <motion.div key={idx} variants={itemVariants}>
+                <Card className="p-8 border-none shadow-lg h-full flex flex-col justify-between bg-white hover:shadow-xl transition-shadow">
+                  <CardContent className="text-center p-0">
+                    <div className="flex justify-center mb-6">
+                      {[...Array(5)].map((_, i) => (
+                        <Star key={i} className={`w-5 h-5 ${i < testimonial.stars ? "text-yellow-400 fill-current" : "text-gray-300"}`} />
+                      ))}
+                    </div>
+                    <p className="text-gray-700 italic mb-6 text-lg leading-relaxed">"{testimonial.text}"</p>
+                    <div>
+                      <h3 className="text-xl font-bold text-gray-900">{testimonial.name}</h3>
+                      <p className="text-sm text-blue-600 font-medium mt-1 uppercase tracking-wider">Verified Buyer</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
+          </motion.div>
         </div>
       </section>
+
 
       {/* Newsletter Section */}
       {/* <section className="py-12 bg-white">
