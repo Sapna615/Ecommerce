@@ -43,20 +43,29 @@ import WriteBlog from "./pages/shopping-view/write-blog";
 import FAQ from "./pages/shopping-view/faq";
 import ReturnPolicy from "./pages/shopping-view/returns";
 import ShippingInfo from "./pages/shopping-view/shipping";
+import { useLocation } from "react-router-dom"; 
 
 function App() {
   const { user, isAuthenticated, isLoading } = useSelector(
     (state) => state.auth
   );
   const dispatch = useDispatch();
+  const location = useLocation();
 
   useEffect(() => {
-    // Only check auth if not already authenticated and user is null
-    // This prevents unnecessary auth checks that might log out the user
     if (!isAuthenticated && !user) {
       dispatch(checkAuth());
     }
   }, [dispatch, isAuthenticated, user]);
+
+  // Google Analytics Page View Tracking
+  useEffect(() => {
+    if (window.gtag) {
+      window.gtag("config", "G-GMN1R6YBWE", {
+        page_path: location.pathname + location.search,
+      });
+    }
+  }, [location]);
 
   if (isLoading) return <Skeleton className="w-[800] bg-black h-[600px]" />;
 
