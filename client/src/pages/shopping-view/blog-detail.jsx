@@ -1,18 +1,18 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Calendar, Clock, User, Tag, ArrowLeft, Share2, Heart, BookOpen, TrendingUp, Sparkles, Palette, Shirt, Leaf, MonitorPlay, Recycle } from "lucide-react";
+import { Calendar, Clock, User, Tag, ArrowLeft, Share2, Heart, BookOpen } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchBlogDetails } from "@/store/shop/blog-slice";
+import { fetchBlogDetails, fetchAllBlogs } from "@/store/shop/blog-slice";
 import { Helmet } from "react-helmet-async";
 
 function BlogDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { blogDetails, isLoading } = useSelector((state) => state.shopBlog);
+  const { blogDetails, isLoading, blogList } = useSelector((state) => state.shopBlog);
   const [liked, setLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
 
@@ -21,6 +21,43 @@ function BlogDetail() {
       dispatch(fetchBlogDetails(id));
     }
   }, [id, dispatch]);
+
+  // Fetch all blogs for related articles
+  useEffect(() => {
+    dispatch(fetchAllBlogs());
+  }, [dispatch]);
+
+  // Sync like count from blog data
+  useEffect(() => {
+    if (blogDetails) {
+      setLikeCount(blogDetails.likes || 0);
+      setLiked(false); // reset on new blog
+    }
+  }, [blogDetails]);
+
+  // Scroll to top when switching blogs
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [id]);
+
+  // Get related articles: same category, exclude current
+  const relatedArticles = blogList
+    ? blogList
+        .filter(
+          (b) =>
+            (b._id || b.id) !== id &&
+            b.category === blogDetails?.category
+        )
+        .slice(0, 3)
+    : [];
+
+  // If not enough in same category, fill with latest posts
+  const fallbackArticles = blogList
+    ? blogList.filter((b) => (b._id || b.id) !== id).slice(0, 3)
+    : [];
+
+  const articlesToShow =
+    relatedArticles.length > 0 ? relatedArticles : fallbackArticles;
 
   const handleShare = () => {
     if (navigator.share) {
@@ -31,7 +68,7 @@ function BlogDetail() {
       });
     } else {
       navigator.clipboard.writeText(window.location.href);
-      alert('Link copied to clipboard!');
+      alert("Link copied to clipboard!");
     }
   };
 
@@ -40,10 +77,16 @@ function BlogDetail() {
     setLikeCount(liked ? likeCount - 1 : likeCount + 1);
   };
 
-  if (isLoading) {
+  const handleRelatedClick = (article) => {
+    navigate(`/shop/blog/${article._id || article.id}`);
+  };
+
+  if (isLoading && !blogDetails) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <p className="text-xl font-semibold text-purple-600 animate-pulse">Loading blog post...</p>
+        <p className="text-xl font-semibold text-purple-600 animate-pulse">
+          Loading blog post...
+        </p>
       </div>
     );
   }
@@ -51,8 +94,12 @@ function BlogDetail() {
   if (!blogDetails) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center p-4">
-        <p className="text-xl font-semibold text-gray-600 mb-4">Blog post not found.</p>
-        <Button onClick={() => navigate('/shop/blog')} variant="outline">Back to Blog</Button>
+        <p className="text-xl font-semibold text-gray-600 mb-4">
+          Blog post not found.
+        </p>
+        <Button onClick={() => navigate("/shop/blog")} variant="outline">
+          Back to Blog
+        </Button>
       </div>
     );
   }
@@ -67,6 +114,7 @@ function BlogDetail() {
         <meta property="og:description" content={blogDetails.description} />
         <meta property="og:image" content={blogDetails.image} />
       </Helmet>
+
       {/* Hero Image */}
       <div className="relative h-[50vh] min-h-[400px] overflow-hidden">
         <img
@@ -108,12 +156,6 @@ function BlogDetail() {
                 </div>
                 <span className="font-bold">{blogDetails.date}</span>
               </div>
-              <div className="flex items-center gap-3 text-purple-900">
-                <div className="bg-purple-100 p-2 rounded-full">
-                  <Clock className="w-5 h-5 text-purple-600" />
-                </div>
-                <span className="font-bold">{blogDetails.readTime}</span>
-              </div>
               <div className="flex items-center gap-3 ml-auto">
                 <Button
                   variant="outline"
@@ -128,62 +170,102 @@ function BlogDetail() {
                   variant={liked ? "default" : "outline"}
                   size="sm"
                   onClick={handleLike}
-                  className={`rounded-full transition-all shadow-sm ${liked ? 'bg-red-500 text-white hover:bg-red-600' : 'border-purple-200 text-purple-700 hover:bg-purple-50'}`}
+                  className={`rounded-full transition-all shadow-sm ${
+                    liked
+                      ? "bg-red-500 text-white hover:bg-red-600"
+                      : "border-purple-200 text-purple-700 hover:bg-purple-50"
+                  }`}
                 >
-                  <Heart className={`w-4 h-4 mr-2 ${liked ? 'fill-current' : ''}`} />
-                  {liked ? 'Liked' : 'Like'} ({likeCount})
+                  <Heart
+                    className={`w-4 h-4 mr-2 ${liked ? "fill-current" : ""}`}
+                  />
+                  {liked ? "Liked" : "Like"} ({likeCount})
                 </Button>
               </div>
             </div>
 
             {/* Tags */}
             <div className="flex flex-wrap gap-3">
-              {blogDetails.tags && blogDetails.tags.map((tag, index) => (
-                <Badge key={index} variant="secondary" className="text-sm bg-gradient-to-r from-purple-100 to-pink-100 text-purple-900 hover:from-purple-200 hover:to-pink-200 transition-all border-none px-4 py-1 rounded-full cursor-default">
-                  <Tag className="w-3 h-3 mr-2" />
-                  {tag}
-                </Badge>
-              ))}
+              {blogDetails.tags &&
+                blogDetails.tags.map((tag, index) => (
+                  <Badge
+                    key={index}
+                    variant="secondary"
+                    className="text-sm bg-gradient-to-r from-purple-100 to-pink-100 text-purple-900 hover:from-purple-200 hover:to-pink-200 transition-all border-none px-4 py-1 rounded-full cursor-default"
+                  >
+                    <Tag className="w-3 h-3 mr-2" />
+                    {tag}
+                  </Badge>
+                ))}
             </div>
           </div>
 
           {/* Article Body */}
           <div className="bg-white/95 backdrop-blur-md rounded-3xl p-8 md:p-12 mb-12 shadow-2xl border border-purple-100/50 prose prose-lg max-w-none prose-purple prose-headings:text-purple-900 prose-p:text-gray-700 prose-strong:text-purple-800 prose-img:rounded-3xl">
-            <div 
+            <div
               className="leading-relaxed space-y-6"
-              dangerouslySetInnerHTML={{ __html: blogDetails.content.replace(/\n/g, '<br>') }} 
+              dangerouslySetInnerHTML={{
+                __html: blogDetails.content.replace(/\n/g, "<br>"),
+              }}
             />
           </div>
 
-          {/* Related Articles - Static for now */}
-          <div className="mt-20 pt-12 border-t border-purple-200">
-            <h2 className="text-3xl font-extrabold mb-10 text-purple-900 flex items-center gap-3">
-              <BookOpen className="w-8 h-8 text-purple-600" />
-              Related Articles
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <Card className="hover:shadow-2xl transition-all duration-500 cursor-pointer group border-none bg-white/80 overflow-hidden rounded-3xl">
-                <div className="relative h-48 overflow-hidden">
-                  <img
-                    src="https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=400&h=300&fit=crop"
-                    alt="Oversized T-Shirts"
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-purple-900/40 to-transparent" />
-                </div>
-                <CardContent className="p-6">
-                  <h3 className="font-bold text-lg mb-3 text-purple-900 line-clamp-2">How to Style Oversized T-Shirts</h3>
-                  <Button variant="link" className="text-purple-600 p-0 h-auto font-bold hover:text-purple-800">Read Article →</Button>
-                </CardContent>
-              </Card>
-              {/* Add more related cards as needed */}
+          {/* Related Articles */}
+          {articlesToShow.length > 0 && (
+            <div className="mt-16 pt-12 border-t border-purple-200">
+              <h2 className="text-3xl font-extrabold mb-10 text-purple-900 flex items-center gap-3">
+                <BookOpen className="w-8 h-8 text-purple-600" />
+                {relatedArticles.length > 0
+                  ? "Related Articles"
+                  : "More Articles You May Like"}
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {articlesToShow.map((article) => (
+                  <Card
+                    key={article._id || article.id}
+                    onClick={() => handleRelatedClick(article)}
+                    className="hover:shadow-2xl transition-all duration-500 cursor-pointer group border-none bg-white/80 overflow-hidden rounded-3xl"
+                  >
+                    <div className="relative h-48 overflow-hidden">
+                      <img
+                        src={
+                          article.image ||
+                          "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=300&fit=crop"
+                        }
+                        alt={article.title}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-purple-900/50 to-transparent" />
+                      <Badge className="absolute top-3 left-3 bg-white/90 text-purple-800 text-xs">
+                        {article.category}
+                      </Badge>
+                    </div>
+                    <CardContent className="p-5">
+                      <h3 className="font-bold text-base mb-2 text-purple-900 line-clamp-2 group-hover:text-purple-600 transition-colors">
+                        {article.title}
+                      </h3>
+                      <p className="text-gray-500 text-sm mb-3 line-clamp-2">
+                        {article.description}
+                      </p>
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs text-gray-400 flex items-center gap-1">
+                          <User className="w-3 h-3" /> {article.author}
+                        </span>
+                        <span className="text-purple-600 font-bold text-sm group-hover:underline">
+                          Read →
+                        </span>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Back Button */}
           <div className="mt-16 text-center">
             <Button
-              onClick={() => navigate('/shop/blog')}
+              onClick={() => navigate("/shop/blog")}
               variant="outline"
               size="lg"
               className="rounded-full flex items-center gap-3 border-purple-200 text-purple-700 hover:bg-purple-600 hover:text-white transition-all px-10 py-6 text-lg font-bold shadow-lg"
