@@ -6,11 +6,15 @@ const {
   getProductReviews,
   trackReviewView,
   voteReview,
+  getTopReviews,
 } = require("../../controllers/shop/product-review-controller");
 
 const router = express.Router();
 
-// Apply authentication middleware to all review routes
+// Public route - no auth needed (shown on homepage)
+router.get("/top", getTopReviews);
+
+// Apply authentication middleware to all other review routes
 router.use(authMiddleware);
 
 router.post("/add", addProductReview);

@@ -183,9 +183,31 @@ const getProductReviews = async (req, res) => {
   }
 };
 
+const getTopReviews = async (req, res) => {
+  try {
+    // Get up to 6 reviews with 4 or 5 stars, sorted by most recent
+    const reviews = await ProductReview.find({ reviewValue: { $gte: 4 } })
+      .sort({ createdAt: -1 })
+      .limit(6)
+      .select("userName reviewMessage reviewValue createdAt");
+
+    res.status(200).json({
+      success: true,
+      data: reviews,
+    });
+  } catch (e) {
+    console.log(e);
+    res.status(500).json({
+      success: false,
+      message: "Error fetching top reviews",
+    });
+  }
+};
+
 module.exports = { 
   addProductReview, 
   getProductReviews, 
   trackReviewView, 
-  voteReview 
+  voteReview,
+  getTopReviews
 };

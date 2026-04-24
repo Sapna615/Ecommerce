@@ -1,35 +1,47 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Calendar, Clock, User, Tag, BookOpen, Heart, Share2 } from "lucide-react";
+import { Calendar, Clock, User, Tag, BookOpen, Heart, Share2, Plus, PenTool } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
+import { useDispatch, useSelector } from "react-redux";
+import { createNewBlog, fetchAllBlogs } from "@/store/shop/blog-slice";
+import { Label } from "@/components/ui/label";
 
 function ShoppingBlog() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { blogList, isLoading } = useSelector((state) => state.shopBlog);
+  const { user, isAuthenticated } = useSelector((state) => state.auth);
   const [email, setEmail] = useState("");
   const { toast } = useToast();
-  
-  // Sample blog data
-  const featuredBlog = {
-    id: 1,
-    title: "Top T-Shirt Trends in 2026",
-    description: "Discover the hottest t-shirt trends dominating the fashion scene this year. From oversized fits to sustainable materials, learn what's making waves in casual fashion.",
-    image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800&h=400&fit=crop",
-    author: "Fashion Editor",
-    date: "April 12, 2026",
-    readTime: "5 min read",
-    category: "T-Shirts"
+
+  useEffect(() => {
+    dispatch(fetchAllBlogs());
+  }, [dispatch]);
+
+  const handleCreateBlog = (e) => {
+    e.preventDefault();
+    if (!isAuthenticated) {
+      toast({
+        title: "Login Required",
+        description: "Please login to write a blog post.",
+        variant: "destructive",
+      });
+      return;
+    }
+    navigate('/shop/write-blog');
   };
 
-  const blogPosts = [
+  // Sample fallback data if list is empty
+  const defaultBlogPosts = [
     {
       id: 2,
       title: "How to Style Oversized T-Shirts",
       description: "Master the art of wearing oversized t-shirts with our comprehensive styling guide. Learn how to balance proportions and create effortlessly cool looks.",
       image: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=400&h=300&fit=crop",
-      author: "Style Expert",
+      author: "Sapna Rai",
       date: "April 10, 2026",
       readTime: "4 min read",
       category: "Fashion Tips"
@@ -39,56 +51,20 @@ function ShoppingBlog() {
       title: "Best T-Shirts for Summer",
       description: "Stay cool and stylish this summer with our curated selection of the best t-shirts. From classic cotton to modern blends, find the perfect tee for hot weather.",
       image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=300&fit=crop",
-      author: "Summer Fashion",
+      author: "Sapna Rai",
       date: "April 8, 2026",
       readTime: "6 min read",
       category: "T-Shirts"
-    },
-    {
-      id: 4,
-      title: "Casual Outfit Ideas",
-      description: "Transform your everyday look with these simple yet effective casual outfit combinations. Perfect for work, weekends, and everything in between.",
-      image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=400&h=300&fit=crop",
-      author: "Lifestyle Editor",
-      date: "April 5, 2026",
-      readTime: "3 min read",
-      category: "Casual Wear"
-    },
-    {
-      id: 5,
-      title: "Men vs Women Fashion Trends",
-      description: "Explore the key differences and similarities in current men's and women's fashion trends. Find your perfect style inspiration.",
-      image: "https://images.unsplash.com/photo-1483985988355-763728e1935b?w=400&h=300&fit=crop",
-      author: "Trend Analyst",
-      date: "April 2, 2026",
-      readTime: "7 min read",
-      category: "Fashion Tips"
-    },
-    {
-      id: 6,
-      title: "How to Choose Perfect Fit",
-      description: "Never buy the wrong size again! Our complete guide to finding the perfect fit for your body type and style preferences.",
-      image: "https://images.unsplash.com/photo-1445205170230-053b83016050?w=400&h=300&fit=crop",
-      author: "Fit Specialist",
-      date: "March 30, 2026",
-      readTime: "5 min read",
-      category: "T-Shirt Care"
-    },
-    {
-      id: 7,
-      title: "T-Shirt Materials Guide",
-      description: "From cotton to bamboo, learn about different t-shirt materials and find the perfect fabric for your lifestyle and comfort needs.",
-      image: "https://images.unsplash.com/photo-1558171813-4c088753af8f?w=400&h=300&fit=crop",
-      author: "Material Expert",
-      date: "March 28, 2026",
-      readTime: "6 min read",
-      category: "T-Shirt Materials"
     }
   ];
 
+  const currentBlogPosts = blogList && blogList.length > 0 ? blogList : defaultBlogPosts;
+  const featuredBlog = currentBlogPosts[0];
+  const otherPosts = currentBlogPosts.slice(1);
+
   const categories = [
     { name: "T-Shirt Styles", count: 12, icon: "👕" },
-    { name: "T-Shirt Materials", count: 8, icon: "�" },
+    { name: "T-Shirt Materials", count: 8, icon: "🧵" },
     { name: "T-Shirt Trends", count: 15, icon: "✨" },
     { name: "T-Shirt Care", count: 6, icon: "🧺" }
   ];
@@ -102,23 +78,10 @@ function ShoppingBlog() {
       });
       return;
     }
-
-    if (!email.includes('@') || !email.includes('.')) {
-      toast({
-        title: "Invalid Email",
-        description: "Please enter a valid email address.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    // Simulate subscription API call
     toast({
       title: "Successfully Subscribed!",
-      description: `Thank you for subscribing with ${email}. You'll receive our latest fashion updates soon.`,
+      description: `Thank you for subscribing with ${email}.`,
     });
-    
-    // Clear the email input
     setEmail("");
   };
 
@@ -128,65 +91,78 @@ function ShoppingBlog() {
       <section className="relative bg-gradient-to-r from-purple-600 to-pink-600 text-white py-20">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-5xl font-bold mb-4">Fashion Blog</h1>
-          <p className="text-xl max-w-2xl mx-auto">
+          <p className="text-xl max-w-2xl mx-auto mb-8">
             Latest trends, tips, and styling ideas
           </p>
+          {isAuthenticated && (
+            <Button 
+              onClick={handleCreateBlog}
+              className="bg-white text-purple-600 hover:bg-gray-100 font-bold px-8 py-6 rounded-full shadow-lg flex items-center gap-2 mx-auto"
+            >
+              <PenTool className="w-5 h-5" />
+              Write a Blog Post
+            </Button>
+          )}
         </div>
       </section>
 
       {/* Featured Blog */}
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-12 text-gray-900">Featured Article</h2>
-          <Card className="overflow-hidden hover:shadow-xl transition-shadow duration-300">
-            <div className="md:flex">
-              <div className="md:w-1/2">
-                <img
-                  src={featuredBlog.image}
-                  alt={featuredBlog.title}
-                  className="w-full h-64 md:h-full object-cover"
-                />
-              </div>
-              <div className="md:w-1/2 p-8">
-                <div className="flex items-center gap-2 mb-4">
-                  <Badge className="bg-purple-100 text-purple-800">
-                    {featuredBlog.category}
-                  </Badge>
-                  <div className="flex items-center gap-1 text-sm text-gray-500">
-                    <Calendar className="w-4 h-4" />
-                    {featuredBlog.date}
-                  </div>
+      {featuredBlog && (
+        <section className="py-16 bg-white">
+          <div className="container mx-auto px-4">
+            <h2 className="text-3xl font-bold text-center mb-12 text-gray-900">Featured Article</h2>
+            <Card className="overflow-hidden hover:shadow-xl transition-shadow duration-300">
+              <div className="md:flex">
+                <div className="md:w-1/2">
+                  <img
+                    src={featuredBlog.image}
+                    alt={featuredBlog.title}
+                    className="w-full h-64 md:h-full object-cover"
+                  />
                 </div>
-                <h3 className="text-2xl font-bold mb-4 text-gray-900">
-                  {featuredBlog.title}
-                </h3>
-                <p className="text-gray-600 mb-6 leading-relaxed">
-                  {featuredBlog.description}
-                </p>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-4 text-sm text-gray-500">
-                    <div className="flex items-center gap-1">
-                      <User className="w-4 h-4" />
-                      {featuredBlog.author}
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <Clock className="w-4 h-4" />
-                      {featuredBlog.readTime}
+                <div className="md:w-1/2 p-8">
+                  <div className="flex items-center gap-2 mb-4">
+                    <Badge className="bg-purple-100 text-purple-800">
+                      {featuredBlog.category}
+                    </Badge>
+                    <div className="flex items-center gap-1 text-sm text-gray-500">
+                      <Calendar className="w-4 h-4" />
+                      {featuredBlog.date}
                     </div>
                   </div>
-                  
-                  <Button 
-                    className="bg-purple-600 hover:bg-purple-700"
-                    onClick={() => navigate(`/shop/blog/${featuredBlog.id}`)}
-                  >
-                    Read More
-                  </Button>
+                  <h3 className="text-2xl font-bold mb-4 text-gray-900">
+                    {featuredBlog.title}
+                  </h3>
+                  <p className="text-gray-600 mb-6 leading-relaxed">
+                    {featuredBlog.description?.length > 200 
+                      ? `${featuredBlog.description.substring(0, 200)}...` 
+                      : featuredBlog.description}
+                  </p>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-4 text-sm text-gray-500">
+                      <div className="flex items-center gap-1">
+                        <User className="w-4 h-4" />
+                        {featuredBlog.author}
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <Clock className="w-4 h-4" />
+                        {featuredBlog.readTime}
+                      </div>
+                    </div>
+                    
+                    <Button 
+                      className="bg-purple-600 hover:bg-purple-700"
+                      onClick={() => navigate(`/shop/blog/${featuredBlog._id || featuredBlog.id}`)}
+                    >
+                      Read More
+                    </Button>
+                  </div>
                 </div>
               </div>
-            </div>
-          </Card>
-        </div>
-      </section>
+            </Card>
+          </div>
+        </section>
+      )}
 
       {/* Categories Section */}
       <section className="py-16 bg-gray-50">
@@ -215,8 +191,8 @@ function ShoppingBlog() {
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-12 text-gray-900">Latest Articles</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {blogPosts.map((post) => (
-              <Card key={post.id} className="overflow-hidden hover:shadow-lg transition-shadow duration-300 group">
+            {otherPosts.map((post) => (
+              <Card key={post._id || post.id} className="overflow-hidden hover:shadow-lg transition-shadow duration-300 group">
                 <div className="relative">
                   <img
                     src={post.image}
@@ -241,7 +217,9 @@ function ShoppingBlog() {
                     {post.title}
                   </h3>
                   <p className="text-gray-600 mb-4 line-clamp-3">
-                    {post.description}
+                    {post.description?.length > 150 
+                      ? `${post.description.substring(0, 150)}...` 
+                      : post.description}
                   </p>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3 text-sm text-gray-500">
@@ -254,7 +232,7 @@ function ShoppingBlog() {
                       variant="outline" 
                       size="sm"
                       className="hover:bg-purple-600 hover:text-white transition-colors"
-                      onClick={() => navigate(`/shop/blog/${post.id}`)}
+                      onClick={() => navigate(`/shop/blog/${post._id || post.id}`)}
                     >
                       Read More
                     </Button>
