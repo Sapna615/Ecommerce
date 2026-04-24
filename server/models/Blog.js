@@ -3,9 +3,7 @@ const mongoose = require("mongoose");
 const BlogSchema = new mongoose.Schema(
   {
     userId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-      required: true,
+      type: String,
     },
     title: {
       type: String,
@@ -50,6 +48,10 @@ const BlogSchema = new mongoose.Schema(
     likes: {
       type: Number,
       default: 0,
+    },
+    likedBy: {
+      type: [String],
+      default: [],
     },
   },
   { timestamps: true }

@@ -4,6 +4,7 @@ const {
   createBlog,
   fetchAllBlogs,
   getBlogDetails,
+  likeBlog,
 } = require("../../controllers/shop/blog-controller");
 
 const { upload, imageUploadUtil } = require("../../helpers/cloudinary");
@@ -35,6 +36,7 @@ const router = express.Router();
 router.post("/create", createBlog);
 router.get("/get", fetchAllBlogs);
 router.get("/get/:id", getBlogDetails);
+router.post("/like/:id", likeBlog);
 
 router.post("/upload-image", upload.single("my_file"), async (req, res) => {
   try {

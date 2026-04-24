@@ -5,7 +5,7 @@ import { Calendar, Clock, User, Tag, ArrowLeft, Share2, Heart, BookOpen } from "
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchBlogDetails, fetchAllBlogs } from "@/store/shop/blog-slice";
+import { fetchBlogDetails, fetchAllBlogs, likeBlog } from "@/store/shop/blog-slice";
 import { Helmet } from "react-helmet-async";
 
 function BlogDetail() {
@@ -13,6 +13,7 @@ function BlogDetail() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { blogDetails, isLoading, blogList } = useSelector((state) => state.shopBlog);
+  const { user } = useSelector((state) => state.auth);
   const [liked, setLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
 
@@ -27,13 +28,19 @@ function BlogDetail() {
     dispatch(fetchAllBlogs());
   }, [dispatch]);
 
-  // Sync like count from blog data
+  // Sync like count from blog data and restore liked state
   useEffect(() => {
     if (blogDetails) {
       setLikeCount(blogDetails.likes || 0);
-      setLiked(false); // reset on new blog
+      // Get this user's ID or guest session ID
+      const userId = user?.id || localStorage.getItem("guestId");
+      if (userId && blogDetails.likedBy) {
+        setLiked(blogDetails.likedBy.includes(userId));
+      } else {
+        setLiked(false);
+      }
     }
-  }, [blogDetails]);
+  }, [blogDetails, user]);
 
   // Scroll to top when switching blogs
   useEffect(() => {
@@ -73,8 +80,29 @@ function BlogDetail() {
   };
 
   const handleLike = () => {
-    setLiked(!liked);
-    setLikeCount(liked ? likeCount - 1 : likeCount + 1);
+    // Get user ID or generate a guest session ID
+    const userId = user?.id || localStorage.getItem("guestId") || (() => {
+      const id = `guest_${Date.now()}`;
+      localStorage.setItem("guestId", id);
+      return id;
+    })();
+
+    // Optimistic UI update
+    const newLiked = !liked;
+    setLiked(newLiked);
+    setLikeCount((prev) => (newLiked ? prev + 1 : Math.max(0, prev - 1)));
+
+    // Save to database
+    dispatch(likeBlog({ id, userId })).then((res) => {
+      if (res?.payload?.success) {
+        setLikeCount(res.payload.data.likes);
+        setLiked(res.payload.data.liked);
+      } else {
+        // Revert on failure
+        setLiked(!newLiked);
+        setLikeCount((prev) => (newLiked ? prev - 1 : prev + 1));
+      }
+    });
   };
 
   const handleRelatedClick = (article) => {

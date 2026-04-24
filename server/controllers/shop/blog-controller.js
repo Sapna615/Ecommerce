@@ -74,4 +74,44 @@ const getBlogDetails = async (req, res) => {
   }
 };
 
-module.exports = { createBlog, fetchAllBlogs, getBlogDetails };
+const likeBlog = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { userId } = req.body;
+
+    const blog = await Blog.findById(id);
+    if (!blog) {
+      return res.status(404).json({ success: false, message: "Blog not found" });
+    }
+
+    // Track likedBy as an array of userIds (or session IDs for guests)
+    if (!blog.likedBy) blog.likedBy = [];
+
+    const alreadyLiked = blog.likedBy.includes(userId);
+
+    if (alreadyLiked) {
+      // Unlike
+      blog.likedBy = blog.likedBy.filter((uid) => uid !== userId);
+      blog.likes = Math.max(0, (blog.likes || 1) - 1);
+    } else {
+      // Like
+      blog.likedBy.push(userId);
+      blog.likes = (blog.likes || 0) + 1;
+    }
+
+    await blog.save();
+
+    res.status(200).json({
+      success: true,
+      data: {
+        likes: blog.likes,
+        liked: !alreadyLiked,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, message: "Error updating like" });
+  }
+};
+
+module.exports = { createBlog, fetchAllBlogs, getBlogDetails, likeBlog };

@@ -31,6 +31,14 @@ export const fetchBlogDetails = createAsyncThunk(
   }
 );
 
+export const likeBlog = createAsyncThunk(
+  "/blog/likeBlog",
+  async ({ id, userId }) => {
+    const result = await api.post(`/shop/blog/like/${id}`, { userId });
+    return result?.data;
+  }
+);
+
 const shoppingBlogSlice = createSlice({
   name: "shoppingBlog",
   initialState,
