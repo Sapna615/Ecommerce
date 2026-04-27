@@ -2,9 +2,9 @@ import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 
 // Optimized t-shirt related banner images
-const bannerOne = optimizeUnsplashUrl("https://images.unsplash.com/photo-1521572163474-6864f9cf17ab", { width: 1280, height: 600 });
-const bannerTwo = optimizeUnsplashUrl("https://images.unsplash.com/photo-1515886657613-9f3515b0c78f", { width: 1280, height: 600 });
-const bannerThree = optimizeUnsplashUrl("https://images.unsplash.com/photo-1556909114-f6e7ad7d3136", { width: 1280, height: 600 });
+const bannerOne = optimizeUnsplashUrl("https://images.unsplash.com/photo-1521572163474-6864f9cf17ab", { width: 1024, height: 500 });
+const bannerTwo = optimizeUnsplashUrl("https://images.unsplash.com/photo-1515886657613-9f3515b0c78f", { width: 1024, height: 500 });
+const bannerThree = optimizeUnsplashUrl("https://images.unsplash.com/photo-1556909114-f6e7ad7d3136", { width: 1024, height: 500 });
 import { optimizeUnsplashUrl } from "@/utils/image-utils";
 import { Helmet } from "react-helmet-async";
 import Airplay from "lucide-react/dist/esm/icons/airplay";
