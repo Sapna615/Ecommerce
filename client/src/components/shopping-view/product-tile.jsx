@@ -8,6 +8,7 @@ import { addToWishlist, fetchWishlistItems, removeFromWishlist } from "@/store/s
 import { useToast } from "../ui/use-toast";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { optimizeUnsplashUrl } from "@/utils/image-utils";
 import PriceDisplay from "../ui/price-display";
 
 function ShoppingProductTile({
@@ -67,10 +68,11 @@ function ShoppingProductTile({
       <div onClick={() => handleGetProductDetails(product?._id)}>
         <div className="relative">
           <img
-            src={product?.image}
+            src={optimizeUnsplashUrl(product?.image, { width: 400, height: 300 })}
             alt={`StyleTee Hub ${categoryOptionsMap[product?.category]} - ${product?.title}`}
             title={`${product?.title} | StyleTee Hub`}
-            className="w-full h-[300px] object-cover rounded-t-lg"
+            className="w-full h-[300px] object-cover rounded-t-lg transition-transform duration-300 hover:scale-105"
+            loading="lazy"
           />
           {product?.totalStock === 0 ? (
             <Badge className="absolute top-2 left-2 bg-red-500 hover:bg-red-600">

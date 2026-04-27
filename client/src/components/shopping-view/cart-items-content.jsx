@@ -261,6 +261,7 @@ function UserCartItemsContent({ cartItem }) {
                   handleCartItemDelete(cartItem);
                 }}
                 className="text-red-500 hover:text-red-700 hover:bg-red-50 p-2"
+                aria-label="Remove item"
               >
                 <X className="w-4 h-4" />
               </Button>

@@ -18,6 +18,7 @@ import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { Heart, ShoppingCart, ThumbsUp, Eye } from "lucide-react";
 import PriceDisplay from "../ui/price-display";
 import { useNavigate } from "react-router-dom";
+import { optimizeUnsplashUrl } from "@/utils/image-utils";
 
 function ProductDetailsDialog({ open, setOpen, productDetails, isAdmin = false }) {
   const [reviewMsg, setReviewMsg] = useState("");
@@ -119,35 +120,35 @@ function ProductDetailsDialog({ open, setOpen, productDetails, isAdmin = false }
         : new Map(Object.entries(productDetails.additionalImages));
       
       if (imageMap.has(color)) {
-        return imageMap.get(color);
+        return optimizeUnsplashUrl(imageMap.get(color), { width: 600, height: 600 });
       }
     }
     
     // Generate different image URLs based on color with more variety
     const colorMap = {
-      'white': 'https://images.unsplash.com/photo-1521572163474-6864f9a17a2?w=600&h=600&fit=crop',
-      'black': 'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=600&h=600&fit=crop',
-      'gray': 'https://images.unsplash.com/photo-1544967703-9b440e98846d?w=600&h=600&fit=crop',
-      'navy': 'https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=600&h=600&fit=crop',
-      'red': 'https://images.unsplash.com/photo-1515372039744-b8e02a0ae9c4?w=600&h=600&fit=crop',
-      'blue': 'https://images.unsplash.com/photo-1586790170809-24f86b3f5a3a?w=600&h=600&fit=crop',
-      'green': 'https://images.unsplash.com/photo-1586790170809-24f86b3f5a3a?w=600&h=600&fit=crop',
-      'brown': 'https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=600&h=600&fit=crop',
-      'olive': 'https://images.unsplash.com/photo-1558769132-cb1aea45c1e5?w=600&h=600&fit=crop',
-      'pink': 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600&h=600&fit=crop',
-      'yellow': 'https://images.unsplash.com/photo-1518791841217-8f0786564d87?w=600&h=600&fit=crop',
-      'purple': 'https://images.unsplash.com/photo-1490481654255-9adc37849c24?w=600&h=600&fit=crop',
-      'orange': 'https://images.unsplash.com/photo-1608178398316-35a2638b3e8c?w=600&h=600&fit=crop',
-      'beige': 'https://images.unsplash.com/photo-1528459801416-a9e53bbf4e17?w=600&h=600&fit=crop',
-      'cream': 'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=600&h=600&fit=crop',
-      'maroon': 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&h=600&fit=crop',
-      'teal': 'https://images.unsplash.com/photo-1558806315-4186113534ce?w=600&h=600&fit=crop',
-      'burgundy': 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&h=600&fit=crop',
-      'charcoal': 'https://images.unsplash.com/photo-1544967703-9b440e98846d?w=600&h=600&fit=crop',
-      'khaki': 'https://images.unsplash.com/photo-1558806315-4186113534ce?w=600&h=600&fit=crop'
+      'white': optimizeUnsplashUrl('https://images.unsplash.com/photo-1521572163474-6864f9a17a2', { width: 600, height: 600 }),
+      'black': optimizeUnsplashUrl('https://images.unsplash.com/photo-1596755094514-f87e34085b2c', { width: 600, height: 600 }),
+      'gray': optimizeUnsplashUrl('https://images.unsplash.com/photo-1544967703-9b440e98846d', { width: 600, height: 600 }),
+      'navy': optimizeUnsplashUrl('https://images.unsplash.com/photo-1576566588028-4147f3842f27', { width: 600, height: 600 }),
+      'red': optimizeUnsplashUrl('https://images.unsplash.com/photo-1515372039744-b8e02a0ae9c4', { width: 600, height: 600 }),
+      'blue': optimizeUnsplashUrl('https://images.unsplash.com/photo-1586790170809-24f86b3f5a3a', { width: 600, height: 600 }),
+      'green': optimizeUnsplashUrl('https://images.unsplash.com/photo-1586790170809-24f86b3f5a3a', { width: 600, height: 600 }),
+      'brown': optimizeUnsplashUrl('https://images.unsplash.com/photo-1576566588028-4147f3842f27', { width: 600, height: 600 }),
+      'olive': optimizeUnsplashUrl('https://images.unsplash.com/photo-1554568218-0f1715e72254', { width: 600, height: 600 }),
+      'pink': optimizeUnsplashUrl('https://images.unsplash.com/photo-1515886657613-9f3515b0c78f', { width: 600, height: 600 }),
+      'yellow': optimizeUnsplashUrl('https://images.unsplash.com/photo-1518791841217-8f0786564d87', { width: 600, height: 600 }),
+      'purple': optimizeUnsplashUrl('https://images.unsplash.com/photo-1490481654255-9adc37849c24', { width: 600, height: 600 }),
+      'orange': optimizeUnsplashUrl('https://images.unsplash.com/photo-1608178398316-35a2638b3e8c', { width: 600, height: 600 }),
+      'beige': optimizeUnsplashUrl('https://images.unsplash.com/photo-1528459801416-a9e53bbf4e17', { width: 600, height: 600 }),
+      'cream': optimizeUnsplashUrl('https://images.unsplash.com/photo-1594633312681-425c7b97ccd1', { width: 600, height: 600 }),
+      'maroon': optimizeUnsplashUrl('https://images.unsplash.com/photo-1578662996442-48f60103fc96', { width: 600, height: 600 }),
+      'teal': optimizeUnsplashUrl('https://images.unsplash.com/photo-1558806315-4186113534ce', { width: 600, height: 600 }),
+      'burgundy': optimizeUnsplashUrl('https://images.unsplash.com/photo-1578662996442-48f60103fc96', { width: 600, height: 600 }),
+      'charcoal': optimizeUnsplashUrl('https://images.unsplash.com/photo-1544967703-9b440e98846d', { width: 600, height: 600 }),
+      'khaki': optimizeUnsplashUrl('https://images.unsplash.com/photo-1558806315-4186113534ce', { width: 600, height: 600 })
     };
     
-    const selectedImage = colorMap[color] || baseImage || '/placeholder.png';
+    const selectedImage = colorMap[color] || optimizeUnsplashUrl(baseImage, { width: 600, height: 600 }) || '/placeholder.png';
     return selectedImage;
   };
 
@@ -489,6 +490,7 @@ function ProductDetailsDialog({ open, setOpen, productDetails, isAdmin = false }
                 src={getColorImage(productDetails?.image, selectedColor)}
                 alt={`${productDetails?.title} in ${selectedColor}`}
                 className="w-full aspect-square object-cover transition-all duration-300"
+                loading="lazy"
                 onError={(e) => {
                   e.target.src = '/placeholder.png';
                 }}

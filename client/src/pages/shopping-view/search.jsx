@@ -17,39 +17,40 @@ import { useDispatch, useSelector } from "react-redux";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { Search, Filter, Grid, List, TrendingUp, Star, Heart, ShoppingCart } from "lucide-react";
 import { Helmet } from "react-helmet-async";
+import { optimizeImageUrl } from "@/utils/image-utils";
 
 // Sample enhanced data for better search experience
 const featuredCategories = [
   {
     id: "mens",
     name: "Men Collection",
-    image: "https://images.unsplash.com/photo-1521312168218-9c463f5c17f5?w=300&h=200&fit=crop",
+    image: optimizeImageUrl("https://images.unsplash.com/photo-1521312168218-9c463f5c17f5", { width: 300, height: 200 }),
     productCount: 20,
     trending: true
   },
   {
     id: "womens",
     name: "Women Collection",
-    image: "https://images.unsplash.com/photo-1495385794356-15371f317c33?w=300&h=200&fit=crop",
+    image: optimizeImageUrl("https://images.unsplash.com/photo-1495385794356-15371f317c33", { width: 300, height: 200 }),
     productCount: 20,
     trending: true
   },
   {
     id: "kids",
     name: "Kid Collection",
-    image: "https://images.unsplash.com/photo-1515934751635-c81c6b9343cd?w=300&h=200&fit=crop",
+    image: optimizeImageUrl("https://images.unsplash.com/photo-1515934751635-c81c6b9343cd", { width: 300, height: 200 }),
     productCount: 20,
     trending: false
   },
 ];
 
 const popularBrands = [
-  { name: "StyleHub", productCount: 4, image: "https://images.pexels.com/photos/9558588/pexels-photo-9558588.jpeg" },
-  { name: "UrbanWear", productCount: 3, image: "https://images.pexels.com/photos/9558588/pexels-photo-9558588.jpeg" },
-  { name: "FashionLine", productCount: 2, image: "https://images.pexels.com/photos/8217291/pexels-photo-8217291.jpeg" },
-  { name: "Cozy", productCount: 3, image: "https://images.pexels.com/photos/5483638/pexels-photo-5483638.jpeg" },
-  { name: "TrendyGirl", productCount: 2, image: "https://images.pexels.com/photos/8217291/pexels-photo-8217291.jpeg" },
-  { name: "Joy", productCount: 2, image: "https://images.pexels.com/photos/32071161/pexels-photo-32071161.jpeg" }
+  { name: "StyleHub", productCount: 4, image: optimizeImageUrl("https://images.pexels.com/photos/9558588/pexels-photo-9558588.jpeg", { width: 100, height: 100 }) },
+  { name: "UrbanWear", productCount: 3, image: optimizeImageUrl("https://images.pexels.com/photos/9558588/pexels-photo-9558588.jpeg", { width: 100, height: 100 }) },
+  { name: "FashionLine", productCount: 2, image: optimizeImageUrl("https://images.pexels.com/photos/8217291/pexels-photo-8217291.jpeg", { width: 100, height: 100 }) },
+  { name: "Cozy", productCount: 3, image: optimizeImageUrl("https://images.pexels.com/photos/5483638/pexels-photo-5483638.jpeg", { width: 100, height: 100 }) },
+  { name: "TrendyGirl", productCount: 2, image: optimizeImageUrl("https://images.pexels.com/photos/8217291/pexels-photo-8217291.jpeg", { width: 100, height: 100 }) },
+  { name: "Joy", productCount: 2, image: optimizeImageUrl("https://images.pexels.com/photos/32071161/pexels-photo-32071161.jpeg", { width: 100, height: 100 }) }
 ];
 
 const searchFilters = [
@@ -191,6 +192,7 @@ function SearchProducts() {
                   size="sm"
                   onClick={() => setViewMode("grid")}
                   className="rounded-r-none"
+                  aria-label="Grid view"
                 >
                   <Grid className="w-4 h-4" />
                 </Button>
@@ -199,6 +201,7 @@ function SearchProducts() {
                   size="sm"
                   onClick={() => setViewMode("list")}
                   className="rounded-l-none"
+                  aria-label="List view"
                 >
                   <List className="w-4 h-4" />
                 </Button>

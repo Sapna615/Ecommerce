@@ -9,6 +9,7 @@ import { useLocation } from "react-router-dom";
 import { checkAuth } from "./store/auth-slice";
 import { Skeleton } from "@/components/ui/skeleton";
 import CheckAuth from "./components/common/check-auth";
+import { LazyMotion, domAnimation } from "framer-motion";
 
 // Lazy imports for Auth
 const AuthLayout = lazy(() => import("./components/auth/layout"));
@@ -78,65 +79,67 @@ function App() {
 
   return (
     <div className="flex flex-col overflow-hidden bg-white">
-      <Suspense fallback={<Skeleton className="w-full h-[600px] bg-slate-100" />}>
-        <Routes>
-          <Route
-            path="/"
-            element={<Navigate to="/shop/home" replace />}
-          />
-          <Route
-            path="/auth"
-            element={<AuthLayout />}
-          >
-            <Route path="login" element={<AuthLogin />} />
-            <Route path="register" element={<AuthRegister />} />
-            <Route path="forgot-password" element={<AuthForgotPassword />} />
-            <Route path="reset-password" element={<AuthResetPassword />} />
-            <Route path="verify-email" element={<AuthVerifyEmail />} />
-          </Route>
-          <Route
-            path="/admin"
-            element={<AdminLayout />}
-          >
-            <Route path="dashboard" element={<AdminDashboard />} />
-            <Route path="products" element={<AdminProducts />} />
-            <Route path="orders" element={<AdminOrders />} />
-            <Route path="contact" element={<AdminContactMessages />} />
-            <Route path="features" element={<AdminFeatures />} />
-            <Route path="shopping" element={<AdminShoppingView />} />
-          </Route>
-          <Route
-            path="/shop"
-            element={
-              <CheckAuth isAuthenticated={isAuthenticated} user={user}>
-                <ShoppingLayout />
-              </CheckAuth>
-            }
-          >
-            <Route path="home" element={<ShoppingHome />} />
-            <Route path="listing" element={<ShoppingListing />} />
-            <Route path="mens" element={<MensShopping />} />
-            <Route path="womens" element={<WomensShopping />} />
-            <Route path="kids" element={<KidsShopping />} />
-            <Route path="checkout" element={<ShoppingCheckout />} />
-            <Route path="account" element={<ShoppingAccount />} />
-            <Route path="wishlist" element={<ShoppingWishlist />} />
-            <Route path="paypal-return" element={<PaypalReturnPage />} />
-            <Route path="payment-success" element={<PaymentSuccessPage />} />
-            <Route path="search" element={<SearchProducts />} />
-            <Route path="contact" element={<ContactUs />} />
-            <Route path="about" element={<AboutUs />} />
-            <Route path="blog" element={<ShoppingBlog />} />
-            <Route path="blog/:id" element={<BlogDetail />} />
-            <Route path="write-blog" element={<WriteBlog />} />
-            <Route path="faq" element={<FAQ />} />
-            <Route path="returns" element={<ReturnPolicy />} />
-            <Route path="shipping" element={<ShippingInfo />} />
-          </Route>
-          <Route path="/unauth-page" element={<UnauthPage />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </Suspense>
+      <LazyMotion features={domAnimation}>
+        <Suspense fallback={<Skeleton className="w-full h-[600px] bg-slate-100" />}>
+          <Routes>
+            <Route
+              path="/"
+              element={<Navigate to="/shop/home" replace />}
+            />
+            <Route
+              path="/auth"
+              element={<AuthLayout />}
+            >
+              <Route path="login" element={<AuthLogin />} />
+              <Route path="register" element={<AuthRegister />} />
+              <Route path="forgot-password" element={<AuthForgotPassword />} />
+              <Route path="reset-password" element={<AuthResetPassword />} />
+              <Route path="verify-email" element={<AuthVerifyEmail />} />
+            </Route>
+            <Route
+              path="/admin"
+              element={<AdminLayout />}
+            >
+              <Route path="dashboard" element={<AdminDashboard />} />
+              <Route path="products" element={<AdminProducts />} />
+              <Route path="orders" element={<AdminOrders />} />
+              <Route path="contact" element={<AdminContactMessages />} />
+              <Route path="features" element={<AdminFeatures />} />
+              <Route path="shopping" element={<AdminShoppingView />} />
+            </Route>
+            <Route
+              path="/shop"
+              element={
+                <CheckAuth isAuthenticated={isAuthenticated} user={user}>
+                  <ShoppingLayout />
+                </CheckAuth>
+              }
+            >
+              <Route path="home" element={<ShoppingHome />} />
+              <Route path="listing" element={<ShoppingListing />} />
+              <Route path="mens" element={<MensShopping />} />
+              <Route path="womens" element={<WomensShopping />} />
+              <Route path="kids" element={<KidsShopping />} />
+              <Route path="checkout" element={<ShoppingCheckout />} />
+              <Route path="account" element={<ShoppingAccount />} />
+              <Route path="wishlist" element={<ShoppingWishlist />} />
+              <Route path="paypal-return" element={<PaypalReturnPage />} />
+              <Route path="payment-success" element={<PaymentSuccessPage />} />
+              <Route path="search" element={<SearchProducts />} />
+              <Route path="contact" element={<ContactUs />} />
+              <Route path="about" element={<AboutUs />} />
+              <Route path="blog" element={<ShoppingBlog />} />
+              <Route path="blog/:id" element={<BlogDetail />} />
+              <Route path="write-blog" element={<WriteBlog />} />
+              <Route path="faq" element={<FAQ />} />
+              <Route path="returns" element={<ReturnPolicy />} />
+              <Route path="shipping" element={<ShippingInfo />} />
+            </Route>
+            <Route path="/unauth-page" element={<UnauthPage />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Suspense>
+      </LazyMotion>
     </div>
   );
 }

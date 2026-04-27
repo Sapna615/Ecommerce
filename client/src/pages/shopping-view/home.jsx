@@ -1,10 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 
-// Static t-shirt related banner images
-const bannerOne = "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=1280&h=600&fit=crop&crop=center&q=80";
-const bannerTwo = "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=1280&h=600&fit=crop&crop=center&q=80";
-const bannerThree = "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1280&h=600&fit=crop&crop=center&q=80";
+// Optimized t-shirt related banner images
+const bannerOne = optimizeUnsplashUrl("https://images.unsplash.com/photo-1521572163474-6864f9cf17ab", { width: 1280, height: 600 });
+const bannerTwo = optimizeUnsplashUrl("https://images.unsplash.com/photo-1515886657613-9f3515b0c78f", { width: 1280, height: 600 });
+const bannerThree = optimizeUnsplashUrl("https://images.unsplash.com/photo-1556909114-f6e7ad7d3136", { width: 1280, height: 600 });
+import { optimizeUnsplashUrl } from "@/utils/image-utils";
 import { Helmet } from "react-helmet-async";
 import {
   Airplay,
@@ -235,6 +236,8 @@ function ShoppingHome() {
               alt={`StyleTee Hub Fashion Banner - ${index === 0 ? "Men's Collection" : index === 1 ? "Summer Trends" : "Kids Favorites"}`}
               title={`StyleTee Hub - Premium Fashion Apparel`}
               className="w-full h-full object-cover"
+              loading={index === 0 ? "eager" : "lazy"}
+              fetchPriority={index === 0 ? "high" : "low"}
             />
             {/* Text Overlay */}
             <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
