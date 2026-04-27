@@ -20,23 +20,24 @@ export default defineConfig({
       output: {
         manualChunks(id) {
           if (id.includes('node_modules')) {
-            if (id.includes('react') || id.includes('react-dom') || id.includes('react-router')) {
-              return 'vendor-core';
+            // Group all core dependencies together to avoid hook errors
+            if (
+              id.includes('react') || 
+              id.includes('react-dom') || 
+              id.includes('react-router') ||
+              id.includes('react-redux') ||
+              id.includes('@reduxjs/toolkit') ||
+              id.includes('framer-motion') ||
+              id.includes('@radix-ui') ||
+              id.includes('lucide-react')
+            ) {
+              return 'vendor-main';
             }
-            if (id.includes('framer-motion')) {
-              return 'vendor-framer';
-            }
-            if (id.includes('lucide-react')) {
-              return 'vendor-ui-icons';
-            }
-            if (id.includes('@radix-ui')) {
-              return 'vendor-ui-components';
-            }
-            return 'vendor-others';
+            return 'vendor-lib';
           }
         }
       }
     },
-    chunkSizeWarningLimit: 1000,
+    chunkSizeWarningLimit: 1500,
   }
 });
