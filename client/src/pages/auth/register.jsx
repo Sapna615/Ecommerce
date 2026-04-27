@@ -28,12 +28,10 @@ function AuthRegister() {
 
   function onSubmit(event) {
     event.preventDefault();
-    console.log("Registration form submitted:", formData);
 
     if (isLoading) return; // Prevent multiple submissions
 
     dispatch(registerUser(formData)).then((data) => {
-      console.log("Registration response:", data);
       
       if (data?.payload?.success) {
         toast({
@@ -58,7 +56,6 @@ function AuthRegister() {
           });
         }
         
-        console.log("Registration successful, navigating to login");
         navigate("/auth/login");
       } else {
         toast({
@@ -66,10 +63,8 @@ function AuthRegister() {
           description: data?.payload?.message,
           variant: "destructive",
         });
-        console.log("Registration failed:", data?.payload?.message);
       }
     }).catch((error) => {
-      console.log("Registration error:", error);
       toast({
         title: "Registration failed",
         variant: "destructive",
@@ -77,7 +72,6 @@ function AuthRegister() {
     });
   }
 
-  console.log(formData);
 
   return (
     <div className="mx-auto w-full max-w-md space-y-6">

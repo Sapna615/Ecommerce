@@ -20,12 +20,10 @@ function AuthForgotPassword() {
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  console.log("Forgot password page loaded");
 
   function onSubmit(event) {
     event.preventDefault();
     
-    console.log("Forgot password form submitted:", formData);
     
     if (isLoading) return;
 
@@ -50,7 +48,6 @@ function AuthForgotPassword() {
     setIsLoading(true);
 
     dispatch(forgotPassword({ email: formData.email.trim() })).then((data) => {
-      console.log("Forgot password response:", data);
       
       if (data?.payload?.success) {
         toast({
@@ -80,7 +77,6 @@ function AuthForgotPassword() {
 
   function handleInputChange(event) {
     const { name, value } = event.target;
-    console.log("Input changed:", name, value);
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,

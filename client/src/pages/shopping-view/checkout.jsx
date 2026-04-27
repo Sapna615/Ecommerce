@@ -34,7 +34,6 @@ function ShoppingCheckout() {
   const dispatch = useDispatch();
   const { toast } = useToast();
 
-  console.log(currentSelectedAddress, "cartItems");
 
   const apiBaseUrl =
     import.meta.env.VITE_API_URL?.trim() || "http://localhost:5002/api";
@@ -139,11 +138,9 @@ function ShoppingCheckout() {
                       paymentMethod === "card" ? cardDetails : null
     };
 
-    console.log('Creating order with payment method:', paymentMethod);
 
     // First create the order
     dispatch(createNewOrder(orderData)).then((orderResponse) => {
-      console.log('Order creation response:', orderResponse);
       
       if (orderResponse?.payload?.success) {
         const orderId = orderResponse.payload.orderId;
@@ -151,7 +148,6 @@ function ShoppingCheckout() {
         // Handle different payment methods
         if (paymentMethod === "cod") {
           // For COD, redirect directly to payment success
-          console.log("COD payment successful, redirecting to payment success page");
           toast({
             title: "Order placed successfully!",
             description: "Your order will be delivered to your address.",
@@ -189,7 +185,6 @@ function ShoppingCheckout() {
               return response.json();
             })
             .then(paymentResponse => {
-              console.log('Payment response:', paymentResponse);
               
               if (paymentResponse.success) {
                 // Handle successful payment

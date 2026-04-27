@@ -680,6 +680,7 @@ function ProductDetailsDialog({ open, setOpen, productDetails, isAdmin = false }
                       onClick={handleDecreaseQuantity}
                       disabled={quantity <= 1 || isAddingToCart}
                       className="h-8 w-8 p-0"
+                      aria-label="Decrease quantity"
                     >
                       <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
@@ -692,6 +693,7 @@ function ProductDetailsDialog({ open, setOpen, productDetails, isAdmin = false }
                       onClick={handleIncreaseQuantity}
                       disabled={quantity >= (productDetails?.totalStock || productDetails?.stock || 1) || isAddingToCart}
                       className="h-8 w-8 p-0"
+                      aria-label="Increase quantity"
                     >
                       <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />

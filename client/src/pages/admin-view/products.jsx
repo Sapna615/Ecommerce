@@ -51,10 +51,6 @@ function AdminProducts() {
   function onSubmit(event) {
     event.preventDefault();
     
-    console.log("Form submission started");
-    console.log("Current formData:", formData);
-    console.log("Current uploadedImageUrl:", uploadedImageUrl);
-    console.log("Current editedId:", currentEditedId);
 
     if (imageLoadingState) {
       toast({
@@ -81,7 +77,6 @@ function AdminProducts() {
       image: uploadedImageUrl,
     };
 
-    console.log("Processed formData:", processedFormData);
 
     currentEditedId !== null
       ? dispatch(
@@ -90,7 +85,6 @@ function AdminProducts() {
             formData: processedFormData,
           })
         ).then((data) => {
-          console.log("Edit response:", data);
 
           if (data?.payload?.success) {
             dispatch(fetchAllProducts());
@@ -110,7 +104,6 @@ function AdminProducts() {
       : dispatch(
           addNewProduct(processedFormData)
         ).then((data) => {
-          console.log("Add product response:", data);
 
           if (data?.payload?.success) {
             dispatch(fetchAllProducts());
@@ -160,7 +153,6 @@ function AdminProducts() {
     dispatch(fetchAllProducts());
   }, [dispatch]);
 
-  console.log(formData, "productList");
 
   return (
     <Fragment>

@@ -11,7 +11,6 @@ export const getSearchResults = createAsyncThunk(
   async (keyword) => {
     try {
       const response = await api.get(`/shop/search/${encodeURIComponent(keyword)}`);
-      console.log("Search API response:", response.data);
       return response.data;
     } catch (error) {
       console.error("Search API error:", error);

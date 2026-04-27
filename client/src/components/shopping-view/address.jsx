@@ -32,7 +32,6 @@ function Address({ setCurrentSelectedAddress, selectedId }) {
     event.preventDefault();
     const userId = user?.id || "testuser123";
     
-    console.log('Submitting address:', { userId, formData, currentEditedId });
 
     if (addressList.length >= 3 && currentEditedId === null) {
       setFormData(initialAddressFormData);
@@ -49,7 +48,6 @@ function Address({ setCurrentSelectedAddress, selectedId }) {
       userId: userId,
     };
 
-    console.log('Address data to submit:', addressData);
 
     currentEditedId !== null
       ? dispatch(
@@ -59,7 +57,6 @@ function Address({ setCurrentSelectedAddress, selectedId }) {
             formData,
           })
         ).then((data) => {
-          console.log('Edit response:', data);
           if (data?.payload?.success) {
             dispatch(fetchAllAddresses(userId));
             setCurrentEditedId(null);
@@ -85,7 +82,6 @@ function Address({ setCurrentSelectedAddress, selectedId }) {
       : dispatch(
           addNewAddress(addressData)
         ).then((data) => {
-          console.log('Add response:', data);
           if (data?.payload?.success) {
             dispatch(fetchAllAddresses(userId));
             setFormData(initialAddressFormData);
@@ -153,7 +149,6 @@ function Address({ setCurrentSelectedAddress, selectedId }) {
     dispatch(fetchAllAddresses(userId));
   }, [dispatch, user?.id]);
 
-  console.log(addressList, "addressList");
 
   return (
     <Card>

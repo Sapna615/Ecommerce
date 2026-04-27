@@ -12,11 +12,9 @@ function ShoppingLayout() {
   // Fetch cart items when component mounts and user is available
   useEffect(() => {
     if (user?.id) {
-      console.log('ShoppingLayout: Fetching cart items for user:', user.id);
       dispatch(fetchCartItems(user.id));
     } else {
       // For testing purposes, fetch with test user ID
-      console.log('ShoppingLayout: Fetching cart items for test user');
       dispatch(fetchCartItems("testuser123"));
     }
   }, [dispatch, user?.id]);

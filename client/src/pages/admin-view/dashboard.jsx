@@ -13,7 +13,6 @@ function AdminDashboard() {
 
   function handleUploadFeatureImage() {
     if (!uploadedImageUrl) {
-      console.log("No image to upload");
       return;
     }
     
@@ -30,7 +29,6 @@ function AdminDashboard() {
     dispatch(getFeatureImages());
   }, [dispatch]);
 
-  console.log(featureImageList, "featureImageList");
 
   return (
     <div>

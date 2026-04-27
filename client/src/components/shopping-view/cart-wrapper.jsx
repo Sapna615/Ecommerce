@@ -14,13 +14,9 @@ function UserCartWrapper({ cartItems, setOpenCartSheet }) {
   const { productDetails } = useSelector((state) => state.shopProducts);
   const dispatch = useDispatch();
 
-  console.log('Cart Wrapper received cartItems:', cartItems);
-  console.log('Cart Wrapper cartItems length:', cartItems?.length || 0);
-  console.log('Cart Wrapper items array:', cartItems?.items || cartItems || []);
 
   // Handle both data structures: cartItems.items or direct cartItems array
   const itemsArray = cartItems?.items || cartItems || [];
-  console.log('Final items array:', itemsArray);
 
   const totalCartAmount =
     itemsArray && itemsArray.length > 0
@@ -47,7 +43,6 @@ function UserCartWrapper({ cartItems, setOpenCartSheet }) {
   const totalSavings = totalOriginalAmount - totalCartAmount;
   const totalItems = itemsArray?.reduce((sum, item) => sum + item?.quantity, 0) || 0;
 
-  console.log('Total cart amount:', totalCartAmount);
 
   return (
     <>
@@ -72,7 +67,6 @@ function UserCartWrapper({ cartItems, setOpenCartSheet }) {
           {itemsArray && itemsArray.length > 0 ? (
             <div className="space-y-4 px-4">
               {itemsArray.map((item) => {
-                console.log('Rendering cart item:', item);
                 return <UserCartItemsContent key={item.productId} cartItem={item} />;
               })}
             </div>

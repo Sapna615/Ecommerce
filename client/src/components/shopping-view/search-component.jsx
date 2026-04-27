@@ -86,8 +86,6 @@ function SearchComponent() {
       setRecentSearches(updatedRecent);
       localStorage.setItem('recentSearches', JSON.stringify(updatedRecent));
       
-      console.log("Search executed:", query);
-      console.log("Updated recent searches:", updatedRecent);
       
       navigate(`/shop/search?keyword=${encodeURIComponent(query)}`);
       setIsOpen(false);

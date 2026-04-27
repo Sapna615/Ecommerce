@@ -95,8 +95,6 @@ function MensShopping() {
       ...(filters.priceRange && { minPrice: filters.priceRange[0], maxPrice: filters.priceRange[1] })
     };
     
-    console.log("Men's section - dispatching fetch with params:", filterParams, sortBy);
-    console.log("Current filters state:", filters);
     
     dispatch(
       fetchAllFilteredProducts({
@@ -107,8 +105,6 @@ function MensShopping() {
   }, [dispatch, filters, sortBy]);
 
   useEffect(() => {
-    console.log("Men's section - productList updated:", productList);
-    console.log("Men's section - current filters:", filters);
     
     if (productList && productList.length > 0) {
       // Apply client-side filtering to ensure it works
@@ -140,10 +136,8 @@ function MensShopping() {
         );
       }
       
-      console.log("Men's section - filtered products:", filtered);
       setFilteredProducts(filtered);
     } else {
-      console.log("Men's section - no products available");
       setFilteredProducts([]);
     }
   }, [productList, filters]);
@@ -151,7 +145,6 @@ function MensShopping() {
   // Also set filtered products when productList changes but filters are empty
   useEffect(() => {
     if (productList && productList.length > 0 && filters.brands.length === 0 && filters.categories.length === 0 && (!filters.sizes || filters.sizes.length === 0) && (!filters.colors || filters.colors.length === 0)) {
-      console.log("Men's section - setting filtered products to productList");
       setFilteredProducts(productList);
     }
   }, [productList]);
@@ -182,7 +175,6 @@ function MensShopping() {
   }
 
   function handleFilterChange(filterType, value) {
-    console.log(`Filter change: ${filterType} = ${value}`);
     setFilters(prev => ({
       ...prev,
       [filterType]: prev[filterType].includes(value)

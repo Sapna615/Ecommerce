@@ -13,7 +13,6 @@ function PaymentSuccessPage() {
   const [orderId, setOrderId] = useState(null);
 
   useEffect(() => {
-    console.log("Payment Success Page - Component mounted");
     
     // Get order ID from URL parameters
     const orderIdParam = searchParams.get('orderId');
@@ -21,24 +20,18 @@ function PaymentSuccessPage() {
       setOrderId(orderIdParam);
     }
     
-    console.log("Payment Success Page - Order ID:", orderIdParam);
-    console.log("Payment Success Page - Auth State:", { isAuthenticated, user });
-    console.log("Payment Success Page - SessionStorage:", sessionStorage.getItem('paymentSuccess'));
 
     // Don't check auth if we have payment success flag
     // This prevents infinite loops when backend is down
   }, [searchParams]);
 
   const handleViewOrders = () => {
-    console.log("View Orders clicked - Auth state:", { isAuthenticated, user });
     
     // Navigate to account page directly without auth check
-    console.log("Navigating to account page");
     navigate("/shop/account");
   };
 
   const handleContinueShopping = () => {
-    console.log("Continue shopping clicked");
     
     // Navigate to home page without clearing the flag
     // This allows continued access to all shop pages
@@ -48,7 +41,6 @@ function PaymentSuccessPage() {
     setTimeout(() => {
       sessionStorage.removeItem('paymentSuccess');
       sessionStorage.removeItem('orderId');
-      console.log("Payment success flag cleared after 5 minutes");
     }, 300000); // 5 minutes = 300000 milliseconds
   };
 

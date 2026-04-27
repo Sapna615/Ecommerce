@@ -18,12 +18,9 @@ function ProductImageUpload({
 }) {
   const inputRef = useRef(null);
 
-  console.log(isEditMode, "isEditMode");
 
   function handleImageFileChange(event) {
-    console.log(event.target.files, "event.target.files");
     const selectedFile = event.target.files?.[0];
-    console.log(selectedFile);
 
     if (selectedFile) setImageFile(selectedFile);
   }
@@ -61,7 +58,6 @@ function ProductImageUpload({
       const response = await api.post(`/admin/products/upload-image`, data, {
         headers: { "Content-Type": "multipart/form-data" },
       });
-      console.log(response, "response");
 
       if (response?.data?.success && response?.data?.result?.url) {
         setUploadedImageUrl(response.data.result.url);

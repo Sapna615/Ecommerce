@@ -32,7 +32,6 @@ function createSearchParamsHelper(filterParams) {
     }
   }
 
-  console.log(queryParams, "queryParams");
 
   return queryParams.join("&");
 }
@@ -53,12 +52,6 @@ function ShoppingListing() {
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  console.log("ShoppingListing - Current state:", { 
-    productListLength: productList?.length, 
-    isLoading, 
-    filters, 
-    sort 
-  });
 
   const categorySearchParam = searchParams.get("category");
 
@@ -89,7 +82,6 @@ function ShoppingListing() {
   }
 
   function handleGetProductDetails(getCurrentProductId) {
-    console.log(getCurrentProductId);
     dispatch(fetchProductDetails(getCurrentProductId));
   }
 
@@ -104,7 +96,6 @@ function ShoppingListing() {
       return;
     }
 
-    console.log(cartItems);
     let getCartItems = cartItems.items || [];
 
     if (getCartItems.length) {
@@ -145,7 +136,6 @@ function ShoppingListing() {
     const initialSort = "price-lowtohigh";
     const storedFilters = JSON.parse(sessionStorage.getItem("filters")) || {};
     
-    console.log("Initializing filters and sort:", { storedFilters, initialSort });
     
     setSort(initialSort);
     setFilters(storedFilters);
@@ -170,7 +160,6 @@ function ShoppingListing() {
   useEffect(() => {
     // Fetch products only when sort changes (filters already handled above)
     if (sort && filters) {
-      console.log("Fetching products with sort change:", { sort, filters });
       dispatch(
         fetchAllFilteredProducts({ filterParams: filters, sortParams: sort })
       );
@@ -181,7 +170,6 @@ function ShoppingListing() {
     if (productDetails !== null) setOpenDetailsDialog(true);
   }, [productDetails]);
 
-  console.log(productList, "productListproductListproductList");
 
   // Show loading state while fetching products
   if (isLoading) {

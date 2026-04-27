@@ -5,19 +5,20 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GMN1R6YBWE"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+    <!-- Preconnect to image and font domains -->
+    <link rel="preconnect" href="https://images.unsplash.com" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-      gtag('config', 'G-GMN1R6YBWE');
-    </script>
-
-    <!-- Google AdSense -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2660367485257907"
-     crossorigin="anonymous"></script>
+    <!-- Preload LCP Image (Banner One) -->
+    <link 
+      rel="preload" 
+      as="image" 
+      href="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?fm=webp&q=75&w=1280&h=600&fit=crop&crop=center&auto=format,compress" 
+      fetchpriority="high"
+    />
+    
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
 
     <title>StyleTee Hub | #1 Online Fashion Store for Premium T-Shirts & Apparel</title>
     <meta name="description" content="Shop at StyleTee Hub, the best online fashion destination for men, women, and kids. Discover premium quality t-shirts, trendy summer collections, and exclusive deals. Free delivery, easy returns, and 100% secure payments." />
@@ -47,5 +48,17 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GMN1R6YBWE"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-GMN1R6YBWE');
+    </script>
+
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2660367485257907" crossorigin="anonymous"></script>
   </body>
 </html>

@@ -43,7 +43,6 @@ function AdminProductTile({
         <CardFooter className="flex justify-between items-center">
           <Button
             onClick={() => {
-              console.log("Edit button clicked for product:", product);
               // Format the product data for the form
               const formattedData = {
                 title: product?.title || "",
@@ -61,7 +60,6 @@ function AdminProductTile({
                 averageReview: product?.averageReview || 0,
               };
               
-              console.log("Setting form data:", formattedData);
               setFormData(formattedData);
               setCurrentEditedId(product?._id);
               setImageFile(null);

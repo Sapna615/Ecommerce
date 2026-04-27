@@ -31,7 +31,6 @@ function UserCartItemsContent({ cartItem }) {
 
   // Handle product click to open details
   const handleProductClick = () => {
-    console.log('Opening product details for:', cartItem?.productId);
     dispatch(fetchProductDetails(cartItem?.productId));
   };
 
@@ -46,7 +45,6 @@ function UserCartItemsContent({ cartItem }) {
       return;
     }
     
-    console.log('Updating cart item:', { userId, productId: getCartItem?.productId, typeOfAction, currentQuantity: getCartItem?.quantity });
     
     if (typeOfAction == "plus") {
       let getCartItems = cartItems.items || [];
@@ -65,7 +63,6 @@ function UserCartItemsContent({ cartItem }) {
           ? productList[getCurrentProductIndex].totalStock || 100 
           : 100; // Default to 100 if product not found
 
-        console.log('Product index:', getCurrentProductIndex, 'Total stock:', getTotalStock);
 
         if (indexOfCurrentCartItem > -1) {
           const getQuantity = getCartItems[indexOfCurrentCartItem].quantity;
@@ -92,7 +89,6 @@ function UserCartItemsContent({ cartItem }) {
       return;
     }
     
-    console.log('New quantity:', newQuantity);
 
     dispatch(
       updateCartQuantity({
@@ -101,7 +97,6 @@ function UserCartItemsContent({ cartItem }) {
         quantity: newQuantity,
       })
     ).then((data) => {
-      console.log('Update response:', data);
       if (data?.payload?.success) {
         toast({
           title: "Cart item is updated successfully",

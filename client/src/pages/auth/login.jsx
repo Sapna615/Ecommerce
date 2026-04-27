@@ -26,17 +26,14 @@ function AuthLogin() {
 
   function onSubmit(event) {
     event.preventDefault();
-    console.log("Login form submitted:", formData);
 
     dispatch(loginUser(formData)).then((data) => {
-      console.log("Login response:", data);
       
       if (data?.payload?.success) {
         toast({
           title: "Login successful!",
           description: "Welcome back! Redirecting to home page...",
         });
-        console.log("Login successful, navigating to home");
         navigate("/shop/home");
       } else {
         const message = data?.payload?.message;
@@ -56,10 +53,8 @@ function AuthLogin() {
             variant: "destructive",
           });
         }
-        console.log("Login failed:", message);
       }
     }).catch((error) => {
-      console.log("Login error:", error);
       toast({
         title: "Login failed",
         description: "Something went wrong. Please try again.",

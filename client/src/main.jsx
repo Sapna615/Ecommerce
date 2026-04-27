@@ -8,7 +8,6 @@ import { Toaster } from "./components/ui/toaster.jsx";
 
 import { HelmetProvider } from "react-helmet-async";
 
-console.log("Main app starting...");
 
 createRoot(document.getElementById("root")).render(
   <BrowserRouter>

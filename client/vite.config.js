@@ -15,6 +15,28 @@ export default defineConfig({
     port: 5174,
   },
   build: {
-    sourcemap: true,
+    sourcemap: false,
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            if (id.includes('react') || id.includes('react-dom') || id.includes('react-router')) {
+              return 'vendor-core';
+            }
+            if (id.includes('framer-motion')) {
+              return 'vendor-framer';
+            }
+            if (id.includes('lucide-react')) {
+              return 'vendor-ui-icons';
+            }
+            if (id.includes('@radix-ui')) {
+              return 'vendor-ui-components';
+            }
+            return 'vendor-others';
+          }
+        }
+      }
+    },
+    chunkSizeWarningLimit: 1000,
   }
 });
