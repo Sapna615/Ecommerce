@@ -20,20 +20,7 @@ export default defineConfig({
       output: {
         manualChunks(id) {
           if (id.includes('node_modules')) {
-            // Group all core dependencies together to avoid hook errors
-            if (
-              id.includes('react') || 
-              id.includes('react-dom') || 
-              id.includes('react-router') ||
-              id.includes('react-redux') ||
-              id.includes('@reduxjs/toolkit') ||
-              id.includes('framer-motion') ||
-              id.includes('@radix-ui') ||
-              id.includes('lucide-react')
-            ) {
-              return 'vendor-main';
-            }
-            return 'vendor-lib';
+            return 'vendor';
           }
         }
       }
