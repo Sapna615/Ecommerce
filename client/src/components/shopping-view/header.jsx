@@ -1,9 +1,9 @@
 import { HousePlug, LogOut, Menu, ShoppingCart, UserCog, Heart, Settings } from "lucide-react";
 import {
-  Link,
-  useLocation,
-  useNavigate,
-  useSearchParams,
+   Link,
+   useLocation,
+   useNavigate,
+   useSearchParams,
 } from "react-router-dom";
 import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle, SheetDescription } from "../ui/sheet";
 import { Button } from "../ui/button";
@@ -54,13 +54,14 @@ function MenuItems() {
   return (
     <nav className="flex flex-col w-full mb-3 lg:mb-0 lg:items-center gap-6 lg:flex-row">
       {shoppingViewHeaderMenuItems.map((menuItem) => (
-        <span
-          onClick={() => handleNavigate(menuItem)}
-          className="text-base font-semibold cursor-pointer text-foreground hover:text-primary transition-colors block w-full lg:w-auto"
+        <button
           key={menuItem.id}
+          onClick={() => handleNavigate(menuItem)}
+          className="text-base font-semibold cursor-pointer text-foreground hover:text-primary transition-colors block w-full lg:w-auto text-left lg:text-center bg-transparent border-none p-0"
+          aria-label={`Go to ${menuItem.label}`}
         >
           {menuItem.label}
-        </span>
+        </button>
       ))}
     </nav>
   );
@@ -73,11 +74,6 @@ function HeaderRightContent() {
   const [openCartSheet, setOpenCartSheet] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  // Debug: Log when cart sheet opens/closes
-  useEffect(() => {
-    console.log('Cart sheet state changed:', openCartSheet);
-  }, [openCartSheet]);
 
   function handleLogout() {
     // Clear session storage
@@ -105,11 +101,6 @@ function HeaderRightContent() {
 
   const totalQuantity = getTotalCartQuantity();
 
-  console.log(cartItems, "sangam");
-  console.log('Cart items length:', cartItems?.items?.length || 0);
-  console.log('Cart items data:', cartItems?.items || []);
-  console.log('Total cart quantity:', totalQuantity);
-
   return (
     <div className="flex items-center flex-row gap-2 lg:gap-4">
       {/* Wishlist Button */}
@@ -118,6 +109,7 @@ function HeaderRightContent() {
         variant="outline"
         size="icon"
         className="relative h-10 w-10"
+        aria-label="View Wishlist"
       >
         <Heart className="w-5 h-5" />
         {wishlistItems?.length > 0 && (
@@ -132,12 +124,12 @@ function HeaderRightContent() {
       <Sheet open={openCartSheet} onOpenChange={() => setOpenCartSheet(false)}>
         <Button
           onClick={() => {
-            console.log('Cart button clicked, opening cart sheet');
             setOpenCartSheet(true);
           }}
           variant="outline"
           size="icon"
           className="relative h-10 w-10"
+          aria-label={`View Cart, ${totalQuantity} items`}
         >
           <ShoppingCart className="w-5 h-5" />
           {totalQuantity > 0 && (
@@ -155,22 +147,17 @@ function HeaderRightContent() {
               : []
           }
         />
-        
-        {/* Debug: Show what's being passed to cart wrapper */}
-        {console.log('Header passing to cart wrapper:', {
-          cartItems: cartItems,
-          items: cartItems?.items || [],
-          itemsLength: cartItems?.items?.length || 0
-        })}
       </Sheet>
 
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Avatar className="bg-black">
-            <AvatarFallback className="bg-black text-white font-extrabold">
-              {user?.userName[0].toUpperCase()}
-            </AvatarFallback>
-          </Avatar>
+          <Button variant="ghost" className="p-0 rounded-full h-10 w-10" aria-label={`User menu for ${user?.userName}`}>
+            <Avatar className="bg-black">
+              <AvatarFallback className="bg-black text-white font-extrabold">
+                {user?.userName[0].toUpperCase()}
+              </AvatarFallback>
+            </Avatar>
+          </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent side="right" className="w-56">
           <DropdownMenuLabel>Logged in as {user?.userName}</DropdownMenuLabel>
@@ -205,7 +192,7 @@ function ShoppingHeader() {
         <div className="flex items-center gap-4">
           <Sheet>
             <SheetTrigger asChild>
-              <Button variant="outline" size="icon" className="lg:hidden">
+              <Button variant="outline" size="icon" className="lg:hidden" aria-label="Toggle Navigation Menu">
                 <Menu className="h-6 w-6" />
                 <span className="sr-only">Toggle header menu</span>
               </Button>
@@ -224,9 +211,9 @@ function ShoppingHeader() {
             </SheetContent>
           </Sheet>
 
-          <Link to="/shop/home" className="flex items-center gap-2">
+          <Link to="/shop/home" className="flex items-center gap-2" aria-label="StyleTee Hub Home">
             <div className="bg-primary p-1.5 rounded-lg text-white">
-              <span className="text-sm font-bold">👕</span>
+              <span className="text-sm font-bold" aria-hidden="true">👕</span>
             </div>
             <span className="font-bold hidden md:inline-block text-xl tracking-tighter">
               StyleTee <span className="text-primary">Hub</span>

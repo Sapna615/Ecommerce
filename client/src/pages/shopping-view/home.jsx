@@ -114,12 +114,7 @@ function ShoppingHome() {
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  // Debug logging
-  console.log("Current slide:", currentSlide);
-  console.log("FeatureImageList:", featureImageList);
-  // Simplify slide count to always use 3 banners
   const slideCount = 3;
-
   // Force initial render with slide 0
   useEffect(() => {
     setCurrentSlide(0);
@@ -144,16 +139,13 @@ function ShoppingHome() {
 
     // For brands - go to brand-specific page
     if (section === "brand") {
-      console.log("Navigating to brand page:", getCurrentItem.id);
       navigate(`/shop/brand?brand=${getCurrentItem.id}`);
       return;
     }
 
-    // Default fallback - go to listing with category filter
     const currentFilter = {
       [section]: [getCurrentItem.id],
     };
-    console.log("Category filter being set:", currentFilter);
     sessionStorage.setItem("filters", JSON.stringify(currentFilter));
     navigate(`/shop/listing`);
   }
@@ -197,7 +189,6 @@ function ShoppingHome() {
     const timer = setInterval(() => {
       setCurrentSlide((prevSlide) => {
         const nextSlide = (prevSlide + 1) % slideCount;
-        console.log("Auto-rotating from", prevSlide, "to", nextSlide);
         return nextSlide;
       });
     }, 15000);
@@ -215,10 +206,6 @@ function ShoppingHome() {
   }, [dispatch]);
 
   useEffect(() => {
-    console.log("Feature images from Redux:", featureImageList);
-    console.log("Banner imports:", { bannerOne, bannerTwo, bannerThree });
-    // Temporarily comment out to isolate issue
-    // dispatch(getFeatureImages());
   }, [dispatch]);
 
   return (
@@ -248,12 +235,6 @@ function ShoppingHome() {
               alt={`StyleTee Hub Fashion Banner - ${index === 0 ? "Men's Collection" : index === 1 ? "Summer Trends" : "Kids Favorites"}`}
               title={`StyleTee Hub - Premium Fashion Apparel`}
               className="w-full h-full object-cover"
-              onError={(e) => {
-                console.log("Banner image failed to load:", slide);
-              }}
-              onLoad={(e) => {
-                console.log("Banner image loaded successfully:", slide, "index:", index, "currentSlide:", currentSlide);
-              }}
             />
             {/* Text Overlay */}
             <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
@@ -312,7 +293,6 @@ function ShoppingHome() {
           size="icon"
           onClick={() => {
             const prevSlide = (currentSlide - 1 + slideCount) % slideCount;
-            console.log("Previous button clicked, from", currentSlide, "to", prevSlide);
             setCurrentSlide(prevSlide);
           }}
           className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-white/80 z-20"
@@ -324,7 +304,6 @@ function ShoppingHome() {
           size="icon"
           onClick={() => {
             const nextSlide = (currentSlide + 1) % slideCount;
-            console.log("Next button clicked, from", currentSlide, "to", nextSlide);
             setCurrentSlide(nextSlide);
           }}
           className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-white/80 z-20"

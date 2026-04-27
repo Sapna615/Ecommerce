@@ -3,11 +3,8 @@ import { Navigate, useLocation } from "react-router-dom";
 function CheckAuth({ isAuthenticated, user, children }) {
   const location = useLocation();
 
-  console.log("CheckAuth - Location:", location.pathname, "Authenticated:", isAuthenticated, "User:", user);
-
   // Allow access to payment success page without strict auth check
   if (location.pathname.includes("/payment-success")) {
-    console.log("Allowing access to payment success page");
     return <>{children}</>;
   }
 
@@ -42,7 +39,6 @@ function CheckAuth({ isAuthenticated, user, children }) {
       isPublicRoute
     )
   ) {
-    console.log("User not authenticated, redirecting to login");
     return <Navigate to="/auth/login" />;
   }
 

@@ -93,6 +93,7 @@ function ShoppingProductTile({
               handleAddToWishlist();
             }}
             className="absolute top-2 right-2 p-2 bg-white rounded-full shadow-md hover:shadow-lg transition-shadow"
+            aria-label={isInWishlist ? "Remove from wishlist" : "Add to wishlist"}
           >
             <Heart 
               className={`w-5 h-5 ${isInWishlist ? 'fill-red-500 text-red-500' : 'text-gray-600'}`}

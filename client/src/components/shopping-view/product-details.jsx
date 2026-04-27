@@ -38,7 +38,6 @@ function ProductDetailsDialog({ open, setOpen, productDetails, isAdmin = false }
 
   // Set initial color and size when product changes
   useEffect(() => {
-    console.log('ProductDetails changed:', productDetails);
     if (productDetails) {
       setSelectedColor(productDetails.colors?.[0] || "");
       setSelectedSize(productDetails.sizes?.[0] || "");
@@ -47,24 +46,12 @@ function ProductDetailsDialog({ open, setOpen, productDetails, isAdmin = false }
       // Check if product is in wishlist
       const productId = productDetails._id;
       
-      console.log('Checking wishlist for product ID:', productId);
-      
       const inWishlist = wishlistItems.some(item => {
         // Handle both string and Object ID cases
         const itemProductId = typeof item.productId === 'string' 
           ? item.productId 
           : item.productId?._id || item.productId;
         return itemProductId === productId;
-      });
-      
-      console.log('Wishlist check:', {
-        productId,
-        wishlistItems: wishlistItems.map(item => ({
-          productId: typeof item.productId === 'string' 
-            ? item.productId 
-            : item.productId?._id || item.productId
-        })),
-        inWishlist
       });
       
       setIsInWishlist(inWishlist);
@@ -107,7 +94,6 @@ function ProductDetailsDialog({ open, setOpen, productDetails, isAdmin = false }
       
       // Update current price based on size
       const multiplier = sizePriceMultiplier[selectedSize] || 1.0;
-      // This will be used in the price calculation below
     }
   }, [selectedSize, productDetails]);
 
@@ -190,18 +176,6 @@ function ProductDetailsDialog({ open, setOpen, productDetails, isAdmin = false }
   };
 
   function handleAddToCart(getCurrentProductId, getTotalStock) {
-    console.log('Add to Cart clicked', { 
-      getCurrentProductId, 
-      getTotalStock, 
-      user: user?.id,
-      productDetails: productDetails,
-      productDetailsId: productDetails?._id,
-      productTitle: productDetails?.title,
-      quantity: quantity,
-      selectedColor: selectedColor,
-      selectedSize: selectedSize
-    });
-    
     if (!selectedColor || !selectedSize) {
       toast({
         title: "Please select options",
@@ -252,7 +226,6 @@ function ProductDetailsDialog({ open, setOpen, productDetails, isAdmin = false }
         size: selectedSize,
       })
     ).then((data) => {
-      console.log('Add to Cart response:', data);
       if (data?.payload?.success) {
         dispatch(fetchCartItems(user.id));
         toast({
@@ -268,7 +241,6 @@ function ProductDetailsDialog({ open, setOpen, productDetails, isAdmin = false }
       }
       setIsAddingToCart(false);
     }).catch((error) => {
-      console.error('Add to cart error:', error);
       toast({
         title: "Failed to add to cart",
         description: "Something went wrong. Please try again.",
@@ -286,15 +258,7 @@ function ProductDetailsDialog({ open, setOpen, productDetails, isAdmin = false }
   }
 
   function handleAddReview() {
-    console.log('handleAddReview called', {
-      user: user?.id,
-      rating,
-      reviewMsg,
-      productDetails: productDetails?._id
-    });
-
     if (!user?.id) {
-      console.log('No user found');
       toast({
         title: "Login Required",
         description: "Please login to submit a review.",
@@ -304,7 +268,6 @@ function ProductDetailsDialog({ open, setOpen, productDetails, isAdmin = false }
     }
 
     if (!reviewMsg.trim() || rating === 0) {
-      console.log('Missing review data', { reviewMsg: reviewMsg.trim(), rating });
       toast({
         title: "Missing Information",
         description: "Please provide both rating and review message.",
@@ -322,12 +285,8 @@ function ProductDetailsDialog({ open, setOpen, productDetails, isAdmin = false }
       reviewValue: rating,
     };
 
-    console.log('Submitting review data:', reviewData);
-
     dispatch(addReview(reviewData)).then((data) => {
-      console.log('Review submission response:', data);
       if (data?.payload?.success) {
-        console.log('Review added successfully');
         dispatch(getReviews(productDetails?._id));
         toast({
           title: "Review added successfully!",
@@ -335,14 +294,12 @@ function ProductDetailsDialog({ open, setOpen, productDetails, isAdmin = false }
         setRating(0);
         setReviewMsg("");
       } else {
-        console.log('Review submission failed:', data?.payload);
         toast({
           title: data?.payload?.message || "Failed to add review",
           variant: "destructive",
         });
       }
     }).catch((error) => {
-      console.error('Review submission error:', error);
       toast({
         title: "Failed to add review",
         description: "Network error. Please try again.",
@@ -352,14 +309,6 @@ function ProductDetailsDialog({ open, setOpen, productDetails, isAdmin = false }
   }
 
   function handleAddToWishlist() {
-    console.log('Add to Wishlist clicked', { 
-      user: user?.id, 
-      productId: productDetails?._id, 
-      isInWishlist,
-      productDetails: productDetails,
-      productTitle: productDetails?.title
-    });
-    
     if (!user?.id) {
       toast({
         title: "Login Required",
@@ -381,13 +330,9 @@ function ProductDetailsDialog({ open, setOpen, productDetails, isAdmin = false }
       });
       return;
     }
-    
-    console.log('Using product ID for wishlist:', finalProductId);
 
     if (isInWishlist) {
-      console.log('Removing from wishlist');
       dispatch(removeFromWishlist({ userId: user.id, productId: finalProductId })).then((data) => {
-        console.log('Remove from wishlist response:', data);
         if (data?.payload?.success) {
           toast({
             title: "Removed from wishlist",
@@ -402,9 +347,7 @@ function ProductDetailsDialog({ open, setOpen, productDetails, isAdmin = false }
         }
       });
     } else {
-      console.log('Adding to wishlist');
       dispatch(addToWishlist({ userId: user.id, productId: finalProductId })).then((data) => {
-        console.log('Add to wishlist response:', data);
         if (data?.payload?.success) {
           toast({
             title: "Added to wishlist",
@@ -435,7 +378,6 @@ function ProductDetailsDialog({ open, setOpen, productDetails, isAdmin = false }
   // Fetch reviews when product changes
   useEffect(() => {
     if (productDetails?._id) {
-      console.log('Fetching reviews for product:', productDetails._id);
       dispatch(getReviews(productDetails._id));
       
       // Also fetch wishlist items for this product
@@ -445,9 +387,7 @@ function ProductDetailsDialog({ open, setOpen, productDetails, isAdmin = false }
     }
   }, [dispatch, productDetails?._id, user?.id]);
 
-  // Debug: Log reviews when they change
   useEffect(() => {
-    console.log('Reviews updated:', reviews);
   }, [reviews]);
 
   useEffect(() => {
@@ -497,13 +437,6 @@ function ProductDetailsDialog({ open, setOpen, productDetails, isAdmin = false }
       ? reviews.reduce((sum, reviewItem) => sum + (reviewItem.reviewValue || reviewItem.rating || 0), 0) /
         reviews.length
       : 0;
-
-  // Debug: Log average review calculation
-  console.log('Average review calculation:', {
-    reviewsLength: reviews?.length || 0,
-    reviews: reviews,
-    averageReview
-  });
 
   // Temporary fix: Use mock reviews if Redux reviews are empty
   const mockReviews = [
@@ -649,6 +582,7 @@ function ProductDetailsDialog({ open, setOpen, productDetails, isAdmin = false }
                                              color === 'charcoal' ? '#36454f' :
                                              color === 'khaki' ? '#c3b091' : color
                           }}
+                          aria-label={`Select color ${color}`}
                           title={color}
                         />
                         {/* Color name tooltip */}
@@ -693,6 +627,7 @@ function ProductDetailsDialog({ open, setOpen, productDetails, isAdmin = false }
                                 ? 'border-gray-900 bg-gray-900 text-white shadow-lg transform scale-105' 
                                 : 'border-gray-300 hover:border-gray-400 hover:bg-gray-50'
                             }`}
+                            aria-label={`Select size ${size}`}
                           >
                             {size}
                           </button>
