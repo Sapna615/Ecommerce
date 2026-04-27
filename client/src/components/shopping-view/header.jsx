@@ -1,10 +1,4 @@
-import HousePlug from "lucide-react/dist/esm/icons/house-plug";
-import LogOut from "lucide-react/dist/esm/icons/log-out";
-import Menu from "lucide-react/dist/esm/icons/menu";
-import ShoppingCart from "lucide-react/dist/esm/icons/shopping-cart";
-import UserCog from "lucide-react/dist/esm/icons/user-cog";
-import Heart from "lucide-react/dist/esm/icons/heart";
-import Settings from "lucide-react/dist/esm/icons/settings";
+import { HousePlug, LogOut, Menu, ShoppingCart, UserCog, Heart, Settings } from "lucide-react";
 import {
    Link,
    useLocation,

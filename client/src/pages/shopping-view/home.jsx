@@ -2,33 +2,35 @@ import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 
 // Optimized t-shirt related banner images
-const bannerOne = optimizeUnsplashUrl("https://images.unsplash.com/photo-1521572163474-6864f9cf17ab", { width: 1024, height: 500 });
-const bannerTwo = optimizeUnsplashUrl("https://images.unsplash.com/photo-1515886657613-9f3515b0c78f", { width: 1024, height: 500 });
-const bannerThree = optimizeUnsplashUrl("https://images.unsplash.com/photo-1556909114-f6e7ad7d3136", { width: 1024, height: 500 });
+const bannerOne = optimizeUnsplashUrl("https://images.unsplash.com/photo-1521572163474-6864f9cf17ab", { width: 1280, height: 600 });
+const bannerTwo = optimizeUnsplashUrl("https://images.unsplash.com/photo-1515886657613-9f3515b0c78f", { width: 1280, height: 600 });
+const bannerThree = optimizeUnsplashUrl("https://images.unsplash.com/photo-1556909114-f6e7ad7d3136", { width: 1280, height: 600 });
 import { optimizeUnsplashUrl } from "@/utils/image-utils";
 import { Helmet } from "react-helmet-async";
-import Airplay from "lucide-react/dist/esm/icons/airplay";
-import BabyIcon from "lucide-react/dist/esm/icons/baby";
-import ChevronLeftIcon from "lucide-react/dist/esm/icons/chevron-left";
-import ChevronRightIcon from "lucide-react/dist/esm/icons/chevron-right";
-import CloudLightning from "lucide-react/dist/esm/icons/cloud-lightning";
-import Heater from "lucide-react/dist/esm/icons/heater";
-import Images from "lucide-react/dist/esm/icons/images";
-import Shirt from "lucide-react/dist/esm/icons/shirt";
-import ShirtIcon from "lucide-react/dist/esm/icons/shirt";
-import ShoppingBasket from "lucide-react/dist/esm/icons/shopping-basket";
-import UmbrellaIcon from "lucide-react/dist/esm/icons/umbrella";
-import WashingMachine from "lucide-react/dist/esm/icons/washing-machine";
-import WatchIcon from "lucide-react/dist/esm/icons/watch";
-import Truck from "lucide-react/dist/esm/icons/truck";
-import Shield from "lucide-react/dist/esm/icons/shield";
-import RefreshCw from "lucide-react/dist/esm/icons/refresh-cw";
-import Star from "lucide-react/dist/esm/icons/star";
-import TrendingUp from "lucide-react/dist/esm/icons/trending-up";
-import Package from "lucide-react/dist/esm/icons/package";
-import HeadphonesIcon from "lucide-react/dist/esm/icons/headphones";
-import SmartphoneIcon from "lucide-react/dist/esm/icons/smartphone";
-import HomeIcon from "lucide-react/dist/esm/icons/home";
+import {
+  Airplay,
+  BabyIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  CloudLightning,
+  Heater,
+  Images,
+  Shirt,
+  ShirtIcon,
+  ShoppingBasket,
+  UmbrellaIcon,
+  WashingMachine,
+  WatchIcon,
+  Truck,
+  Shield,
+  RefreshCw,
+  Star,
+  TrendingUp,
+  Package,
+  HeadphonesIcon,
+  SmartphoneIcon,
+  HomeIcon,
+} from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
