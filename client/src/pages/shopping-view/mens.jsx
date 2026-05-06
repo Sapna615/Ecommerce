@@ -22,34 +22,10 @@ const mensCategories = [
   { id: "Printed", label: "Printed" },
   { id: "Sports", label: "Sports" },
   { id: "Casual", label: "Casual" },
-  // { id: "footwear", label: "Footwear" },
-  // { id: "accessories", label: "Accessories" },
-  // { id: "swim", label: "Swimwear" }
 ];
 
 const brands = [
-  // { id: "Essential", label: "Essential" },
-  // { id: "Premium", label: "Premium" },
-  // { id: "Urban", label: "Urban" },
-  // { id: "Comfort", label: "Comfort" },
-  // { id: "Athletic", label: "Athletic" },
-  // { id: "Classic", label: "Classic" },
-  // { id: "Executive", label: "Executive" },
-  // { id: "Tactical", label: "Tactical" },
-  // { id: "Street", label: "Street" },
-  // { id: "Golf", label: "Golf" },
-  // { id: "Retro", label: "Retro" },
-  // { id: "Sport", label: "Sport" },
-  // { id: "Business", label: "Business" },
-  // { id: "Basic", label: "Basic" },
-  // { id: "Summer", label: "Summer" },
-  // { id: "Casual", label: "Casual" },
-  // { id: "Outdoor", label: "Outdoor" },
-  // { id: "Sports", label: "Sports" },
-  // { id: "Accessory", label: "Accessory" },
-  // { id: "Beach", label: "Beach" },
-  // { id: "Winter", label: "Winter" },
-  // { id: "Formal", label: "Formal" }
+
   { id: "UrbanWear", label: "UrbanWear" },
   { id: "StyleHub", label: "StyleHub" },
   { id: "StreetX", label: "StreetX" },
@@ -62,14 +38,9 @@ const brands = [
   { id: "EliteForm", label: "EliteForm" }
 ];
 
-// const sizes = ["XS","S", "M", "L", "XL", "XXL","XXXL"];
-// const colors = ["white", "black", "gray", "navy", "red", "blue", "green", "brown", "olive"];
-
 function MensShopping() {
   const [filters, setFilters] = useState({
     brands: [],
-    // sizes: [],
-    // colors: [],
     categories: [],
     priceRange: [0, 3000]  // Increased to cover all product prices
   });
