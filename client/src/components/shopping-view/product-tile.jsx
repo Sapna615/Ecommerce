@@ -63,13 +63,32 @@ function ShoppingProductTile({
     }
   }
 
+  const getSeoAltText = () => {
+    const title = product?.title || '';
+    const category = product?.category || '';
+    let seoKeyword = 'fashion wear';
+    
+    if (category === 'men') {
+      if (title.toLowerCase().includes('polo')) seoKeyword = 'mens polo tshirt';
+      else if (title.toLowerCase().includes('oversized')) seoKeyword = 'oversized tshirt for men';
+      else if (title.toLowerCase().includes('printed')) seoKeyword = 'printed tshirt for men';
+      else seoKeyword = 'tshirts for men';
+    } else if (category === 'women') {
+      seoKeyword = 'casual tshirt for women';
+    } else if (category === 'kids') {
+      seoKeyword = 'cute tshirts for kids';
+    }
+    
+    return `${title} - ${seoKeyword} | StyleTee Hub`;
+  };
+
   return (
     <Card className="w-full max-w-sm mx-auto">
       <div onClick={() => handleGetProductDetails(product?._id)}>
         <div className="relative">
           <img
             src={optimizeUnsplashUrl(product?.image, { width: 400, height: 300 })}
-            alt={`StyleTee Hub ${categoryOptionsMap[product?.category]} - ${product?.title}`}
+            alt={getSeoAltText()}
             title={`${product?.title} | StyleTee Hub`}
             className="w-full h-[300px] object-cover rounded-t-lg transition-transform duration-300 hover:scale-105"
             loading="lazy"

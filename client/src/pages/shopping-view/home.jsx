@@ -47,9 +47,9 @@ import ShoppingFooter from "@/components/shopping-view/footer";
 import { getFeatureImages } from "@/store/common-slice";
 
 const categoriesWithIcon = [
-  { id: "men", label: "Men", icon: ShirtIcon },
-  { id: "women", label: "Women", icon: CloudLightning },
-  { id: "kids", label: "Kids", icon: BabyIcon },
+  { id: "men", label: "Men", icon: ShirtIcon, title: "Premium Polo Tshirts for Men", desc: "Explore our collection of premium polo tshirts and printed tshirt for men designed for everyday style." },
+  { id: "women", label: "Women", icon: CloudLightning, title: "Casual Tshirts for Women", desc: "Shop stylish casual tshirt for women crafted for comfort and modern fashion." },
+  { id: "kids", label: "Kids", icon: BabyIcon, title: "Cute Tshirts for Kids", desc: "Discover adorable and cute tshirts for kids, perfect for playtime and everyday wear." },
 ];
 
 const stylesWithIcon = [
@@ -249,8 +249,8 @@ function ShoppingHome() {
               >
                 {index === 0 && (
                   <>
-                    <h2 className="text-5xl font-extrabold mb-4 tracking-tight">Men's T-Shirts</h2>
-                    <p className="text-xl mb-8 opacity-90">Comfort meets style in our latest collection</p>
+                    <h1 className="text-5xl font-extrabold mb-4 tracking-tight">Oversized Tshirts for Men</h1>
+                    <p className="text-xl mb-8 opacity-90">Shop stylish oversized tshirts for men, premium polo tshirts, and casual fashion wear online at StyleTee Hub.</p>
                     <Button
                       size="lg"
                       className="bg-white text-black hover:bg-gray-100 px-8 py-6 text-lg font-bold rounded-full transition-all duration-300 transform hover:scale-110 shadow-xl"
@@ -339,24 +339,25 @@ function ShoppingHome() {
                 variants={itemVariants}
                 whileHover="hover"
               >
-                <Card
+                  <Card
                   onClick={() =>
                     handleNavigateToListingPage(categoryItem, "category")
                   }
-                  className="cursor-pointer border-none shadow-md overflow-hidden relative group h-48 flex items-center justify-center bg-white"
+                  className="cursor-pointer border-none shadow-md overflow-hidden relative group min-h-[16rem] flex items-center justify-center bg-white"
                 >
                   <motion.div 
                     variants={cardHoverVariants}
                     className="absolute inset-0 bg-gradient-to-br from-blue-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"
                   />
-                  <CardContent className="flex flex-col items-center justify-center p-6 relative z-10">
+                  <CardContent className="flex flex-col items-center justify-center p-6 relative z-10 text-center">
                     <motion.div
                       whileHover={{ rotate: 5, scale: 1.1 }}
                       className="p-4 rounded-2xl bg-blue-50 mb-4 group-hover:bg-blue-100 transition-colors"
                     >
                       <categoryItem.icon className="w-12 h-12 text-blue-600" />
                     </motion.div>
-                    <span className="text-xl font-bold text-gray-800">{categoryItem.label}</span>
+                    <h2 className="text-xl font-bold text-gray-800 mb-2">{categoryItem.title}</h2>
+                    <p className="text-sm text-gray-600 leading-relaxed">{categoryItem.desc}</p>
                   </CardContent>
                 </Card>
               </motion.div>
