@@ -9,6 +9,11 @@ const BlogSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    slug: {
+      type: String,
+      required: true,
+      unique: true,
+    },
     description: {
       type: String,
       required: true,

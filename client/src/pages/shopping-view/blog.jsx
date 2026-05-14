@@ -152,7 +152,7 @@ function ShoppingBlog() {
                     
                     <Button 
                       className="bg-purple-600 hover:bg-purple-700"
-                      onClick={() => navigate(`/shop/blog/${featuredBlog._id || featuredBlog.id}`)}
+                      onClick={() => navigate(`/shop/blog/${featuredBlog.slug || featuredBlog._id || featuredBlog.id}`)}
                     >
                       Read More
                     </Button>
@@ -232,7 +232,7 @@ function ShoppingBlog() {
                       variant="outline" 
                       size="sm"
                       className="hover:bg-purple-600 hover:text-white transition-colors"
-                      onClick={() => navigate(`/shop/blog/${post._id || post.id}`)}
+                      onClick={() => navigate(`/shop/blog/${post.slug || post._id || post.id}`)}
                     >
                       Read More
                     </Button>

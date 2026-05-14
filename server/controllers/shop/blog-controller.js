@@ -4,9 +4,24 @@ const createBlog = async (req, res) => {
   try {
     const { userId, title, description, content, image, author, category, tags, keywords } = req.body;
 
+    let baseSlug = (title || "blog")
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/(^-|-$)+/g, "");
+      
+    if (!baseSlug) baseSlug = "blog";
+
+    let uniqueSlug = baseSlug;
+    let counter = 1;
+    while (await Blog.findOne({ slug: uniqueSlug })) {
+      uniqueSlug = `${baseSlug}-${counter}`;
+      counter++;
+    }
+
     const newBlog = new Blog({
       userId,
       title,
+      slug: uniqueSlug,
       description,
       content,
       image,
@@ -52,7 +67,16 @@ const fetchAllBlogs = async (req, res) => {
 const getBlogDetails = async (req, res) => {
   try {
     const { id } = req.params;
-    const blog = await Blog.findById(id);
+    const mongoose = require("mongoose");
+    const isValidObjectId = mongoose.Types.ObjectId.isValid(id);
+
+    let blog;
+    if (isValidObjectId) {
+      blog = await Blog.findById(id);
+    }
+    if (!blog) {
+      blog = await Blog.findOne({ slug: id });
+    }
 
     if (!blog) {
       return res.status(404).json({
@@ -78,8 +102,16 @@ const likeBlog = async (req, res) => {
   try {
     const { id } = req.params;
     const { userId } = req.body;
+    const mongoose = require("mongoose");
 
-    const blog = await Blog.findById(id);
+    const isValidObjectId = mongoose.Types.ObjectId.isValid(id);
+    let blog;
+    if (isValidObjectId) {
+      blog = await Blog.findById(id);
+    }
+    if (!blog) {
+      blog = await Blog.findOne({ slug: id });
+    }
     if (!blog) {
       return res.status(404).json({ success: false, message: "Blog not found" });
     }

@@ -9,7 +9,8 @@ import { fetchBlogDetails, fetchAllBlogs, likeBlog } from "@/store/shop/blog-sli
 import { Helmet } from "react-helmet-async";
 
 function BlogDetail() {
-  const { id } = useParams();
+  // const { id } = useParams();
+  const { slug } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { blogDetails, isLoading, blogList } = useSelector((state) => state.shopBlog);
@@ -18,10 +19,10 @@ function BlogDetail() {
   const [likeCount, setLikeCount] = useState(0);
 
   useEffect(() => {
-    if (id) {
-      dispatch(fetchBlogDetails(id));
+    if (slug) {
+      dispatch(fetchBlogDetails(slug));
     }
-  }, [id, dispatch]);
+  }, [slug, dispatch]);
 
   // Fetch all blogs for related articles
   useEffect(() => {
@@ -45,14 +46,14 @@ function BlogDetail() {
   // Scroll to top when switching blogs
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
-  }, [id]);
+  }, [slug]);
 
   // Get related articles: same category, exclude current
   const relatedArticles = blogList
     ? blogList
         .filter(
           (b) =>
-            (b._id || b.id) !== id &&
+            (b._slug || b.slug) !== slug &&
             b.category === blogDetails?.category
         )
         .slice(0, 3)
@@ -60,7 +61,7 @@ function BlogDetail() {
 
   // If not enough in same category, fill with latest posts
   const fallbackArticles = blogList
-    ? blogList.filter((b) => (b._id || b.id) !== id).slice(0, 3)
+    ? blogList.filter((b) => (b._slug || b.slug) !== slug).slice(0, 3)
     : [];
 
   const articlesToShow =
@@ -93,7 +94,7 @@ function BlogDetail() {
     setLikeCount((prev) => (newLiked ? prev + 1 : Math.max(0, prev - 1)));
 
     // Save to database
-    dispatch(likeBlog({ id, userId })).then((res) => {
+    dispatch(likeBlog({ id: slug, userId })).then((res) => {
       if (res?.payload?.success) {
         setLikeCount(res.payload.data.likes);
         setLiked(res.payload.data.liked);
@@ -106,7 +107,7 @@ function BlogDetail() {
   };
 
   const handleRelatedClick = (article) => {
-    navigate(`/shop/blog/${article._id || article.id}`);
+    navigate(`/shop/blog/${article.slug || article._slug}`);
   };
 
   if (isLoading && !blogDetails) {
