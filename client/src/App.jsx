@@ -130,7 +130,7 @@ function App() {
               <Route path="about" element={<AboutUs />} />
               <Route path="blog" element={<ShoppingBlog />} />
               <Route path="blog/:slug" element={<BlogDetail />} />
-              <Route path="write-blog" element={<WriteBlog />} />
+              <Route path="write-blog" element={user?.role === "admin" ? <WriteBlog /> : <Navigate to="/unauth-page" />} />
               <Route path="faq" element={<FAQ />} />
               <Route path="returns" element={<ReturnPolicy />} />
               <Route path="shipping" element={<ShippingInfo />} />

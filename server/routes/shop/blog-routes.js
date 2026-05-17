@@ -31,9 +31,11 @@ async function saveLocalUpload(reqFile, req) {
   return { url: `${baseUrl}/uploads/${filename}` };
 }
 
+const { adminMiddleware } = require("../../controllers/auth/auth-controller");
+
 const router = express.Router();
 
-router.post("/create", createBlog);
+router.post("/create", adminMiddleware, createBlog);
 router.get("/get", fetchAllBlogs);
 router.get("/get/:id", getBlogDetails);
 router.post("/like/:id", likeBlog);

@@ -59,7 +59,7 @@ router.get("/check-auth", async (req, res) => {
       }
     });
   } catch (error) {
-    console.error("Check-auth error:", error);
+    console.log(`Check-auth notice: ${error.message || "Invalid authentication token"}`);
     res.status(401).json({
       success: false,
       message: "Invalid authentication token",
