@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Calendar, Clock, User, Tag, ArrowLeft, Share2, Heart, BookOpen } from "lucide-react";
+import { Calendar, Clock, User, Tag, ArrowLeft, Share2, Heart, BookOpen, Edit } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -205,6 +205,17 @@ function BlogDetail() {
                 <span className="font-bold">{blogDetails.date}</span>
               </div>
               <div className="flex items-center gap-3 ml-auto">
+                {user?.role === "admin" && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => navigate(`/shop/edit-blog/${blogDetails.slug || blogDetails._id}`)}
+                    className="rounded-full border-blue-200 text-blue-700 hover:bg-blue-600 hover:text-white transition-all shadow-sm"
+                  >
+                    <Edit className="w-4 h-4 mr-2" />
+                    Edit
+                  </Button>
+                )}
                 <Button
                   variant="outline"
                   size="sm"

@@ -39,6 +39,14 @@ export const likeBlog = createAsyncThunk(
   }
 );
 
+export const updateBlog = createAsyncThunk(
+  "/blog/updateBlog",
+  async ({ id, formData }) => {
+    const result = await api.put(`/shop/blog/update/${id}`, formData);
+    return result?.data;
+  }
+);
+
 const shoppingBlogSlice = createSlice({
   name: "shoppingBlog",
   initialState,

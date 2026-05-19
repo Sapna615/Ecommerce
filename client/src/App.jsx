@@ -46,6 +46,7 @@ const AboutUs = lazy(() => import("./pages/shopping-view/about"));
 const ShoppingBlog = lazy(() => import("./pages/shopping-view/blog"));
 const BlogDetail = lazy(() => import("./pages/shopping-view/blog-detail"));
 const WriteBlog = lazy(() => import("./pages/shopping-view/write-blog"));
+const EditBlog = lazy(() => import("./pages/shopping-view/edit-blog"));
 const FAQ = lazy(() => import("./pages/shopping-view/faq"));
 const ReturnPolicy = lazy(() => import("./pages/shopping-view/returns"));
 const ShippingInfo = lazy(() => import("./pages/shopping-view/shipping"));
@@ -131,6 +132,7 @@ function App() {
               <Route path="blog" element={<ShoppingBlog />} />
               <Route path="blog/:slug" element={<BlogDetail />} />
               <Route path="write-blog" element={user?.role === "admin" ? <WriteBlog /> : <Navigate to="/unauth-page" />} />
+              <Route path="edit-blog/:slug" element={user?.role === "admin" ? <EditBlog /> : <Navigate to="/unauth-page" />} />
               <Route path="faq" element={<FAQ />} />
               <Route path="returns" element={<ReturnPolicy />} />
               <Route path="shipping" element={<ShippingInfo />} />

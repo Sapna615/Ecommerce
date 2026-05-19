@@ -146,4 +146,48 @@ const likeBlog = async (req, res) => {
   }
 };
 
-module.exports = { createBlog, fetchAllBlogs, getBlogDetails, likeBlog };
+const updateBlog = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { title, description, content, image, category, tags, keywords } = req.body;
+
+    const mongoose = require("mongoose");
+    const isValidObjectId = mongoose.Types.ObjectId.isValid(id);
+
+    let blog;
+    if (isValidObjectId) {
+      blog = await Blog.findById(id);
+    }
+    if (!blog) {
+      blog = await Blog.findOne({ slug: id });
+    }
+
+    if (!blog) {
+      return res.status(404).json({ success: false, message: "Blog not found" });
+    }
+
+    blog.title = title || blog.title;
+    blog.description = description || blog.description;
+    blog.content = content || blog.content;
+    blog.image = image || blog.image;
+    blog.category = category || blog.category;
+    blog.tags = tags || blog.tags;
+    blog.keywords = keywords || blog.keywords;
+
+    await blog.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Blog updated successfully",
+      data: blog,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: "Error occurred while updating blog",
+    });
+  }
+};
+
+module.exports = { createBlog, fetchAllBlogs, getBlogDetails, likeBlog, updateBlog };
