@@ -111,23 +111,14 @@ function AdminOrdersView() {
                       </div>
                     </TableCell>
                     <TableCell>
-                      <Dialog
-                        open={openDetailsDialog}
-                        onOpenChange={() => {
-                          setOpenDetailsDialog(false);
-                          dispatch(resetOrderDetails());
-                        }}
+                      <Button
+                        onClick={() =>
+                          handleFetchOrderDetails(orderItem?._id)
+                        }
+                        size="sm"
                       >
-                        <Button
-                          onClick={() =>
-                            handleFetchOrderDetails(orderItem?._id)
-                          }
-                          size="sm"
-                        >
-                          View Details
-                        </Button>
-                        <AdminOrderDetailsView orderDetails={orderDetails} />
-                      </Dialog>
+                        View Details
+                      </Button>
                     </TableCell>
                   </TableRow>
                 ))
@@ -144,6 +135,15 @@ function AdminOrdersView() {
           </TableBody>
         </Table>
       </CardContent>
+      <Dialog
+        open={openDetailsDialog}
+        onOpenChange={() => {
+          setOpenDetailsDialog(false);
+          dispatch(resetOrderDetails());
+        }}
+      >
+        <AdminOrderDetailsView orderDetails={orderDetails} />
+      </Dialog>
     </Card>
   );
 }

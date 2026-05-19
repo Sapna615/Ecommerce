@@ -77,22 +77,13 @@ function ShoppingOrders() {
                     </TableCell>
                     <TableCell>₹{orderItem?.totalAmount}</TableCell>
                     <TableCell>
-                      <Dialog
-                        open={openDetailsDialog}
-                        onOpenChange={() => {
-                          setOpenDetailsDialog(false);
-                          dispatch(resetOrderDetails());
-                        }}
+                      <Button
+                        onClick={() =>
+                          handleFetchOrderDetails(orderItem?._id)
+                        }
                       >
-                        <Button
-                          onClick={() =>
-                            handleFetchOrderDetails(orderItem?._id)
-                          }
-                        >
-                          View Details
-                        </Button>
-                        <ShoppingOrderDetailsView orderDetails={orderDetails} />
-                      </Dialog>
+                        View Details
+                      </Button>
                     </TableCell>
                   </TableRow>
                 ))
@@ -100,6 +91,15 @@ function ShoppingOrders() {
           </TableBody>
         </Table>
       </CardContent>
+      <Dialog
+        open={openDetailsDialog}
+        onOpenChange={() => {
+          setOpenDetailsDialog(false);
+          dispatch(resetOrderDetails());
+        }}
+      >
+        <ShoppingOrderDetailsView orderDetails={orderDetails} />
+      </Dialog>
     </Card>
   );
 }
