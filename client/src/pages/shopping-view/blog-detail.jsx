@@ -18,11 +18,30 @@ function BlogDetail() {
   const [liked, setLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
 
+  // useEffect(() => {
+  //   if (slug) {
+  //     dispatch(fetchBlogDetails(slug));
+  //   }
+  // }, [slug, dispatch]);
+
   useEffect(() => {
-    if (slug) {
-      dispatch(fetchBlogDetails(slug));
-    }
-  }, [slug, dispatch]);
+
+  // Redirect old deleted MongoDB ID URL
+  if (slug === "6a05dda074bce4fb9d0e6431") {
+
+    navigate(
+      "/shop/blog/best-printed-t-shirts-for-men-in-india",
+      { replace: true }
+    );
+
+    return;
+  }
+
+  if (slug) {
+    dispatch(fetchBlogDetails(slug));
+  }
+
+}, [slug, dispatch, navigate]);
 
   // Fetch all blogs for related articles
   useEffect(() => {
