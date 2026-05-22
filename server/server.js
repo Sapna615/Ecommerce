@@ -71,7 +71,7 @@ const allowedOrigins = [
   "http://192.168.1.45:5174",
   "http://192.168.1.45:5175",
   "http://192.168.1.45:5176",
-  "https://ecommerce-gilt-eight.vercel.app",
+  "https://styleteehub.me",
   "https://ecommerce-git-main-sapna615s-projects.vercel.app"
 ];
 

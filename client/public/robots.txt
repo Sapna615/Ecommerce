@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 
 # Sitemaps
-Sitemap: https://ecommerce-gilt-eight.vercel.app/sitemap.xml
+Sitemap: https://styleteehub.me/sitemap.xml
